@@ -30,8 +30,6 @@ The following are translated to Chinese:
   then provide a Chinese annotation/summary alongside
 - Commit message subject and body **after** the English prefix
 - Pull-request titles **after** the English prefix, and PR descriptions
-- AskUserQuestion content: question text, header labels, option labels and
-  descriptions all in Chinese
 - Test plan narratives, retrospective narratives, postmortems (the narrative
   prose; field names and identifiers stay English)
 - GDD section discussion (the GDD file itself remains English; conversation
