@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 > **Explicit invocation only**: This skill should only run when the user explicitly requests it with `/hotfix`. Do not auto-invoke based on context matching.
 
 ## Phase 1: Assess Severity

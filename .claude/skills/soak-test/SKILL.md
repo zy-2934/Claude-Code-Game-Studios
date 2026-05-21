@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Soak Test
 
 A soak test (also called an endurance test) is an extended play session run

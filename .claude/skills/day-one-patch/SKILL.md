@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Day-One Patch
 
 Every shipped game has a day-one patch. Planning it before launch day prevents

@@ -6,6 +6,9 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 model: sonnet
 ---
+
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 **Argument check:** If no combat feature description is provided, output:
 > "Usage: `/team-combat [combat feature description]` — Provide a description of the combat feature to design and implement (e.g., `melee parry system`, `ranged weapon spread`)."
 Then stop immediately without spawning any subagents or reading any files.

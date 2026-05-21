@@ -9,6 +9,8 @@ agent: prototyper
 isolation: worktree
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Purpose
 
 The **vertical slice** answers a different question from the concept prototype:

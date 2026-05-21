@@ -8,6 +8,8 @@ model: sonnet
 agent: ux-designer
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Overview
 
 Validates UX design documents before they enter the implementation pipeline.

@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Task, AskUserQuestion
 model: opus
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Phase Gate Validation
 
 This skill validates whether the project is ready to advance to the next development

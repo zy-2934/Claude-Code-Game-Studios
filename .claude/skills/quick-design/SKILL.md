@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Quick Design
 
 This is the **lightweight design path** for changes that don't need a full GDD.

@@ -8,6 +8,8 @@ agent: technical-director
 model: opus
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Architecture Review
 
 The architecture review validates that the complete body of architectural decisions
