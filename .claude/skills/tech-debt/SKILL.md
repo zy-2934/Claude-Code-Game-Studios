@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Phase 1: Parse Subcommand
 
 Determine the mode from the argument:
@@ -56,22 +58,22 @@ If no, stop here. Verdict: **BLOCKED** — user declined write.
 Ask the user for the description, affected files, and impact if left unfixed (plain text prompts).
 
 Then use `AskUserQuestion` to collect the **category**:
-- Prompt: "这项技术债属于哪一类？"
+- Prompt: "What category does this tech debt belong to?"
 - Options:
-  - `[A] Architecture Debt——抽象错误、缺失模式、耦合问题`
-  - `[B] Code Quality Debt——重复、复杂度、命名、缺少类型`
-  - `[C] Test Debt——缺失测试、不稳定测试、未测试的边界情况`
-  - `[D] Documentation Debt——缺失/过期的文档、未文档化的 API`
-  - `[E] Dependency Debt——过期包、已废弃 API、版本冲突`
-  - `[F] Performance Debt——已知慢路径、内存问题、未优化的查询`
+  - `[A] Architecture Debt — wrong abstractions, missing patterns, coupling issues`
+  - `[B] Code Quality Debt — duplication, complexity, naming, missing types`
+  - `[C] Test Debt — missing tests, flaky tests, untested edge cases`
+  - `[D] Documentation Debt — missing/outdated docs, undocumented APIs`
+  - `[E] Dependency Debt — outdated packages, deprecated APIs, version conflicts`
+  - `[F] Performance Debt — known slow paths, memory issues, unoptimized queries`
 
 Then use `AskUserQuestion` to collect the **estimated fix effort**:
-- Prompt: "修复这项工作的预估工作量？"
+- Prompt: "What is the estimated effort to fix this item?"
 - Options:
-  - `[A] S——小（不到 1 天）`
-  - `[B] M——中（1–3 天）`
-  - `[C] L——大（3–7 天）`
-  - `[D] XL——超大（超过 1 周）`
+  - `[A] S — Small (under 1 day)`
+  - `[B] M — Medium (1–3 days)`
+  - `[C] L — Large (3–7 days)`
+  - `[D] XL — Extra Large (over 1 week)`
 
 Present the complete new entry to the user.
 

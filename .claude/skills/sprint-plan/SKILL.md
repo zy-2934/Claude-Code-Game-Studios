@@ -9,6 +9,8 @@ context: |
   !ls production/sprints/ 2>/dev/null
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Phase 0: Parse Arguments
 
 Extract the mode argument (`new`, `update`, or `status`) and resolve the review mode (once, store for all gate spawns this run):
@@ -21,11 +23,11 @@ See `.claude/docs/director-gates.md` for the full check pattern.
 **Review mode check** (before gates run):
 - Read `production/review-mode.txt` if it exists. Use that mode.
 - If the file doesn't exist and this is a `new` sprint: use `AskUserQuestion`:
-  - Prompt: "尚未设置审核模式。本轮 sprint 想使用多深的审核？"
+  - Prompt: "No review mode is set. Which review depth would you like for this sprint?"
   - Options:
-    - `[A] full — 启动所有 director 和 lead 闸口`
-    - `[B] lean — 跳过非阶段闸口的 director 审核（推荐用于大多数 sprint）`
-    - `[C] solo — 完全跳过闸口启动`
+    - `[A] full — spawn all director and lead gates`
+    - `[B] lean — skip non-phase-gate director reviews (recommended for most sprints)`
+    - `[C] solo — skip all gate spawning`
   - After selection: write `production/review-mode.txt` with the chosen mode. Say: "Review mode set to [mode] and saved to production/review-mode.txt."
 - If the file doesn't exist and this is NOT a `new` sprint (e.g., updating an existing sprint): default to `lean` silently.
 
@@ -214,11 +216,11 @@ Present the producer's assessment.
 If UNREALISTIC: revise the story selection (defer stories to Should Have or Nice to Have) and re-present the updated plan before asking for write approval.
 
 If CONCERNS, use `AskUserQuestion`:
-- Prompt: "Producer 对此 sprint 计划提出了担忧。你想如何处理？"
+- Prompt: "Producer flagged concerns with this sprint plan. How do you want to proceed?"
 - Options:
-  - `[A] 按计划推进——我接受这个风险`
-  - `[B] 调整范围——把部分 Should Have 故事推迟`
-  - `[C] 延长 sprint 时间线`
+  - `[A] Proceed as planned — I accept the risk`
+  - `[B] Adjust scope — defer some Should Have stories`
+  - `[C] Extend the sprint timeline`
 
 If [A]: proceed to write approval.
 If [B]: revise the story list, re-present the updated plan, then proceed to write approval.
@@ -247,10 +249,10 @@ Use `Glob` to look for `production/qa/qa-plan-sprint-[N].md` or any file in `pro
 > Run `/qa-plan sprint` now, before starting any implementation. It takes one session and produces the test case requirements each story needs."
 
 Use `AskUserQuestion`:
-- Prompt: "本 sprint 未找到 QA 计划。你想如何处理？"
+- Prompt: "No QA plan found for this sprint. How do you want to proceed?"
 - Options:
-  - `[A] 立即运行 /qa-plan sprint——在开始实现之前完成（推荐）`
-  - `[B] 暂时跳过——我理解 QA 签字会在 Production → Polish 闸口被阻断`
+  - `[A] Run /qa-plan sprint now — I'll do that before starting implementation (Recommended)`
+  - `[B] Skip for now — I understand QA sign-off will be blocked at the Production → Polish gate`
 
 If [A]: close with "Sprint plan written. Run `/qa-plan sprint` next — then begin implementation."
 If [B]: add a warning block to the sprint plan document:

@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 When this skill is invoked, orchestrate the UI team through a structured pipeline.
 
 **Decision Points:** At each phase transition, use `AskUserQuestion` to present
@@ -67,9 +69,9 @@ Before designing anything, read and synthesize:
 **If `design/ux/interaction-patterns.md` does not exist**, surface the gap immediately:
 > "interaction-patterns.md does not exist — no existing patterns to reuse."
 
-Then use `AskUserQuestion` with header `"模式库处理"` and options:
-- (a) 先运行 `/ux-design patterns` 建立模式库，然后继续
-- (b) 不带模式库继续 —— ui-programmer 会把所创建的所有模式都视为新模式，并在完成时把每个模式追加到新建的 `design/ux/interaction-patterns.md`
+Then use `AskUserQuestion` with options:
+- (a) Run `/ux-design patterns` first to establish the pattern library, then continue
+- (b) Proceed without the pattern library — ui-programmer will treat all patterns created as new and add each to a new `design/ux/interaction-patterns.md` at completion
 
 Do NOT invent or assume patterns from the feature name or GDD alone. If the user chooses (b), explicitly instruct ui-programmer in Phase 3 to treat all patterns as new and document them in `design/ux/interaction-patterns.md` when implementation is complete. Note the pattern library status (created / absent / updated) in the final summary report.
 

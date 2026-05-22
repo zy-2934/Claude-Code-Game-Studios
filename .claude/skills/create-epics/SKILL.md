@@ -8,6 +8,8 @@ model: sonnet
 agent: technical-director
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Create Epics
 
 An epic is a named, bounded body of work that maps to one architectural module.
@@ -117,11 +119,11 @@ If there are untraced requirements:
 > Run `/architecture-decision` first, or proceed with placeholders."
 
 Use `AskUserQuestion`:
-- Prompt: "要创建 Epic：[name] 吗？"
+- Prompt: "Shall I create Epic: [name]?"
 - Options:
-  - `[A] 是，创建它`
-  - `[B] 跳过这个 epic`
-  - `[C] 暂停 —— 我需要先写 ADR`
+  - `[A] Yes, create it`
+  - `[B] Skip this epic`
+  - `[C] Pause — I need to write ADRs first`
 
 ---
 
@@ -141,11 +143,11 @@ Present the producer's assessment.
 If UNREALISTIC: offer to revise epic boundaries (split overscoped or merge underscoped epics). Revise and re-run the gate before writing.
 
 If CONCERNS, use `AskUserQuestion`:
-- Prompt: "Producer 对 epic 结构提出了担忧。你想如何处理？"
+- Prompt: "Producer raised concerns about the epic structure. How do you want to proceed?"
 - Options:
-  - `[A] 按计划推进 —— 我接受 producer 的担忧`
-  - `[B] 修订 epic 边界 —— 按建议拆分或合并`
-  - `[C] 暂停 —— 我想重新考虑范围`
+  - `[A] Proceed as planned — I accept the producer's concerns`
+  - `[B] Revise epic boundaries — split or merge as recommended`
+  - `[C] Stop — I want to reconsider the scope`
 
 If [A]: proceed to Step 5.
 If [B]: revise epic definitions from Step 4 and re-run the producer gate.

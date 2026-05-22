@@ -7,10 +7,12 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 If no argument is provided, check whether `design/assets/entity-inventory.md` exists:
 - If it exists: read it, find the first entity or screen with status "Needed" but no spec file yet, and use `AskUserQuestion`:
-  - Prompt: "下一个未生成 spec 的项是 **[name]**。为它生成 spec 吗？"
-  - Options: `[A] 是 —— 为 [name] 生成 spec` / `[B] 换一项` / `[C] 暂停`
+  - Prompt: "The next unspecced item is **[name]**. Generate specs for it?"
+  - Options: `[A] Yes — spec [name]` / `[B] Pick a different item` / `[C] Stop here`
 - If no entity inventory: check `design/assets/asset-manifest.md`. If manifest exists, same flow above but reading from manifest.
 - If neither exists: **start the Entity & Screen Inventory flow** (Phase 0b below) rather than failing.
 
@@ -48,11 +50,11 @@ For each item, note the source doc it was found in.
 
 ### Step 3 — Present and collaborate
 Present the full proposed inventory to the user in conversation. Then use `AskUserQuestion`:
-- Prompt: "我在你的 GDD 和 art bible 中识别出 **[N] 个视觉实体 和 [N] 个 UI 屏幕**。review 这个列表 —— 还缺什么，哪些不需要？"
+- Prompt: "I found **[N] visual entities and [N] UI screens** across your GDDs and art bible. Review the list — what's missing, what's not needed?"
 - Options:
-  - `[A] 看起来不错 —— 保存这份 inventory`
-  - `[B] 添加我描述的条目`
-  - `[C] 移除不适用的条目`
+  - `[A] Looks good — save this inventory`
+  - `[B] Add items I'll describe`
+  - `[C] Remove items that don't apply`
   - `[D] Both add and remove — let me edit`
 
 If [B] or [D]: ask the user to describe additional items. Accept brief descriptions ("a medieval keep, used as a level background") or detailed ones — either works. Work through them collaboratively until the user is satisfied.
@@ -129,12 +131,12 @@ Read all source material **before** asking the user anything.
 ### Source doc reads (by target type):
 - **system**: Read `design/gdd/[target-name].md`. Extract the **Visual/Audio Requirements** section. If it doesn't exist or reads `[To be designed]`:
   > "The Visual/Audio section of `design/gdd/[target-name].md` is empty. Either run `/design-system [target-name]` to complete the GDD, or describe the visual needs manually."
-  Use `AskUserQuestion` with header `"无 GDD 处理"` and options: `[A] 手动描述需求` / `[B] 暂停 —— 先完成 GDD`
+  Use `AskUserQuestion`: `[A] Describe needs manually` / `[B] Stop — complete the GDD first`
 - **level**: Read `design/levels/[target-name].md`. Extract art requirements, asset list, VFX needs, and the art-director's production concept specs from Step 4.
 - **character** or **entity**: Read `design/narrative/characters/[target-name].md` or search `design/narrative/` and `design/assets/entity-inventory.md` for a matching entry. Extract visual description, role, and any specified distinguishing features.
   - **If no source doc exists**: do not fail. Instead, use `AskUserQuestion`:
-    - Prompt: "未找到 **[name]** 的档案。简单描述一下 —— 一两句话就够。"
-    - Options: `[A] 现在描述` / `[B] 跳过此实体` / `[C] 暂停`
+    - Prompt: "No profile found for **[name]**. Describe it briefly — a sentence or two is enough."
+    - Options: `[A] Describe it now` / `[B] Skip this entity` / `[C] Stop here`
     - If [A]: the user's description becomes the source. Brief answers produce concise specs; detailed answers produce detailed specs. Accept whatever level of detail the user provides and work from it.
 
 ### Optional reads:
@@ -169,9 +171,9 @@ Group assets into categories:
 - **3D Assets** — meshes, materials (if applicable per engine)
 
 Present the full identified list to the user. Use `AskUserQuestion`:
-- Prompt: "我在 **[target]** 的 [N] 个类别下识别出 [N] 项资源。在 spec 之前 review："
+- Prompt: "I identified [N] assets across [N] categories for **[target]**. Review before speccing:"
 - Show the grouped list in conversation text first
-- Options: `[A] 推进 —— 为全部生成 spec` / `[B] 移除一些资源` / `[C] 添加我遗漏的资源` / `[D] 调整类别`
+- Options: `[A] Proceed — spec all of these` / `[B] Remove some assets` / `[C] Add assets I didn't catch` / `[D] Adjust categories`
 
 Do NOT proceed to Phase 3 without user confirmation of the asset list.
 
@@ -229,8 +231,8 @@ Combine the agent outputs into a draft spec per asset. Present all specs in conv
 ```
 
 After presenting all specs, use `AskUserQuestion`:
-- Prompt: "**[target]** 的资源 spec —— 共 [N] 项。review 完毕？"
-- Options: `[A] 全部批准 —— 写入文件` / `[B] 修改某项资源` / `[C] 换方向重新生成`
+- Prompt: "Asset specs for **[target]** — [N] assets. Review complete?"
+- Options: `[A] Approve all — write to file` / `[B] Revise a specific asset` / `[C] Regenerate with different direction`
 
 If [B]: ask which asset and what to change. Revise inline and re-present. Do NOT re-spawn agents for minor text revisions — only re-spawn if the visual direction itself needs to change.
 
@@ -285,13 +287,13 @@ Ask: "May I update `design/assets/asset-manifest.md`?"
 ## Phase 6: Close
 
 Use `AskUserQuestion`:
-- Prompt: "**[target]** 的资源 spec 已完成。下一步？"
+- Prompt: "Asset specs complete for **[target]**. What's next?"
 - Options:
-  - `[A] 为另一个系统生成 spec —— /asset-spec system:[next-system]`
-  - `[B] 为关卡生成 spec —— /asset-spec level:[level-name]`
-  - `[C] 为角色生成 spec —— /asset-spec character:[character-name]`
-  - `[D] 运行 /asset-audit —— 用 spec 验证已交付的资源`
-  - `[E] 暂停`
+  - `[A] Spec another system — /asset-spec system:[next-system]`
+  - `[B] Spec a level — /asset-spec level:[level-name]`
+  - `[C] Spec a character — /asset-spec character:[character-name]`
+  - `[D] Run /asset-audit — validate delivered assets against specs`
+  - `[E] Stop here`
 
 ---
 

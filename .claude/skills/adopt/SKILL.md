@@ -8,6 +8,8 @@ model: sonnet
 agent: technical-director
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Adopt — Brownfield Template Adoption
 
 This skill audits an existing project's artifacts for **format compliance** with
@@ -63,11 +65,11 @@ Use the same heuristic as `/project-stage-detect`:
 - Nothing → Fresh (not a brownfield project — suggest `/start`)
 
 If the project appears fresh (no artifacts at all), use `AskUserQuestion`:
-- "看起来这是一个全新项目 —— 未发现任何已有产物。`/adopt` 用于迁移已有工作的项目。你想做什么？"
-- Options:
-  - "运行 `/start` —— 开始首次引导式上手"
-  - "我的产物在非标准位置 —— 帮我找一下"
-  - "取消"
+- "This looks like a fresh project — no existing artifacts found. `/adopt` is for
+  projects with work to migrate. What would you like to do?"
+  - "Run `/start` — begin guided first-time onboarding"
+  - "My artifacts are in a non-standard location — help me find them"
+  - "Cancel"
 
 Then stop — do not proceed with the audit regardless of which option the user picks
 (each option leads to a different skill or manual investigation).
@@ -270,11 +272,10 @@ If a prior adoption plan was detected in Phase 1, add a note:
 > reflect current project state — it does not diff against the prior run."
 
 Use `AskUserQuestion`:
-- "准备好写入迁移计划了吗？"
-- Options:
-  - "是 —— 写入 `docs/adoption-plan-[date].md`"
-  - "先展示完整计划预览（暂不写入）"
-  - "取消 —— 我自己手动迁移"
+- "Ready to write the migration plan?"
+  - "Yes — write `docs/adoption-plan-[date].md`"
+  - "Show me the full plan preview first (don't write yet)"
+  - "Cancel — I'll handle migration manually"
 
 If the user picks "Show me the full plan preview", output the complete plan as a
 fenced markdown block. Then ask again with the same three options.
@@ -373,16 +374,16 @@ After writing the adoption plan (or if the user cancels writing), check whether
 
 **If it does not exist**: Use `AskUserQuestion`:
 
-- **Prompt**: "还有一个设置步骤：在你走完整个工作流时，希望接受多少设计审核？"
+- **Prompt**: "One more setup step: how much design review would you like as you work through the workflow?"
 - **Options**:
-  - `完整审核` —— Director 专家在每个关键工作流步骤都进行审核。适合团队、学习工作流，或希望对每个决策都获得详尽反馈的场景。
-  - `精简审核（推荐）` —— Director 仅在阶段闸口转换（/gate-check）时介入，跳过单技能审核。适合个人开发者和小团队的平衡方案。
-  - `独立模式` —— 不进行 Director 审核，最大速度。适合 game jam、原型，或者觉得审核是负担的场景。
+  - `Full` — Director specialists review at each key workflow step. Best for teams, learning the workflow, or when you want thorough feedback on every decision.
+  - `Lean (recommended)` — Directors only at phase gate transitions (/gate-check). Skips per-skill reviews. Balanced for solo devs and small teams.
+  - `Solo` — No director reviews at all. Maximum speed. Best for game jams, prototypes, or if reviews feel like overhead.
 
 Write the choice to `production/review-mode.txt` immediately after selection — no separate "May I write?" needed:
-- `完整审核` → write `full`
-- `精简审核（推荐）` → write `lean`
-- `独立模式` → write `solo`
+- `Full` → write `full`
+- `Lean (recommended)` → write `lean`
+- `Solo` → write `solo`
 
 Create the `production/` directory if it does not exist.
 
@@ -396,41 +397,37 @@ branch that applies:
 
 **If there are parenthetical status values in systems-index.md:**
 Use `AskUserQuestion`:
-- "最紧迫的修复是 `systems-index.md` —— 有 [N] 行带括号的 status 值
-  （例如 `Needs Revision (see notes)`），它们正在阻断 /gate-check、
-  /create-stories、/architecture-review。我可以就地修复。"
-- Options:
-  - "现在修复 —— 编辑 systems-index.md"
-  - "我自己修复"
-  - "完成 —— 让我看计划"
+- "The most urgent fix is `systems-index.md` — [N] rows have parenthetical status
+  values (e.g. `Needs Revision (see notes)`) that break /gate-check,
+  /create-stories, and /architecture-review right now. I can fix these in-place."
+  - "Fix it now — edit systems-index.md"
+  - "I'll fix it myself"
+  - "Done — leave me with the plan"
 
 **If ADRs are missing `## Status` (and no parenthetical issue):**
 Use `AskUserQuestion`:
-- "最紧迫的修复是为 [N] 个 ADR 添加 `## Status`：[list filenames]。
-  缺少它，/story-readiness 会静默通过所有 ADR 检查。从
-  [first affected filename] 开始？"
-- Options:
-  - "是 —— 现在补 [first affected filename]"
-  - "依次补全所有 [N] 个 ADR"
-  - "我自己处理 ADR"
+- "The most urgent fix is adding `## Status` to [N] ADR(s): [list filenames].
+  Without it, /story-readiness silently passes all ADR checks. Start with
+  [first affected filename]?"
+  - "Yes — retrofit [first affected filename] now"
+  - "Retrofit all [N] ADRs one by one"
+  - "I'll handle ADRs myself"
 
 **If GDDs are missing Acceptance Criteria (and no blocking issues above):**
 Use `AskUserQuestion`:
-- "最紧迫的缺口是 [N] 个 GDD 缺少 Acceptance Criteria：
-  [list filenames]。缺少它，/create-stories 无法生成 story。
-  从 [highest-priority GDD filename] 开始？"
-- Options:
-  - "是 —— 现在为 [GDD filename] 添加 Acceptance Criteria"
-  - "依次处理所有 [N] 个 GDD"
-  - "我自己处理 GDD"
+- "The most urgent gap is missing Acceptance Criteria in [N] GDD(s):
+  [list filenames]. Without them, /create-stories can't generate stories.
+  Start with [highest-priority GDD filename]?"
+  - "Yes — add Acceptance Criteria to [GDD filename] now"
+  - "Do all [N] GDDs one by one"
+  - "I'll handle GDDs myself"
 
 **If no BLOCKING or HIGH gaps exist:**
 Use `AskUserQuestion`:
-- "无阻断性缺口 —— 该项目与模板兼容。下一步？"
-- Options:
-  - "带我过一遍中优先级改进"
-  - "运行 /project-stage-detect 做更全面的健康检查"
-  - "完成 —— 我自己按计划推进"
+- "No blocking gaps — this project is template-compatible. What next?"
+  - "Walk me through the medium-priority improvements"
+  - "Run /project-stage-detect for a broader health check"
+  - "Done — I'll work through the plan at my own pace"
 
 > **Adoption plan saved to `docs/adoption-plan-[date].md`.** Re-run `/adopt` at any time to re-check remaining gaps as you complete them.
 

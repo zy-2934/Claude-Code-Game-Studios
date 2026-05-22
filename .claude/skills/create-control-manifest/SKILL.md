@@ -8,6 +8,8 @@ model: sonnet
 agent: technical-director
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Create Control Manifest
 
 The Control Manifest is a flat, actionable rules sheet for programmers. It
@@ -114,12 +116,12 @@ Total rules extracted:
 ```
 
 Use `AskUserQuestion`:
-- Prompt: "这份规则摘要是否看起来完整？"
+- Prompt: "Does this rule summary look complete?"
 - Options:
-  - `[A] 是 —— 看起来不错，运行 director 评审并写入 manifest`
-  - `[B] 补充规则 —— 在写入前我还有要加的规则`
-  - `[C] 移除规则 —— 抽取的一些规则应该删掉`
-  - `[D] 暂停 —— 我需要先回顾 ADR`
+  - `[A] Yes — looks good, run the director review and write the manifest`
+  - `[B] Add rules — I have additional rules to include before writing`
+  - `[C] Remove rules — some extracted rules should be dropped`
+  - `[D] Stop here — I need to review the ADRs first`
 
 ---
 
@@ -142,7 +144,7 @@ The technical-director reviews whether:
 
 Apply the verdict:
 - **APPROVE** → proceed to Phase 5
-- **CONCERNS** → surface via `AskUserQuestion` with header `"处理 CONCERNS"` and options: `修订标记规则` / `接受并推进` / `进一步讨论`
+- **CONCERNS** → surface via `AskUserQuestion` with options: `Revise flagged rules` / `Accept and proceed` / `Discuss further`
 - **REJECT** → do not write the manifest; fix the flagged rules and re-present the summary
 
 ---
@@ -150,11 +152,11 @@ Apply the verdict:
 ## 5. Write the Control Manifest
 
 Use `AskUserQuestion`:
-- Prompt: "我可以写入 Control Manifest 吗？"
+- Prompt: "May I write the Control Manifest?"
 - Options:
-  - `[A] 是 —— 写入 docs/architecture/control-manifest.md`
-  - `[B] 先展示完整草稿，然后再问一次`
-  - `[C] 暂不 —— 我还想再改一些`
+  - `[A] Yes — write to docs/architecture/control-manifest.md`
+  - `[B] Show me the full draft first, then ask again`
+  - `[C] Not yet — I want to make more changes`
 
 Format:
 

@@ -8,6 +8,8 @@ model: sonnet
 agent: qa-lead
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 When this skill is invoked, orchestrate the QA team through a structured testing cycle.
 
 **Decision Points:** At each phase transition, use `AskUserQuestion` to present
@@ -80,13 +82,13 @@ If the smoke check result is **FAIL**, the qa-lead must list the failures promin
 Present the qa-lead's full strategy to the user, then use `AskUserQuestion`:
 
 ```
-question: "QA 策略审核"
+question: "QA Strategy Review"
 options:
-  - "看起来不错 —— 进入测试计划"
-  - "推进前先调整 story 类型"
-  - "跳过受阻 story，继续推进其余 story"
-  - "Smoke check 失败 —— 修复问题后重新运行 /team-qa"
-  - "取消 —— 先解决阻塞项"
+  - "Looks good — proceed to test plan"
+  - "Adjust story types before proceeding"
+  - "Skip blocked stories and proceed with the rest"
+  - "Smoke check failed — fix issues and re-run /team-qa"
+  - "Cancel — resolve blockers first"
 ```
 
 If smoke check **FAIL**: do not proceed to Phase 3. Surface the failures from the smoke check report and stop. The user must fix them, re-run `/smoke-check sprint`, and then re-run `/team-qa`.
@@ -135,11 +137,11 @@ Present the test cases to the user for review before execution. Group by story.
 Use `AskUserQuestion` per story group (batched 3-4 at a time):
 
 ```
-question: "[Story Group] 的测试用例就绪。在开始手动 QA 前 review？"
+question: "Test cases ready for [Story Group]. Review before manual QA begins?"
 options:
-  - "批准 —— 对这些 story 开始手动 QA"
-  - "修订 [story name] 的测试用例"
-  - "跳过 [story name] 的手动 QA —— 尚未准备好"
+  - "Approved — begin manual QA for these stories"
+  - "Revise test cases for [story name]"
+  - "Skip manual QA for [story name] — not ready"
 ```
 
 ### Phase 5: Manual QA Execution
@@ -149,12 +151,12 @@ Walk through each story in the approved manual QA list.
 Batch stories into groups of 3-4 and use `AskUserQuestion` for each:
 
 ```
-question: "手动 QA —— [Story Title]\n[brief description of what to test]"
+question: "Manual QA — [Story Title]\n[brief description of what to test]"
 options:
-  - "PASS —— 所有验收标准已验证"
-  - "PASS WITH NOTES —— 发现小问题（之后描述）"
-  - "FAIL —— 标准未达成（之后描述）"
-  - "BLOCKED —— 暂时无法测试（写明原因）"
+  - "PASS — all acceptance criteria verified"
+  - "PASS WITH NOTES — minor issues found (describe after)"
+  - "FAIL — criteria not met (describe after)"
+  - "BLOCKED — cannot test yet (reason)"
 ```
 
 After each FAIL result: use `AskUserQuestion` to collect the failure description, then spawn `qa-tester` via Task to write a formal bug report in `production/qa/bugs/`.

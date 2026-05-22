@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, TodoWrite, Task
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 When this skill is invoked:
 
 ## Parse Arguments
@@ -46,10 +48,10 @@ for systems decomposition.
 **If the systems index already exists:**
 - Read it and present current status to the user
 - Use `AskUserQuestion` to ask:
-  "系统索引已存在，包含 [N] 个系统（已设计 [M] 个，未开始 [K] 个）。
-  你想做什么？"
-  - Options: "更新索引，加入新系统", "设计下一个未开始的系统",
-    "回顾并修订优先级"
+  "The systems index already exists with [N] systems ([M] designed, [K] not started).
+  What would you like to do?"
+  - Options: "Update the index with new systems", "Design the next undesigned system",
+    "Review and revise priorities"
 
 ---
 
@@ -142,7 +144,8 @@ Show the dependency map as a layered list. Highlight:
 - Any "bottleneck" systems (many others depend on them — these are high-risk)
 - Any systems with no dependents (leaf nodes — lower risk, can be designed late)
 
-Use `AskUserQuestion` to ask: "这个依赖排序对吗？有缺漏或需要移除的依赖吗？" Header: "依赖确认"
+Use `AskUserQuestion` to ask: "Does this dependency ordering look right? Any
+dependencies I'm missing or that should be removed?"
 
 **Review mode check** — apply before spawning TD-SYSTEM-BOUNDARY:
 - `solo` → skip. Note: "TD-SYSTEM-BOUNDARY skipped — Solo mode." Proceed to priority assignment.
@@ -175,7 +178,8 @@ Use these heuristics for initial assignment:
 Present the priority assignments in a table. For each tier, explain why systems
 were placed there.
 
-Use `AskUserQuestion` to ask: "这些优先级划分符合你的设想吗？哪些系统应该提高或降低优先级？" Header: "优先级确认"
+Use `AskUserQuestion` to ask: "Do these priority assignments match your vision?
+Which systems should be higher or lower priority?"
 
 Explain reasoning in conversation: "I placed [system] in MVP because the core loop
 requires it — without [system], the 30-second loop can't function."
@@ -274,7 +278,8 @@ This phase is entered when:
   "Would you like to start designing individual systems now? The first system in
   the design order is [name]. Or would you prefer to stop here and come back later?"
 
-Use `AskUserQuestion` for: "现在开始设计 [system-name]，换一个系统，还是停下？" Header: "下一步"
+Use `AskUserQuestion` for: "Start designing [system-name] now, pick a different
+system, or stop here?"
 
 ### Step 6b: Hand Off to /design-system
 
@@ -296,8 +301,9 @@ The `/design-system` skill handles the full GDD authoring process:
 ### Step 6c: Loop or Stop
 
 After `/design-system` completes, use `AskUserQuestion`:
-- "继续设计下一个系统（[next system name]）？"
-- Options: "继续下一个系统", "换一个系统", "本次会话到此为止"
+- "Continue to the next system ([next system name])?"
+- "Pick a different system?"
+- "Stop here for this session?"
 
 If continuing, return to Step 6a.
 
@@ -307,11 +313,10 @@ If continuing, return to Step 6a.
 
 After the systems index is created (or after designing some systems), present next actions using `AskUserQuestion`:
 
-- "系统索引已写入。接下来做什么？"
-- Options:
-  - [A] 开始编写 GDD —— 运行 `/design-system [first-system-in-order]`
-  - [B] 运行 `/gate-check systems-design` —— 自动触发 CD-SYSTEMS 与 TD-SYSTEM-BOUNDARY 闸口，让 director 正式签字
-  - [C] 本次会话到此为止
+- "Systems index is written. What would you like to do next?"
+  - [A] Start designing GDDs — run `/design-system [first-system-in-order]`
+  - [B] Run `/gate-check systems-design` — triggers the CD-SYSTEMS and TD-SYSTEM-BOUNDARY gates automatically for a formal director sign-off on the system set
+  - [C] Stop here for this session
 
 **The gate-check option ([B]) is worth highlighting**: running `/gate-check systems-design` triggers both the CD-SYSTEMS and TD-SYSTEM-BOUNDARY gates, catching scope issues, missing systems, and boundary problems before they're locked in across many documents. It is optional but recommended for new projects.
 

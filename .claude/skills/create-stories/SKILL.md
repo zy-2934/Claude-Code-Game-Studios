@@ -8,6 +8,8 @@ model: sonnet
 agent: lead-programmer
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Create Stories
 
 A story is a single implementable behaviour — small enough to complete in one
@@ -118,11 +120,11 @@ Present the QA lead's assessment. For each story flagged as GAPS or INADEQUATE, 
 
 **Before generating test specs**: Glob `production/qa/qa-plan-*.md` for the most recently modified file. If found, read it and check whether it contains test case specifications for the stories in this epic (look for story titles or slugs in the plan's Automated Tests Required section). If matching specs exist:
 - Use `AskUserQuestion`:
-  - Prompt: "在 [path] 找到了 QA 计划，其中包含部分 story 的测试用例规格。你想如何处理？"
+  - Prompt: "A QA plan exists at [path] with test specs for some of these stories. How do you want to proceed?"
   - Options:
-    - `使用 QA 计划中的现有规格 —— 嵌入到 story 文件（推荐）`
-    - `让 qa-lead 重新生成规格 —— 覆盖 QA 计划`
-    - `跳过测试规格生成 —— 我会手动填写 ## QA Test Cases`
+    - `Use existing specs from the QA plan — embed them into the story files (Recommended)`
+    - `Ask qa-lead to generate fresh specs — override the QA plan`
+    - `Skip test spec generation — I'll fill in ## QA Test Cases manually`
 - If "Use existing specs": extract the test case specs from the qa-plan for each matching story and embed them directly into the `## QA Test Cases` section. No qa-lead spawn needed for those stories. Only spawn qa-lead for stories with no coverage in the qa-plan.
 - If "Generate fresh": proceed with the qa-lead spawn below as normal.
 - If "Skip": leave `## QA Test Cases` with a placeholder: `*Test cases not yet defined — run /qa-plan to generate them.*`
@@ -172,8 +174,8 @@ Story 003: [title] — Visual/Feel — ADR-NNNN
 ```
 
 Use `AskUserQuestion`:
-- Prompt: "我可以把这 [N] 个 story 写入 `production/epics/[epic-slug]/` 吗？"
-- Options: `[A] 是 —— 写入全部 [N] 个 story` / `[B] 暂不 —— 我想先 review 或调整`
+- Prompt: "May I write these [N] stories to `production/epics/[epic-slug]/`?"
+- Options: `[A] Yes — write all [N] stories` / `[B] Not yet — I want to review or adjust first`
 
 ---
 
@@ -307,12 +309,12 @@ Check:
 - Is this the last epic? If so, include `/sprint-plan` as an option.
 
 Widget:
-- Prompt: "已把 [N] 个 story 写入 `production/epics/[epic-slug]/`。下一步？"
+- Prompt: "[N] stories written to `production/epics/[epic-slug]/`. What next?"
 - Options (include all that apply):
-  - `[A] 开始实现 —— 运行 /story-readiness [first-story-path]`（推荐）
-  - `[B] 为 [next-epic-slug] 创建 story —— 运行 /create-stories [slug]`（仅当其他 epic 还没有 story 时）
-  - `[C] 计划 sprint —— 运行 /sprint-plan new`（仅当所有 epic 都有 story 时）
-  - `[D] 本次会话到此为止`
+  - `[A] Start implementing — run /story-readiness [first-story-path]` (Recommended)
+  - `[B] Create stories for [next-epic-slug] — run /create-stories [slug]` (only if other epics have no stories yet)
+  - `[C] Plan the sprint — run /sprint-plan new` (only if all epics have stories)
+  - `[D] Stop here for this session`
 
 Note in output: "Work through stories in order — each story's `Depends on:` field tells you what must be DONE before you can start it."
 

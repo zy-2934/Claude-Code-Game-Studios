@@ -8,6 +8,8 @@ model: sonnet
 agent: technical-director
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Create Architecture
 
 This skill produces `docs/architecture/architecture.md` — the master architecture
@@ -119,11 +121,11 @@ Post-Cutoff Versions: [list]
 ```
 
 Use `AskUserQuestion`:
-- Prompt: "一个或多个引擎领域是 HIGH RISK —— LLM 在这些领域的知识可能不可靠。这些领域的架构建议在落地前应与引擎文档交叉核对。你想如何推进？"
+- Prompt: "One or more engine domains are HIGH RISK — the LLM's knowledge may be unreliable for these areas. Architectural recommendations in these domains should be cross-referenced with the engine docs before being acted on. How would you like to proceed?"
 - Options:
-  - `[A] 继续 —— 在输出中标记 HIGH RISK 领域`
-  - `[B] 让我先核对引擎参考 —— 在此暂停`
-  - `[C] 告诉我哪些领域是 HIGH RISK 以及原因`
+  - `[A] Proceed — flag HIGH RISK domains throughout the output`
+  - `[B] Let me check the engine reference first — pause here`
+  - `[C] Show me which domains are HIGH RISK and why`
 
 ---
 
@@ -292,10 +294,9 @@ Once all sections are approved, write the complete document to
 `docs/architecture/architecture.md`.
 
 Display a one-paragraph summary of what the document will contain (layers, modules, data flows, ADR gaps). Then use `AskUserQuestion`:
-- "所有章节已批准。我可以写入主架构文档吗？"
-- Options:
-  - [A] 是 —— 立即写入 `docs/architecture/architecture.md`
-  - [B] 先把完整草稿在对话中展示，然后再问一次
+- "All sections approved. May I write the master architecture document?"
+  - [A] Yes — write to `docs/architecture/architecture.md` now
+  - [B] Show me the full draft inline first, then ask again
   - [C] Not yet — I have more changes to discuss
 
 The document structure:
@@ -362,8 +363,8 @@ Pass: architecture document path, technical requirements baseline summary, ADR l
 
 Show the Technical Director assessment and Lead Programmer verdict side by side.
 
-Use `AskUserQuestion` — "Technical Director 与 Lead Programmer 已评审完架构。你想如何推进？"
-Options: `接受 —— 进入交接` / `先修订标记项` / `讨论具体担忧`
+Use `AskUserQuestion` — "Technical Director and Lead Programmer have reviewed the architecture. How would you like to proceed?"
+Options: `Accept — proceed to handoff` / `Revise flagged items first` / `Discuss specific concerns`
 
 **Step 4 — Record sign-off in the architecture document:**
 
@@ -374,10 +375,9 @@ Update the Document Status section:
 ```
 
 Show the proposed Document Status block inline, then use `AskUserQuestion`:
-- "我可以把签字结果写入 Document Status 章节吗？"
-- Options:
-  - [A] 是 —— 更新 `docs/architecture/architecture.md`
-  - [B] 暂不 —— 我想先重审担忧
+- "May I update the Document Status section with the sign-off results?"
+  - [A] Yes — apply to `docs/architecture/architecture.md`
+  - [B] Not yet — I want to revisit the concerns first
 
 ---
 

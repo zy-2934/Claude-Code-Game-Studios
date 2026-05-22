@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Consistency Check
 
 Detects cross-document inconsistencies by comparing all GDDs against the
@@ -286,12 +288,12 @@ Silently append to `production/session-state/active.md` (create the file if it d
 
 Then close with an `AskUserQuestion` widget:
 
-- **Prompt**: "一致性检查完成 —— 发现 [N] 个冲突。下一步？"
+- **Prompt**: "Consistency check complete — [N] conflicts found. What next?"
 - **Options**:
-  - `[A] 立即修复最高优先级的冲突`
-  - `[B] 保存完整报告并暂停`
-  - `[C] 对冲突最多的 GDD 运行 /design-review`
-  - `[D] 暂停`
+  - `[A] Fix the highest-priority conflict now`
+  - `[B] Save full report and stop`
+  - `[C] Run /design-review on the most conflicted GDD`
+  - `[D] Stop here`
 
 Never end the skill with plain text. Always close with this widget.
 

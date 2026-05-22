@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Day-One Patch
 
 Every shipped game has a day-one patch. Planning it before launch day prevents
@@ -64,10 +66,10 @@ For each open bug, evaluate:
 ### Step 2b — Present patch scope to user
 
 Use `AskUserQuestion`:
-- Prompt: "根据未解决的 bug 和认证反馈，下面是建议的 day-one patch 范围。是否合适？"
+- Prompt: "Based on open bugs and cert feedback, here is the proposed day-one patch scope. Does this look right?"
 - Show: table of included bugs (ID, severity, description, estimated effort)
 - Show: table of deferred bugs (ID, severity, reason deferred)
-- Options: `[A] 批准该范围` / `[B] 调整 —— 我想增删条目` / `[C] 不需要 day-one patch`
+- Options: `[A] Approve this scope` / `[B] Adjust — I want to add or remove items` / `[C] No day-one patch needed`
 
 If [C]: output "No day-one patch required. Proceed to `/launch-checklist`." Stop.
 
@@ -210,11 +212,11 @@ After the patch record is written:
 > "⚠️ S1 bugs remain open and were not patched. These are accepted risks. Document them in the rollback plan trigger conditions — if they occur at scale, rollback may be preferable to a follow-up patch."
 
 Use `AskUserQuestion`:
-- Prompt: "Day-one patch 完成。下一步？"
+- Prompt: "Day-one patch complete. What's next?"
 - Options:
-  - `[A] 运行 /patch-notes —— 生成面向玩家的补丁说明`
-  - `[B] 运行 /bug-report —— 登记部署后发现的问题`
-  - `[C] 暂停`
+  - `[A] Run /patch-notes — generate player-facing patch notes`
+  - `[B] Run /bug-report to log any issues found post-deploy`
+  - `[C] Stop here`
 
 ---
 

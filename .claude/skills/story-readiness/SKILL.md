@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, AskUserQuestion, Task
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Story Readiness
 
 This skill validates that a story file contains everything a developer needs
@@ -46,9 +48,9 @@ See `.claude/docs/director-gates.md` for the full check pattern and mode definit
 - **No argument**: ask the user which scope to validate.
 
 If no argument is given, use `AskUserQuestion`:
-- "你想验证哪个范围？"
-- Options: "某个 story 文件", "当前 sprint 内的所有 story",
-    "production/epics/ 下的所有 story", "某个 epic 的全部 story"
+- "What would you like to validate?"
+  - Options: "A specific story file", "All stories in the current sprint",
+    "All stories in production/epics/", "Stories for a specific epic"
 
 Report the scope before proceeding: "Validating [N] story files."
 

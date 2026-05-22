@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task
 model: opus
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Review All GDDs
 
 This skill reads every system GDD simultaneously and performs two complementary
@@ -553,12 +555,12 @@ FAIL: One or more blocking issues must be resolved before architecture begins.
 ## Phase 6: Write Report and Flag GDDs
 
 Use `AskUserQuestion` for write permission:
-- Prompt: "我可以把本次评审写入 `design/gdd/gdd-cross-review-[date].md` 吗？"
-- Options: `[A] 是 — 写入报告` / `[B] 否 — 跳过`
+- Prompt: "May I write this review to `design/gdd/gdd-cross-review-[date].md`?"
+- Options: `[A] Yes — write the report` / `[B] No — skip`
 
 If any GDDs are flagged for revision, use a second `AskUserQuestion`:
-- Prompt: "是否要更新系统索引，把这些 GDD 标记为需要修订？（[list of flagged GDDs]）"
-- Options: `[A] 是 — 更新系统索引` / `[B] 否 — 保持原样`
+- Prompt: "Should I update the systems index to mark these GDDs as needing revision? ([list of flagged GDDs])"
+- Options: `[A] Yes — update systems index` / `[B] No — leave as-is`
 - If yes: update each flagged GDD's Status field in systems-index.md to "Needs Revision".
   (Do NOT append parentheticals to the status value — other skills match "Needs Revision"
   as an exact string and parentheticals break that match.)

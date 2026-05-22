@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Quick Design
 
 This is the **lightweight design path** for changes that don't need a full GDD.
@@ -47,13 +49,13 @@ and redirect to `/design-system` instead.
 If there is no argument, ask the user to describe the change (plain text prompt), then classify it using the criteria above.
 
 Present the inferred classification using `AskUserQuestion`:
-- Prompt: "我把它归类为 **[inferred type]** —— [brief reason]。是否准确？"
+- Prompt: "I've classified this as **[inferred type]** — [brief reason]. Is that correct?"
 - Options:
-  - `[A] 是 —— [inferred type] 正确`
-  - `[B] Tuning —— 仅调整数值或平衡值`
-  - `[C] Tweak —— 对现有系统的小幅行为调整`
-  - `[D] Addition —— 在现有系统中新增小机制`
-  - `[E] New Small System —— 独立功能，工作量不超过一周`
+  - `[A] Yes — [inferred type] is correct`
+  - `[B] Tuning — changing numbers or balance values only`
+  - `[C] Tweak — small behavioral change to an existing system`
+  - `[D] Addition — adding a small mechanic to an existing system`
+  - `[E] New Small System — standalone feature, under one week of work`
   - `[F] This is too large — redirect me to /design-system`
 
 If [F]: stop. Verdict: **REDIRECTED** — use `/design-system` for this change.
@@ -223,11 +225,11 @@ tracking threshold — quick spec is sufficient."]
 ## 4. Approval and Filing
 
 Present the draft to the user in full. Then use `AskUserQuestion`:
-- Prompt: "这是 Quick Design Spec 草稿。你想如何推进？"
+- Prompt: "Here's the Quick Design Spec draft. How do you want to proceed?"
 - Options:
-  - `[A] 批准 —— 按草稿写入`
-  - `[B] 修订 —— 我来描述要改什么`
-  - `[C] 范围已过大 —— 改用 /design-system`
+  - `[A] Approve — write it as shown`
+  - `[B] Revise — I'll describe what to change`
+  - `[C] This grew too large — redirect to /design-system instead`
 
 If [B]: collect the requested changes, revise the draft, and re-present this widget.
 If [C]: stop. Verdict: **REDIRECTED** — use `/design-system` for this change.

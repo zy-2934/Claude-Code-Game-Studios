@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 **Argument check:** If no combat feature description is provided, output:
 > "Usage: `/team-combat [combat feature description]` — Provide a description of the combat feature to design and implement (e.g., `melee parry system`, `ranged weapon spread`)."
 Then stop immediately without spawning any subagents or reading any files.
@@ -74,11 +76,11 @@ Then spawn the **primary engine specialist** to validate the proposed architectu
 - Output: engine architecture notes — incorporate into the architecture before Phase 3 begins
 
 Use `AskUserQuestion`:
-- Prompt: "架构草图完成。批准后开始并行实现。"
+- Prompt: "Architecture sketch complete. Approve to proceed with parallel implementation."
 - Options:
-  - `[A] 推进 —— 启动实现 agent（gameplay-programmer、ai-programmer、technical-artist、sound-designer）`
-  - `[B] 先修订架构 —— 我会描述要改什么`
-  - `[C] 暂停 —— 我稍后继续`
+  - `[A] Proceed — spawn implementation agents (gameplay-programmer, ai-programmer, technical-artist, sound-designer)`
+  - `[B] Revise the architecture first — I'll describe what needs to change`
+  - `[C] Stop here — I'll continue later`
 
 Only spawn implementation agents if user selects [A].
 

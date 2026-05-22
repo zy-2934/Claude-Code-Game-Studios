@@ -8,6 +8,8 @@ model: sonnet
 agent: economy-designer
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Phase 1: Identify Balance Domain
 
 Determine the balance domain from `$ARGUMENTS[0]`:
@@ -102,11 +104,11 @@ Run domain-specific checks:
 ## Phase 6: Fix & Verify Cycle
 
 After presenting the report, use `AskUserQuestion`:
-- Prompt: "平衡性检查完成。下一步？"
+- Prompt: "Balance check complete. What would you like to do next?"
 - Options:
-  - `[A] 立即修复最高优先级问题 —— 带我过一遍`
-  - `[B] 把报告保存到 design/balance/balance-check-[system]-[date].md`
-  - `[C] 暂停 —— 我自己手动 review 结论`
+  - `[A] Fix highest-priority issue now — walk me through it`
+  - `[B] Save report to design/balance/balance-check-[system]-[date].md`
+  - `[C] Stop here — I'll review the findings manually`
 
 If [A]:
 - Ask which issue to address first (refer to the Recommendations table by priority row)

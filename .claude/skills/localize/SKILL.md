@@ -8,6 +8,8 @@ allowed-tools: Read, Glob, Grep, Write, Bash, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Localization Pipeline
 
 Localization is not just translation — it is the full process of making a game
@@ -333,8 +335,8 @@ Pre-Freeze Checklist
 ```
 
 Use `AskUserQuestion`:
-- Prompt: "以上各项是否都已确认？调用 string freeze 将锁定源表。"
-- Options: `[A] 是——立即调用 string freeze` / `[B] 否——我还有字符串需要补充`
+- Prompt: "Are all items above confirmed? Calling string freeze locks the source table."
+- Options: `[A] Yes — call string freeze now` / `[B] No — I still have strings to add`
 
 If [A]: Write `production/localization/freeze-status.md`:
 

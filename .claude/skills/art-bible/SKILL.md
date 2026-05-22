@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Phase 0: Parse Arguments and Context Check
 
 Resolve the review mode (once, store for all gate spawns this run):
@@ -60,9 +62,9 @@ Read `.claude/docs/technical-preferences.md` if it exists — extract performanc
 Present the session context and ask two questions before authoring anything:
 
 Use `AskUserQuestion` with two tabs:
-- Tab **"Scope"** — "今天需要撰写哪些章节？"
-  Options: `完整 bible —— 全部 9 个章节` / `视觉核心（仅 1–4 章）` / `仅资源标准（第 8 章）` / `续写 —— 补全缺失章节`
-- Tab **"References"** — "你是否有定义视觉方向的参考游戏、电影或艺术？"
+- Tab **"Scope"** — "Which sections need to be authored today?"
+  Options: `Full bible — all 9 sections` / `Visual identity core (sections 1–4 only)` / `Asset standards only (section 8)` / `Resume — fill in missing sections`
+- Tab **"References"** — "Do you have reference games, films, or art that define the visual direction?"
   (Free text — let the user type specific titles. Do NOT preset options here.)
 
 If the game-concept.md has a Visual Identity Anchor section, note it:
@@ -88,7 +90,7 @@ If a visual anchor exists from game-concept.md: present it and ask:
 - Ask: "Draft a Visual Identity Statement for this game. Provide: (1) a one-line visual rule that could resolve any visual decision ambiguity, (2) 2–3 supporting visual principles, each with a one-sentence design test ('when X is ambiguous, this principle says choose Y'). Anchor all principles directly in the stated pillars — each principle must serve a specific pillar."
 
 Present the art-director's draft to the user. Use `AskUserQuestion`:
-- Options: `[A] 锁定` / `[B] 修订一句话规则` / `[C] 修订某条支撑原则` / `[D] 我来描述自己的方向`
+- Options: `[A] Lock this in` / `[B] Revise the one-liner` / `[C] Revise a supporting principle` / `[D] Describe my own direction`
 
 Write the approved section to file immediately.
 

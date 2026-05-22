@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, WebSearch, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 When this skill is invoked:
 
 1. **Parse the argument** for an optional genre/theme hint (e.g., `roguelike`,
@@ -188,12 +190,12 @@ Then define **3+ anti-pillars** (what this game is NOT):
 - Frame as: "We will NOT do [thing] because it would compromise [pillar]"
 
 **Pillar confirmation**: After presenting the full pillar set, use `AskUserQuestion`:
-- Prompt: "这些 pillar 适合你的游戏吗？"
-- Options: `[A] 锁定这些 pillar` / `[B] 重命名或重新表述某一条` / `[C] 替换其中一条` / `[D] 其他想法`
+- Prompt: "Do these pillars feel right for your game?"
+- Options: `[A] Lock these in` / `[B] Rename or reframe one` / `[C] Swap a pillar out` / `[D] Something else`
 
 If the user selects B, C, or D, make the revision, then use `AskUserQuestion` again:
-- Prompt: "Pillar 已更新。准备锁定吗？"
-- Options: `[A] 锁定这些 pillar` / `[B] 再修订一条` / `[C] 其他想法`
+- Prompt: "Pillars updated. Ready to lock these in?"
+- Options: `[A] Lock these in` / `[B] Revise another pillar` / `[C] Something else`
 
 Repeat until the user selects [A] Lock these in.
 
@@ -294,13 +296,13 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
    move" decision before it can be forgotten between sessions.
 
 5. Use `AskUserQuestion` for write approval:
-- Prompt: "游戏概念已就绪。我可以把它写入 `design/gdd/game-concept.md` 吗？"
-- Options: `[A] 是 —— 写入` / `[B] 暂不 —— 先修改某个章节`
+- Prompt: "Game concept is ready. May I write it to `design/gdd/game-concept.md`?"
+- Options: `[A] Yes — write it` / `[B] Not yet — revise a section first`
 
-If [B]: ask which section to revise using `AskUserQuestion` with header `"修改章节"` and options: `Elevator Pitch` / `Core Fantasy & Unique Hook` / `Pillars` / `Core Loop` / `MVP Definition` / `Scope Tiers` / `Risks` / `其他 —— 我来描述`
+If [B]: ask which section to revise using `AskUserQuestion` with options: `Elevator Pitch` / `Core Fantasy & Unique Hook` / `Pillars` / `Core Loop` / `MVP Definition` / `Scope Tiers` / `Risks` / `Something else — I'll describe`
 
-After revising, show the updated section as a diff or clear before/after, then use `AskUserQuestion` — "准备好写入更新后的概念文档了吗？"
-Options: `[A] 是 —— 写入` / `[B] 再修订另一个章节`
+After revising, show the updated section as a diff or clear before/after, then use `AskUserQuestion` — "Ready to write the updated concept document?"
+Options: `[A] Yes — write it` / `[B] Revise another section`
 Repeat until the user selects [A].
 
 If yes, generate the document using the template at `.claude/docs/templates/game-concept.md`, fill in ALL sections from the brainstorm conversation, and write the file, creating directories as needed.

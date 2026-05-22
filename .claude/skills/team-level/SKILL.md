@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoW
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 When this skill is invoked:
 
 **Decision Points:** At each step transition, use `AskUserQuestion` to present
@@ -94,9 +96,9 @@ The level-designer should:
 **Adjacent area dependency check**: After the layout is produced, check `design/levels/` for each adjacent area referenced by the level-designer. If any referenced area's `.md` file does not exist, surface the gap:
 > "Level references [area-name] as an adjacent area but `design/levels/[area-name].md` does not exist."
 
-Use `AskUserQuestion` with header `"相邻区缺失"` and options:
-- (a) 用占位引用推进 —— 在关卡文档中把该连接标记为 UNRESOLVED，并在总结报告的跨关卡依赖章节中列出
-- (b) 暂停并先运行 `/team-level [area-name]` 建立该区域
+Use `AskUserQuestion` with options:
+- (a) Proceed with a placeholder reference — mark the connection as UNRESOLVED in the level doc and list it in the open cross-level dependencies section of the summary report
+- (b) Pause and run `/team-level [area-name]` first to establish that area
 
 Do NOT invent content for the missing adjacent area.
 
@@ -132,9 +134,9 @@ Spawn the `accessibility-specialist` agent in parallel to:
 
 Wait for both agents to return before proceeding.
 
-**Gate**: Use `AskUserQuestion` to present both Step 4 results. If the accessibility-specialist returned any BLOCKING concerns, highlight them prominently with header `"BLOCKING 处理"` and offer:
-- (a) 返回 level-designer 与 art-director 重新设计标记元素，再进入 Step 5
-- (b) 作为已知的可访问性缺口记录，并带着该担忧推进到 Step 5（在最终报告中明确记录）
+**Gate**: Use `AskUserQuestion` to present both Step 4 results. If the accessibility-specialist returned any BLOCKING concerns, highlight them prominently and offer:
+- (a) Return to level-designer and art-director to redesign the flagged elements before Step 5
+- (b) Document as a known accessibility gap and proceed to Step 5 with the concern explicitly logged in the final report
 
 Do NOT proceed to Step 5 without the user acknowledging any BLOCKING accessibility concerns.
 

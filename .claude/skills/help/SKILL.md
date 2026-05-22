@@ -9,6 +9,8 @@ context: |
 model: haiku
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Studio Help — What Do I Do Next?
 
 This skill is read-only — it reports findings but writes no files.

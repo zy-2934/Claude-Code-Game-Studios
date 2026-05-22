@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 ## Phase 0: Parse Arguments
 
 Extract `--depth [full|lean|solo]` if present. Default is `full` when no flag is given.
@@ -195,9 +197,9 @@ Use `AskUserQuestion` for ALL closing interactions. Never plain text.
 If APPROVED (first-pass, no revision needed), proceed directly to the systems-index widget, review-log widget, then the final closing widget. Do not show a separate "what to do" widget — the final closing widget covers next steps.
 
 If NEEDS REVISION or MAJOR REVISION NEEDED, options:
-- `[A] 立即修订 GDD — 统一处理阻断项`
-- `[B] 暂停 — 在另一个会话中修订`
-- `[C] 接受现状继续推进（仅当所有项都是建议性时）`
+- `[A] Revise the GDD now — address blocking items together`
+- `[B] Stop here — revise in a separate session`
+- `[C] Accept as-is and move on (only if all items are advisory)`
 
 **If user selects [A] — Revise now:**
 
@@ -205,35 +207,35 @@ Work through all blocking items, asking for design decisions only where you cann
 
 After all revisions are complete, show a summary table (blocker → fix applied) and use `AskUserQuestion` for a **post-revision closing widget**:
 
-- Prompt: "修订完成 — 已解决 [N] 个阻断项。下一步？"
-- Note current context usage: if context is above ~50%, add: "（建议：在重新评审前 /clear — 本会话已用 X% 上下文。一次完整重审会启动 5 个 agent，需要干净的上下文。）"
+- Prompt: "Revisions complete — [N] blockers resolved. What next?"
+- Note current context usage: if context is above ~50%, add: "(Recommended: /clear before re-review — this session has used X% context. A full re-review runs 5 agents and needs clean context.)"
 - Options:
-  - `[A] 在新会话中重新评审 — /clear 之后运行 /design-review [doc-path]`
-  - `[B] 接受修订并标记为 Approved — 更新系统索引，跳过重审`
-  - `[C] 进入下一个系统 — /design-system [next-system]（设计顺序第 #N）`
-  - `[D] 暂停`
+  - `[A] Re-review in a new session — run /design-review [doc-path] after /clear`
+  - `[B] Accept revisions and mark Approved — update systems index, skip re-review`
+  - `[C] Move to next system — /design-system [next-system] (#N in design order)`
+  - `[D] Stop here`
 
 Never end the revision flow with plain text. Always close with this widget.
 
 **Second widget — tracking records (combined, for APPROVED path):**
 
 When the verdict is APPROVED, use a single `AskUserQuestion` with `multiSelect: true` to batch the two tracking updates:
-- Prompt: "判定：APPROVED。我可以现在更新跟踪记录。选择你想让我完成的项："
+- Prompt: "Verdict: APPROVED. I can update the tracking records now. Select any you'd like me to complete:"
 - Options:
-  - `把 systems-index.md 中 [system] 的 status 更新为 'Approved'`
-  - `把批准条目追加到 design/gdd/reviews/[doc-name]-review-log.md`
+  - `Update systems-index.md status to 'Approved' for [system]`
+  - `Append approval entry to design/gdd/reviews/[doc-name]-review-log.md`
 
 If the review-log option is selected, append the same format as below. Execute both selected actions before showing the final closing widget.
 
 When the verdict is NEEDS REVISION or MAJOR REVISION NEEDED, use separate widgets as before:
 
 Use a second `AskUserQuestion`:
-- Prompt: "我可以更新 `design/gdd/systems-index.md`，把 [system] 标记为 [In Review / Approved] 吗？"
-- Options: `[A] 是 — 更新它` / `[B] 否 — 保持原样`
+- Prompt: "May I update `design/gdd/systems-index.md` to mark [system] as [In Review / Approved]?"
+- Options: `[A] Yes — update it` / `[B] No — leave it as-is`
 
 Use a third `AskUserQuestion`:
-- Prompt: "我可以把本次评审摘要追加到 `design/gdd/reviews/[doc-name]-review-log.md` 吗？这会建立一份修订历史，让今后的重审可以追溯变更。"
-- Options: `[A] 是 — 追加到 review log` / `[B] 否 — 跳过`
+- Prompt: "May I append this review summary to `design/gdd/reviews/[doc-name]-review-log.md`? This creates a revision history so future re-reviews can track what changed."
+- Options: `[A] Yes — append to review log` / `[B] No — skip`
 
 If yes, append an entry in this format:
 ```

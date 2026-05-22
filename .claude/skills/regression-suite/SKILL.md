@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
 model: sonnet
 ---
 
+**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
+
 # Regression Suite
 
 This skill ensures that every bug fix is backed by a test that would have
@@ -37,11 +39,11 @@ and known failure points. This skill maintains that list.
 - `/regression-suite report` — read-only status report (no writes); suitable
   for sprint reviews
 - No argument — if a sprint is clearly active (sprint plan exists with in-progress stories), run `update`. If ambiguous or no active sprint is detected, use `AskUserQuestion`:
-  - Prompt: "未指定子命令。要运行哪种模式？"
+  - Prompt: "No subcommand specified. Which mode do you want to run?"
   - Options:
-    - `[A] update —— 扫描本 sprint 新修复的 bug 并补齐缺失的回归测试`
-    - `[B] audit —— 对所有 GDD 关键路径与现有测试覆盖做完整审计`
-    - `[C] report —— 只读的状态报告（不写入）`
+    - `[A] update — scan new bug fixes this sprint and add missing regression tests`
+    - `[B] audit — full audit of all GDD critical paths vs. existing test coverage`
+    - `[C] report — read-only status report (no writes)`
 
 ---
 
