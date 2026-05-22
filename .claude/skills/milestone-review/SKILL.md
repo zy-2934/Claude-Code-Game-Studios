@@ -124,7 +124,6 @@ Present the producer's assessment inline within the Go/No-Go section. The produc
 
 If OFF TRACK, use `AskUserQuestion` before generating the recommendation:
 - Prompt: "Producer 判定：OFF TRACK。该 milestone 处于严重风险中。本次评审将建议 NO-GO。你想如何处理？"
-- Header: "OFF TRACK"
 - Options:
   - `[A] 接受 NO-GO——按此建议生成完整评审`
   - `[B] 改写为 CONDITIONAL GO——我会自己记录已接受的风险`
@@ -132,7 +131,6 @@ If OFF TRACK, use `AskUserQuestion` before generating the recommendation:
 
 If AT RISK, use `AskUserQuestion`:
 - Prompt: "Producer 判定：AT RISK。该 milestone 可能延期。Go/No-Go 章节应如何定调？"
-- Header: "AT RISK"
 - Options:
   - `[A] CONDITIONAL GO——在评审中包含 producer 提出的条件`
   - `[B] NO-GO——条件无法按时满足`

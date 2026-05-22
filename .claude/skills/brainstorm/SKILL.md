@@ -191,12 +191,10 @@ Then define **3+ anti-pillars** (what this game is NOT):
 
 **Pillar confirmation**: After presenting the full pillar set, use `AskUserQuestion`:
 - Prompt: "这些 pillar 适合你的游戏吗？"
-- Header: "Pillar 确认"
 - Options: `[A] 锁定这些 pillar` / `[B] 重命名或重新表述某一条` / `[C] 替换其中一条` / `[D] 其他想法`
 
 If the user selects B, C, or D, make the revision, then use `AskUserQuestion` again:
 - Prompt: "Pillar 已更新。准备锁定吗？"
-- Header: "Pillar 锁定"
 - Options: `[A] 锁定这些 pillar` / `[B] 再修订一条` / `[C] 其他想法`
 
 Repeat until the user selects [A] Lock these in.
@@ -299,13 +297,11 @@ Present the assessment to the user. If UNREALISTIC, offer to adjust the MVP defi
 
 5. Use `AskUserQuestion` for write approval:
 - Prompt: "游戏概念已就绪。我可以把它写入 `design/gdd/game-concept.md` 吗？"
-- Header: "写入确认"
 - Options: `[A] 是 —— 写入` / `[B] 暂不 —— 先修改某个章节`
 
 If [B]: ask which section to revise using `AskUserQuestion` with header `"修改章节"` and options: `Elevator Pitch` / `Core Fantasy & Unique Hook` / `Pillars` / `Core Loop` / `MVP Definition` / `Scope Tiers` / `Risks` / `其他 —— 我来描述`
 
 After revising, show the updated section as a diff or clear before/after, then use `AskUserQuestion` — "准备好写入更新后的概念文档了吗？"
-Header: "写入确认"
 Options: `[A] 是 —— 写入` / `[B] 再修订另一个章节`
 Repeat until the user selects [A].
 

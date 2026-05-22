@@ -39,7 +39,6 @@ If no engine is specified, run an interactive engine selection process:
 
 **Question 1 — Prior experience** (ask this first, always, via `AskUserQuestion`):
 - Prompt: "你之前用过下面哪些引擎？"
-- Header: "引擎经验"
 - Options: `Godot` / `Unity` / `Unreal Engine 5` / `多个 —— 我来解释` / `都没用过`
 - If they pick a specific engine → recommend that engine. Prior experience outweighs all other factors. Confirm with them and skip the matrix.
 - If "None" or "Multiple" → continue to the questions below.
@@ -48,7 +47,6 @@ If no engine is specified, run an interactive engine selection process:
 
 **Question 2 — Target platform** (ask this second, always, via `AskUserQuestion` — platform eliminates or heavily weights engines before any other factor):
 - Prompt: "本游戏面向哪些平台？"
-- Header: "目标平台"
 - Options: `PC (Steam / Epic)` / `移动端 (iOS / Android)` / `主机` / `Web / 浏览器` / `多平台`
 - Platform rules that feed directly into the recommendation:
   - Mobile → Unity strongly preferred; Unreal is a poor fit; Godot is viable for simple mobile
@@ -237,7 +235,6 @@ Example filled section:
 ### Remaining Sections
 - **Performance Budgets**: Use `AskUserQuestion`:
   - Prompt: "现在设定默认的性能预算，还是稍后再定？"
-  - Header: "性能预算"
   - Options: `[A] 现在使用默认值（60fps、16.6ms 帧预算、引擎相应的 draw call 上限）` / `[B] 保留 [TO BE CONFIGURED] —— 我会在确定目标硬件后再设置`
   - If [A]: populate with the suggested defaults. If [B]: leave as placeholder.
 - **Testing**: Suggest engine-appropriate framework (GUT for Godot, NUnit for Unity, etc.) — ask before adding.

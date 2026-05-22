@@ -25,7 +25,6 @@ Three authoring modes exist based on the argument:
 
 **If no argument is provided**, do not fail — ask instead. Use `AskUserQuestion`:
 - "今天我们在设计什么？"
-- Header: "设计对象"
 - Options: "某个具体屏幕或流程（我来命名）", "游戏 HUD", "交互模式库", "我不确定 — 帮我理清"
 
 If the user selects "I'll name it" or types a screen name, normalize it to kebab-case
@@ -426,11 +425,9 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
    assumptions explicitly.
 6. **Approval**: Use `AskUserQuestion`:
    - "这是否准确表达了 [section name]？"
-   - Header: "章节审核"
    - Options: "是 — 写入文件", "需要小改（在下方描述）", "需要重新思考"
    Do not proceed to step 7 until the user selects "Yes".
 7. **Write**: Use `AskUserQuestion`: "我可以把 [section name] 章节写入 `[filepath]` 吗？"
-   - Header: "写入确认"
    - Options: "是，写入", "等一下 — 还有一处改动"
    Once confirmed, use `Edit` to replace the `[To be designed]` placeholder with approved content.
 
@@ -517,7 +514,6 @@ This is the largest and most interactive section. Work through it in sub-section
   input context gathered from game concept.
 - Use `AskUserQuestion` to capture the choice:
   - "哪种 zone 布局最合适？"
-  - Header: "布局选择"
   - Options: [the 2-3 named arrangements you just presented] + "都不合适 — 自定义布局"
 
 **Sub-section 3 — Component Inventory**:
@@ -531,7 +527,6 @@ This is the largest and most interactive section. Work through it in sub-section
 **Sub-section 4 — ASCII Wireframe**:
 - Offer to generate an ASCII wireframe based on the zone layout and component list.
 - Use `AskUserQuestion`: "是否需要在 spec 中包含 ASCII wireframe？"
-  - Header: "wireframe"
   - Options: "是，包含一个", "否，我会另附文件"
 - If yes, produce the wireframe in conversation first. Ask for feedback before
   writing it to file.
@@ -692,7 +687,6 @@ Write at least 5 specific, testable criteria that a QA tester can verify without
 
 Use `AskUserQuestion` to confirm:
 - "这些验收标准是否覆盖了 QA 流程中"完成"的判定？"
-- Header: "验收标准"
 - Options: "是 — 已足够", "再加一条标准", "删除或改写其中一条"
 
 ---
@@ -835,7 +829,6 @@ For each pattern (existing or new), document:
 
 Work through patterns in groups. Use `AskUserQuestion`:
 - "你想如何处理这些模式？"
-- Header: "处理方式"
 - Options: "从现有 spec 起草第一批（更快）", "逐个定义（更可控）", "从最常用的模式开始"
 
 ---
@@ -864,7 +857,6 @@ referenced by name? If a new pattern was invented during this spec session, flag
 it for addition to the pattern library:
 Use `AskUserQuestion`:
 - "本 spec 使用了 [pattern name]，但它尚未进入模式库。我们该如何处理？"
-- Header: "新模式处理"
 - Options: "现在加入模式库", "标记为缺口并继续", "跳过 — 此模式仅一次性使用"
 
 **3. Navigation consistency**: Do the entry/exit points in this spec match the
@@ -909,7 +901,6 @@ Before presenting options, state clearly:
 
 Then use `AskUserQuestion`:
 - "现在运行 `/ux-review [filename]`，还是先做别的事？"
-- Header: "下一步"
 - Options:
     - "立即运行 `/ux-review` — 验证本 spec"
     - "先设计另一个屏幕，之后一起 review 所有 spec"

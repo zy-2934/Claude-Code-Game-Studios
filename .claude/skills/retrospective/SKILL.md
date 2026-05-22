@@ -25,7 +25,6 @@ Before loading any data, glob for an existing retrospective file:
 
 If a matching file is found, use `AskUserQuestion`:
 - Prompt: "发现已有 retrospective：[filename]。你想如何处理？"
-- Header: "现有 Retro"
 - Options:
   - `[A] 更新已有 —— 加载并基于新数据补充/修订章节`
   - `[B] 重新开始 —— 生成新的 retrospective（归档旧的）`
@@ -50,8 +49,6 @@ Read the sprint or milestone plan from the appropriate location:
 > sprint data first, or provide the sprint details manually."
 
 Then use `AskUserQuestion` to present two options:
-
-- Header: "数据来源"
 - **[A] 手动提供数据** —— 请用户粘贴或描述 sprint
   任务、日期和结果，以此作为 retrospective 的数据来源。
 - **[B] Stop** — abort the skill. Verdict: **BLOCKED** — no sprint data available.
@@ -207,7 +204,6 @@ If no, stop here. Verdict: **BLOCKED** — user declined write.
 
 Use `AskUserQuestion`:
 - Prompt: "Retrospective 完成。行动项和速度数据已就绪。是否立即开启 sprint 计划，并预加载这些数据？"
-- Header: "Sprint 计划"
 - Options:
   - `[A] 是 —— 打开 sprint 计划，预填 retro 行动项与速度差`
   - `[B] 否 —— 我准备好后会自己引用 retrospective 文件`

@@ -88,7 +88,6 @@ Read `docs/architecture/control-manifest.md`. Extract the rules for this story's
 Check: does the story's embedded Manifest Version match the current manifest header date?
 If they differ, use `AskUserQuestion` before proceeding:
 - Prompt: "Story 是基于 manifest v[story-date] 写的。当前 manifest 是 v[current-date]，可能有新规则。你想如何处理？"
-- Header: "Manifest 版本"
 - Options:
   - `[A] 更新 story 的 manifest 版本并按当前规则实现（推荐）`
   - `[B] 按旧规则实现 —— 我接受不合规风险`
@@ -107,7 +106,6 @@ After extracting the **Dependencies** list from the story file, validate each:
 3. If any dependency has Status other than `Complete` or `Done`:
    - Use `AskUserQuestion`:
      - Prompt: "Story '[current story]' 依赖于 '[dependency title]'，其当前状态是 [status]，并非 Complete。你想如何处理？"
-     - Header: "依赖处理"
      - Options:
        - `[A] 仍然推进 —— 我接受依赖风险`
        - `[B] 暂停 —— 我先完成依赖`

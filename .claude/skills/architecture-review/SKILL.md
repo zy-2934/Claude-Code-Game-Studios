@@ -375,7 +375,6 @@ Before asking, display the proposed change inline — show the current systems-i
 
 Then use `AskUserQuestion`:
 - "我发现了 [N] 个 GDD 修订标记。我可以更新系统索引吗？"
-- Header: "更新索引"
 - Options:
   - [A] 是 —— 立即向系统索引应用全部 [N] 项更新
   - [B] 先展示完整 diff，然后再问一次
@@ -462,7 +461,6 @@ FAIL: Critical gaps (Foundation/Core layer requirements uncovered),
 
 Use `AskUserQuestion` for the write approval:
 - "评审完成。你想写入什么？"
-- Header: "写入选择"
 - Options:
   - [A] 写入全部三个文件（评审报告 + traceability index + TR registry）
   - [B] 仅写入评审报告 —— `docs/architecture/architecture-review-[date].md`
@@ -472,7 +470,6 @@ Use `AskUserQuestion` for the write approval:
 
 For `rtm` mode, use `AskUserQuestion`:
 - "我可以写入完整的 Requirements Traceability Matrix 吗？"
-- Header: "写入 RTM"
 - Options:
   - [A] 是 —— 写入 `docs/architecture/requirements-traceability.md`
   - [B] 暂不 —— 先展示完整 RTM 数据，然后再问一次

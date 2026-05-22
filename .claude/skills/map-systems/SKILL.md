@@ -50,7 +50,6 @@ for systems decomposition.
 - Use `AskUserQuestion` to ask:
   "系统索引已存在，包含 [N] 个系统（已设计 [M] 个，未开始 [K] 个）。
   你想做什么？"
-  - Header: "索引操作"
   - Options: "更新索引，加入新系统", "设计下一个未开始的系统",
     "回顾并修订优先级"
 
@@ -300,7 +299,6 @@ The `/design-system` skill handles the full GDD authoring process:
 
 After `/design-system` completes, use `AskUserQuestion`:
 - "继续设计下一个系统（[next system name]）？"
-- Header: "继续设计"
 - Options: "继续下一个系统", "换一个系统", "本次会话到此为止"
 
 If continuing, return to Step 6a.
@@ -312,7 +310,6 @@ If continuing, return to Step 6a.
 After the systems index is created (or after designing some systems), present next actions using `AskUserQuestion`:
 
 - "系统索引已写入。接下来做什么？"
-- Header: "下一步"
 - Options:
   - [A] 开始编写 GDD —— 运行 `/design-system [first-system-in-order]`
   - [B] 运行 `/gate-check systems-design` —— 自动触发 CD-SYSTEMS 与 TD-SYSTEM-BOUNDARY 闸口，让 director 正式签字

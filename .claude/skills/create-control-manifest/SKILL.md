@@ -117,7 +117,6 @@ Total rules extracted:
 
 Use `AskUserQuestion`:
 - Prompt: "这份规则摘要是否看起来完整？"
-- Header: "规则摘要"
 - Options:
   - `[A] 是 —— 看起来不错，运行 director 评审并写入 manifest`
   - `[B] 补充规则 —— 在写入前我还有要加的规则`
@@ -154,7 +153,6 @@ Apply the verdict:
 
 Use `AskUserQuestion`:
 - Prompt: "我可以写入 Control Manifest 吗？"
-- Header: "写入 Manifest"
 - Options:
   - `[A] 是 —— 写入 docs/architecture/control-manifest.md`
   - `[B] 先展示完整草稿，然后再问一次`

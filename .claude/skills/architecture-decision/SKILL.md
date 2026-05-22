@@ -198,8 +198,6 @@ Problem：[one-sentence problem statement derived from context]
 驱动此 ADR 的 GDD 系统：[list derived from context]
 依赖：[upstream ADRs if any, otherwise "None"]
 Status: Proposed
-
-Header: "假设确认"
 [A] 推进 —— 按这些假设起草
 [B] 修改备选方案清单
 [C] 调整 GDD 关联
@@ -379,7 +377,6 @@ If no inconsistencies: skip this block silently.
 
 If GDD sync issues were found:
 - "ADR 草稿已完成。你想如何推进？"
-- Header: "写入 ADR"
 - Options:
   - [A] 同时写入 ADR 并更新 GDD
   - [B] 只写入 ADR —— 我自己手动更新 GDD
@@ -387,7 +384,6 @@ If GDD sync issues were found:
 
 If no GDD sync issues:
 - "ADR 草稿已完成。我可以写入吗？"
-- Header: "写入 ADR"
 - Options:
   - [A] 写入 `docs/architecture/adr-[NNNN]-[slug].md`
   - [B] 暂不 —— 我需要再 review
@@ -424,7 +420,6 @@ Registry candidates from this ADR:
 
 Ask using `AskUserQuestion`:
 - "我可以用这 [N] 个新立场更新 `docs/registry/architecture.yaml` 吗？"
-- Header: "更新 Registry"
 - Options: "是 —— 更新 registry", "暂不 —— 我想先审查候选项", "跳过 registry 更新"
 
 Only proceed if the user selects yes. If yes: append new entries. Never modify existing entries — if a stance is
@@ -444,7 +439,6 @@ Before generating the widget:
 Widget format:
 ```
 ADR-[NNNN] 已写入，registry 已更新。下一步做什么？
-Header: "下一步"
 [1] 编写 [next-priority-adr-name] —— [brief description from prerequisites list]
 [2] 编写 [another-priority-adr] —— [brief description]（包含所有剩余项）
 [N] 开始写 GDD —— 运行 `/design-system [first-undesigned-system]`（仅在所有前置 ADR 已完成时显示）

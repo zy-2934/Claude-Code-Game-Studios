@@ -49,7 +49,6 @@ See `.claude/docs/director-gates.md` for the full check pattern and mode definit
 
 If no argument is given, use `AskUserQuestion`:
 - "你想验证哪个范围？"
-- Header: "验证范围"
 - Options: "某个 story 文件", "当前 sprint 内的所有 story",
     "production/epics/ 下的所有 story", "某个 epic 的全部 story"
 

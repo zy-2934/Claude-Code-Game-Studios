@@ -25,7 +25,6 @@ A system name or retrofit path is **required**. If missing:
 1. Check if `design/gdd/systems-index.md` exists.
 2. If it exists: read it, find the highest-priority system with status "Not Started" or equivalent, and use `AskUserQuestion`:
    - Prompt: "按设计顺序，下一个系统是 **[system-name]**（[priority] | [layer]）。开始设计？"
-   - Header: "下一系统"
    - Options: `[A] 是 —— 设计 [system-name]` / `[B] 换一个系统` / `[C] 停下`
    - If [A]: proceed with that system name. If [B]: ask which system to design (plain text). If [C]: exit.
 3. If no systems index exists, fail with:
@@ -330,7 +329,6 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
 6. **Approval**: Immediately after the draft — in the SAME response — use
    `AskUserQuestion`. **NEVER use plain text. NEVER skip this step.**
    - Prompt: "批准 [Section Name] 章节吗？"
-   - Header: "章节批准"
    - Options: `[A] 批准 —— 写入文件` / `[B] 需要修改 —— 描述要改什么` / `[C] 重新开始`
 
    **The draft and the approval widget MUST appear together in one response.
@@ -416,7 +414,6 @@ Append `(Recommended)` to the appropriate option text.
 
 **Framing question (ask BEFORE drafting)**: Use `AskUserQuestion`:
 - Prompt: "这个系统是玩家直接交互的部分，还是玩家间接感受到的基础设施？"
-- Header: "系统定位"
 - Options: `[A] 直接 —— 玩家主动使用或感受此系统` / `[B] 间接 —— 玩家感受到其效果，但不接触系统本身` / `[C] 兼有 —— 既有直接交互层，也有底层基础设施`
 
 Use the answer to frame the Player Fantasy section appropriately. Do NOT assume the answer.

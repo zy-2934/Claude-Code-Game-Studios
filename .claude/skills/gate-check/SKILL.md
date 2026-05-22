@@ -51,7 +51,6 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 
   Use `AskUserQuestion`:
   - Prompt: "检测到的阶段：**[current stage]**。将运行 [Current] → [Next] 转换的闸口。是否正确？"
-  - Header: "确认闸口"
   - Options:
     - `[A] 是 — 运行此闸口`
     - `[B] 否 — 选择其他闸口`（如选中，展示第二个 widget 列出所有闸口：Concept → Systems Design、Systems Design → Technical Setup、Technical Setup → Pre-Production、Pre-Production → Production、Production → Polish、Polish → Release）

@@ -24,7 +24,6 @@ See `.claude/docs/director-gates.md` for the full check pattern.
 - Read `production/review-mode.txt` if it exists. Use that mode.
 - If the file doesn't exist and this is a `new` sprint: use `AskUserQuestion`:
   - Prompt: "尚未设置审核模式。本轮 sprint 想使用多深的审核？"
-  - Header: "审核深度"
   - Options:
     - `[A] full — 启动所有 director 和 lead 闸口`
     - `[B] lean — 跳过非阶段闸口的 director 审核（推荐用于大多数 sprint）`
@@ -218,7 +217,6 @@ If UNREALISTIC: revise the story selection (defer stories to Should Have or Nice
 
 If CONCERNS, use `AskUserQuestion`:
 - Prompt: "Producer 对此 sprint 计划提出了担忧。你想如何处理？"
-- Header: "处理方式"
 - Options:
   - `[A] 按计划推进——我接受这个风险`
   - `[B] 调整范围——把部分 Should Have 故事推迟`
@@ -252,7 +250,6 @@ Use `Glob` to look for `production/qa/qa-plan-sprint-[N].md` or any file in `pro
 
 Use `AskUserQuestion`:
 - Prompt: "本 sprint 未找到 QA 计划。你想如何处理？"
-- Header: "QA 计划"
 - Options:
   - `[A] 立即运行 /qa-plan sprint——在开始实现之前完成（推荐）`
   - `[B] 暂时跳过——我理解 QA 签字会在 Production → Polish 闸口被阻断`

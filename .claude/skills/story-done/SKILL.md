@@ -40,7 +40,6 @@ read that file directly.
    look for stories marked IN PROGRESS.
 3. If multiple in-progress stories are found, use `AskUserQuestion`:
    - "我们正在完成的是哪个 story？"
-   - Header: "选择 Story"
    - Options: list the in-progress story file names.
 4. If no story can be found, ask the user to provide the path.
 
@@ -99,7 +98,6 @@ Batch up to 4 manual verification questions into a single `AskUserQuestion` call
 
 ```
 question: "[criterion] 是否满足？"
-header: "AC 验证"
 options: "通过 — 满足", "失败 — 未满足", "尚未测试"
 ```
 
@@ -263,7 +261,6 @@ Skip this phase for Config/Data stories (no code tests required).
 - `solo` → skip. Note: "LP-CODE-REVIEW skipped — Solo mode." Proceed to Phase 6 (completion report).
 - `lean` → use `AskUserQuestion` before proceeding:
   - Prompt: "lean 模式下默认跳过代码审查。你是否已对实现文件运行了 `/code-review`？"
-  - Header: "代码审查"
   - Options:
     - `是 — /code-review 通过或带建议批准`
     - `否 — 本 story 跳过代码审查`
@@ -276,7 +273,6 @@ Spawn `lead-programmer` via Task using gate **LP-CODE-REVIEW** (`.claude/docs/di
 Pass: implementation file paths, story file path, relevant GDD section, governing ADR.
 
 Present the verdict to the user. If CONCERNS, surface them via `AskUserQuestion`:
-- Header: "处理 CONCERNS"
 - Options: `修改标记问题` / `接受并推进` / `进一步讨论`
 If REJECT, do not proceed to Phase 6 verdict until the issues are resolved.
 
@@ -337,7 +333,6 @@ fixed. Offer to help fix the blocking items.
 
 Use `AskUserQuestion` before writing anything:
 - Prompt: "验证完成。你想如何处理？"
-- Header: "完成处理"
 - Options:
   - `关闭 story — 更新文件、标记 Complete、记录笔记（推荐）`
   - `关闭，并把建议性偏差作为 tech debt 记入 docs/tech-debt-register.md`

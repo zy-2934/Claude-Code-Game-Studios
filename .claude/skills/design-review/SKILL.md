@@ -197,7 +197,6 @@ Use `AskUserQuestion` for ALL closing interactions. Never plain text.
 If APPROVED (first-pass, no revision needed), proceed directly to the systems-index widget, review-log widget, then the final closing widget. Do not show a separate "what to do" widget — the final closing widget covers next steps.
 
 If NEEDS REVISION or MAJOR REVISION NEEDED, options:
-- Header: "处理方式"
 - `[A] 立即修订 GDD — 统一处理阻断项`
 - `[B] 暂停 — 在另一个会话中修订`
 - `[C] 接受现状继续推进（仅当所有项都是建议性时）`
@@ -209,7 +208,6 @@ Work through all blocking items, asking for design decisions only where you cann
 After all revisions are complete, show a summary table (blocker → fix applied) and use `AskUserQuestion` for a **post-revision closing widget**:
 
 - Prompt: "修订完成 — 已解决 [N] 个阻断项。下一步？"
-- Header: "修订后操作"
 - Note current context usage: if context is above ~50%, add: "（建议：在重新评审前 /clear — 本会话已用 X% 上下文。一次完整重审会启动 5 个 agent，需要干净的上下文。）"
 - Options:
   - `[A] 在新会话中重新评审 — /clear 之后运行 /design-review [doc-path]`
@@ -223,7 +221,6 @@ Never end the revision flow with plain text. Always close with this widget.
 
 When the verdict is APPROVED, use a single `AskUserQuestion` with `multiSelect: true` to batch the two tracking updates:
 - Prompt: "判定：APPROVED。我可以现在更新跟踪记录。选择你想让我完成的项："
-- Header: "跟踪更新"
 - Options:
   - `把 systems-index.md 中 [system] 的 status 更新为 'Approved'`
   - `把批准条目追加到 design/gdd/reviews/[doc-name]-review-log.md`
@@ -234,12 +231,10 @@ When the verdict is NEEDS REVISION or MAJOR REVISION NEEDED, use separate widget
 
 Use a second `AskUserQuestion`:
 - Prompt: "我可以更新 `design/gdd/systems-index.md`，把 [system] 标记为 [In Review / Approved] 吗？"
-- Header: "更新索引"
 - Options: `[A] 是 — 更新它` / `[B] 否 — 保持原样`
 
 Use a third `AskUserQuestion`:
 - Prompt: "我可以把本次评审摘要追加到 `design/gdd/reviews/[doc-name]-review-log.md` 吗？这会建立一份修订历史，让今后的重审可以追溯变更。"
-- Header: "追加评审日志"
 - Options: `[A] 是 — 追加到 review log` / `[B] 否 — 跳过`
 
 If yes, append an entry in this format:

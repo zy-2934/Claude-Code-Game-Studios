@@ -38,7 +38,6 @@ Store these findings internally to validate the user's self-assessment and tailo
 This is the first thing the user sees. Use `AskUserQuestion` with these exact options so the user can click rather than type:
 
 - **Prompt**: "欢迎使用 Claude Code Game Studios！在给出任何建议之前，我想先了解你当前的起点。你现在对自己的游戏想法处于什么阶段？"
-- **Header**: "起点"
 - **Options**:
   - `A) 还没有想法` — 我完全没有游戏概念。想先探索一下，看看能做什么。
   - `B) 模糊想法` — 我脑海里有一个大致的主题、感觉或类型（比如"跟太空有关的东西"或"一款温馨的农场游戏"），但还没有具体内容。
@@ -116,7 +115,6 @@ The user needs creative exploration before anything else.
 1. Ask them to describe their concept in one sentence — genre and core mechanic. Use plain text, not AskUserQuestion (it's an open response).
 2. Acknowledge the concept, then use `AskUserQuestion` to offer two paths:
    - **Prompt**: "你想如何推进？"
-   - **Header**: "推进方式"
    - **Options**:
      - `先正式整理` — 运行 `/brainstorm [concept]` 把它结构化为正式的游戏概念文档
      - `直接开始` — 现在就去 `/setup-engine`，之后再手动编写 GDD
@@ -196,7 +194,6 @@ Check if `production/review-mode.txt` already exists.
 **If it does not exist**: Use `AskUserQuestion`:
 
 - **Prompt**: "一项设置选择：在你走完整个工作流时，希望接受多少设计审核？"
-- **Header**: "审核强度"
 - **Options**:
   - `完整审核` — Director 专家在每个关键工作流步骤都进行审核。适合团队、学习工作流，或希望对每个决策都获得详尽反馈的场景。
   - `精简审核（推荐）` — Director 仅在阶段闸口转换（/gate-check）时介入，跳过单技能审核。适合个人开发者和小团队的平衡方案。
@@ -218,7 +215,6 @@ Create the `production/` directory if it does not exist.
 After presenting the recommended path, use `AskUserQuestion` to ask the user which step they'd like to take first. Never auto-run the next skill.
 
 - **Prompt**: "你想从 [recommended first step] 开始吗？"
-- **Header**: "下一步"
 - **Options**:
   - `好，从 [recommended first step] 开始`
   - `我想先做别的事`

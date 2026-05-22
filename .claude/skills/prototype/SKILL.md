@@ -42,7 +42,6 @@ at the bottom of this skill.
 Otherwise, use `AskUserQuestion` to confirm intent before proceeding:
 
 - **Prompt**: "你想如何使用本次 prototype 会话？"
-- **Header**: "prototype 用途"
 - **Options**:
   - `为这个概念做 prototype` — 在写 GDD 之前快速搭一个一次性构建验证核心想法是否好玩（1–3 天）
   - `跳过 — 概念已被证明` — 我已有足够证据说明它可行，直接记录并进入设计
@@ -232,7 +231,6 @@ Assess which path best fits the hypothesis, then use `AskUserQuestion` with your
 recommendation pre-stated:
 
 - **Prompt**: "你想使用哪条 prototype 路径？（基于你的概念，我推荐 [path] — [one sentence reason]。）"
-- **Header**: "prototype 路径"
 - **Options**:
   - `HTML — 浏览器 prototype` — 益智、卡牌、回合制、策略、idle 类。双击打开，无需安装。85–90% 可靠。**不适合动作类游戏** — 浏览器延迟会扭曲对手感的判断。
   - `Engine — 原生 prototype` — 动作、平台、物理，或任何"手感就是假设"的游戏。50–60% 一次成功；2–4 轮迭代是常态。需要安装引擎。

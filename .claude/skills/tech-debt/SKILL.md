@@ -59,7 +59,6 @@ Ask the user for the description, affected files, and impact if left unfixed (pl
 
 Then use `AskUserQuestion` to collect the **category**:
 - Prompt: "这项技术债属于哪一类？"
-- Header: "债务类别"
 - Options:
   - `[A] Architecture Debt——抽象错误、缺失模式、耦合问题`
   - `[B] Code Quality Debt——重复、复杂度、命名、缺少类型`
@@ -70,7 +69,6 @@ Then use `AskUserQuestion` to collect the **category**:
 
 Then use `AskUserQuestion` to collect the **estimated fix effort**:
 - Prompt: "修复这项工作的预估工作量？"
-- Header: "修复工作量"
 - Options:
   - `[A] S——小（不到 1 天）`
   - `[B] M——中（1–3 天）`

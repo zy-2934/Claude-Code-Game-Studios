@@ -83,7 +83,6 @@ Present the qa-lead's full strategy to the user, then use `AskUserQuestion`:
 
 ```
 question: "QA 策略审核"
-header: "策略审核"
 options:
   - "看起来不错 —— 进入测试计划"
   - "推进前先调整 story 类型"
@@ -139,7 +138,6 @@ Use `AskUserQuestion` per story group (batched 3-4 at a time):
 
 ```
 question: "[Story Group] 的测试用例就绪。在开始手动 QA 前 review？"
-header: "用例审核"
 options:
   - "批准 —— 对这些 story 开始手动 QA"
   - "修订 [story name] 的测试用例"
@@ -154,7 +152,6 @@ Batch stories into groups of 3-4 and use `AskUserQuestion` for each:
 
 ```
 question: "手动 QA —— [Story Title]\n[brief description of what to test]"
-header: "QA 判定"
 options:
   - "PASS —— 所有验收标准已验证"
   - "PASS WITH NOTES —— 发现小问题（之后描述）"

@@ -67,7 +67,6 @@ For each open bug, evaluate:
 
 Use `AskUserQuestion`:
 - Prompt: "根据未解决的 bug 和认证反馈，下面是建议的 day-one patch 范围。是否合适？"
-- Header: "Patch 范围"
 - Show: table of included bugs (ID, severity, description, estimated effort)
 - Show: table of deferred bugs (ID, severity, reason deferred)
 - Options: `[A] 批准该范围` / `[B] 调整 —— 我想增删条目` / `[C] 不需要 day-one patch`
@@ -214,7 +213,6 @@ After the patch record is written:
 
 Use `AskUserQuestion`:
 - Prompt: "Day-one patch 完成。下一步？"
-- Header: "下一步"
 - Options:
   - `[A] 运行 /patch-notes —— 生成面向玩家的补丁说明`
   - `[B] 运行 /bug-report —— 登记部署后发现的问题`

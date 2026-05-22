@@ -42,7 +42,6 @@ Determine scope from the argument:
 - **`story: [path]`** — validate that the path exists and load that single file.
 - **No argument** — use `AskUserQuestion`:
   - "本次 QA 计划的范围？"
-  - Header: "计划范围"
   - Options: "当前 sprint", "某个功能（输入系统名）",
     "某个 story（输入路径）", "完整 epic"
 
@@ -238,7 +237,6 @@ then ask two questions together using `AskUserQuestion`:
 
 ```
 question: "准备写入 QA 计划。选择输出项："
-header: "QA 输出"
 multiSelect: true
 options:
   - "把 QA 计划写入 production/qa/qa-plan-[sprint-slug]-[date].md"

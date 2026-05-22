@@ -120,7 +120,6 @@ If there are untraced requirements:
 
 Use `AskUserQuestion`:
 - Prompt: "要创建 Epic：[name] 吗？"
-- Header: "创建 Epic"
 - Options:
   - `[A] 是，创建它`
   - `[B] 跳过这个 epic`
@@ -145,7 +144,6 @@ If UNREALISTIC: offer to revise epic boundaries (split overscoped or merge under
 
 If CONCERNS, use `AskUserQuestion`:
 - Prompt: "Producer 对 epic 结构提出了担忧。你想如何处理？"
-- Header: "处理担忧"
 - Options:
   - `[A] 按计划推进 —— 我接受 producer 的担忧`
   - `[B] 修订 epic 边界 —— 按建议拆分或合并`

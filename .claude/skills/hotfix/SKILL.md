@@ -21,7 +21,6 @@ Read the bug description or ID. Assess severity using these criteria:
 
 Confirm with `AskUserQuestion`:
 - Prompt: "我评估它为 **[assessed severity]** —— [brief rationale]。请确认严重等级以推进："
-- Header: "严重等级"
 - Options:
   - `[A] S1 (Critical) —— 游戏无法运行、数据丢失或安全问题`
   - `[B] S2 (Major) —— 重大功能损坏，但有解决方法`
@@ -79,7 +78,6 @@ If this command fails or returns empty: note "Not a git repository — create th
 
 If the check passes, use `AskUserQuestion` before creating the branch:
 - Prompt: "准备从 [base-ref] 创建 hotfix 分支 'hotfix/[short-name]'？"
-- Header: "创建分支"
 - Options:
   - `[A] 是 —— 创建分支`
   - `[B] 使用其他 base ref —— 我来指定`
@@ -178,7 +176,6 @@ Schedule a post-incident review within 48 hours using `/retrospective hotfix`.
 
 Use `AskUserQuestion`:
 - Prompt: "Hotfix 完成。下一步？"
-- Header: "下一步"
 - Options:
   - `[A] 运行 /smoke-check 验证修复`
   - `[B] 运行 /patch-notes 为此 hotfix 撰写说明`

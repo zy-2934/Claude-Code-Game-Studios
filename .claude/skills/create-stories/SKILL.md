@@ -121,7 +121,6 @@ Present the QA lead's assessment. For each story flagged as GAPS or INADEQUATE, 
 **Before generating test specs**: Glob `production/qa/qa-plan-*.md` for the most recently modified file. If found, read it and check whether it contains test case specifications for the stories in this epic (look for story titles or slugs in the plan's Automated Tests Required section). If matching specs exist:
 - Use `AskUserQuestion`:
   - Prompt: "在 [path] 找到了 QA 计划，其中包含部分 story 的测试用例规格。你想如何处理？"
-  - Header: "QA 规格处理"
   - Options:
     - `使用 QA 计划中的现有规格 —— 嵌入到 story 文件（推荐）`
     - `让 qa-lead 重新生成规格 —— 覆盖 QA 计划`
@@ -176,7 +175,6 @@ Story 003: [title] — Visual/Feel — ADR-NNNN
 
 Use `AskUserQuestion`:
 - Prompt: "我可以把这 [N] 个 story 写入 `production/epics/[epic-slug]/` 吗？"
-- Header: "写入 Story"
 - Options: `[A] 是 —— 写入全部 [N] 个 story` / `[B] 暂不 —— 我想先 review 或调整`
 
 ---
@@ -312,7 +310,6 @@ Check:
 
 Widget:
 - Prompt: "已把 [N] 个 story 写入 `production/epics/[epic-slug]/`。下一步？"
-- Header: "下一步"
 - Options (include all that apply):
   - `[A] 开始实现 —— 运行 /story-readiness [first-story-path]`（推荐）
   - `[B] 为 [next-epic-slug] 创建 story —— 运行 /create-stories [slug]`（仅当其他 epic 还没有 story 时）

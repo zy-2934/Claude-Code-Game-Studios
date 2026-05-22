@@ -33,19 +33,22 @@ When editing a skill or agent file, translate these strings to Chinese:
 
 ## Header conventions
 
-Many existing skills omit the `**Header**` field, leaving the model to invent
-one at runtime — this is a likely contributor to schema-construction errors.
+**DO NOT add `Header:` lines to skill files during translation.** Earlier we
+tried to "harden" schemas by adding explicit `- Header: "..."` bullets next to
+`- Prompt:` and `- Options:` — this is an anti-pattern. Listing three fields
+side-by-side makes the description look like a flat object, and the model then
+constructs `{ prompt, header, options }` at the top level, missing the required
+outer `questions: [...]` array wrapper. The exact error:
 
-**When adding a Header line during translation**: use 4–6 Chinese characters,
-under 12 chars total (the AskUserQuestion schema limit). Examples already in
-use:
+```
+InputValidationError: AskUserQuestion failed due to the following issue:
+The required parameter `questions` is missing.
+```
 
-| Context | Header |
-|---|---|
-| Starting state / onboarding | `起点` |
-| Choosing how to proceed | `推进方式` |
-| Selecting review intensity | `审核强度` |
-| Picking the next step | `下一步` |
+**Correct approach**: leave the original 2-bullet format (`Prompt` + `Options`)
+unchanged in structure, and only translate the string values. The model will
+generate a Chinese `header` value at runtime — that is fine. Never name the
+`Header` field explicitly in skill prose.
 
 ## Common verdicts and decisions
 

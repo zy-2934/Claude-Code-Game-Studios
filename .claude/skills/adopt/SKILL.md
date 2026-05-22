@@ -66,7 +66,6 @@ Use the same heuristic as `/project-stage-detect`:
 
 If the project appears fresh (no artifacts at all), use `AskUserQuestion`:
 - "看起来这是一个全新项目 —— 未发现任何已有产物。`/adopt` 用于迁移已有工作的项目。你想做什么？"
-- Header: "全新项目"
 - Options:
   - "运行 `/start` —— 开始首次引导式上手"
   - "我的产物在非标准位置 —— 帮我找一下"
@@ -274,7 +273,6 @@ If a prior adoption plan was detected in Phase 1, add a note:
 
 Use `AskUserQuestion`:
 - "准备好写入迁移计划了吗？"
-- Header: "写入计划"
 - Options:
   - "是 —— 写入 `docs/adoption-plan-[date].md`"
   - "先展示完整计划预览（暂不写入）"
@@ -378,7 +376,6 @@ After writing the adoption plan (or if the user cancels writing), check whether
 **If it does not exist**: Use `AskUserQuestion`:
 
 - **Prompt**: "还有一个设置步骤：在你走完整个工作流时，希望接受多少设计审核？"
-- **Header**: "审核强度"
 - **Options**:
   - `完整审核` —— Director 专家在每个关键工作流步骤都进行审核。适合团队、学习工作流，或希望对每个决策都获得详尽反馈的场景。
   - `精简审核（推荐）` —— Director 仅在阶段闸口转换（/gate-check）时介入，跳过单技能审核。适合个人开发者和小团队的平衡方案。
@@ -404,7 +401,6 @@ Use `AskUserQuestion`:
 - "最紧迫的修复是 `systems-index.md` —— 有 [N] 行带括号的 status 值
   （例如 `Needs Revision (see notes)`），它们正在阻断 /gate-check、
   /create-stories、/architecture-review。我可以就地修复。"
-- Header: "状态修复"
 - Options:
   - "现在修复 —— 编辑 systems-index.md"
   - "我自己修复"
@@ -415,7 +411,6 @@ Use `AskUserQuestion`:
 - "最紧迫的修复是为 [N] 个 ADR 添加 `## Status`：[list filenames]。
   缺少它，/story-readiness 会静默通过所有 ADR 检查。从
   [first affected filename] 开始？"
-- Header: "ADR 补遗"
 - Options:
   - "是 —— 现在补 [first affected filename]"
   - "依次补全所有 [N] 个 ADR"
@@ -426,7 +421,6 @@ Use `AskUserQuestion`:
 - "最紧迫的缺口是 [N] 个 GDD 缺少 Acceptance Criteria：
   [list filenames]。缺少它，/create-stories 无法生成 story。
   从 [highest-priority GDD filename] 开始？"
-- Header: "AC 补遗"
 - Options:
   - "是 —— 现在为 [GDD filename] 添加 Acceptance Criteria"
   - "依次处理所有 [N] 个 GDD"
@@ -435,7 +429,6 @@ Use `AskUserQuestion`:
 **If no BLOCKING or HIGH gaps exist:**
 Use `AskUserQuestion`:
 - "无阻断性缺口 —— 该项目与模板兼容。下一步？"
-- Header: "下一步"
 - Options:
   - "带我过一遍中优先级改进"
   - "运行 /project-stage-detect 做更全面的健康检查"

@@ -12,7 +12,6 @@ model: sonnet
 If no argument is provided, check whether `design/assets/entity-inventory.md` exists:
 - If it exists: read it, find the first entity or screen with status "Needed" but no spec file yet, and use `AskUserQuestion`:
   - Prompt: "下一个未生成 spec 的项是 **[name]**。为它生成 spec 吗？"
-  - Header: "下一项"
   - Options: `[A] 是 —— 为 [name] 生成 spec` / `[B] 换一项` / `[C] 暂停`
 - If no entity inventory: check `design/assets/asset-manifest.md`. If manifest exists, same flow above but reading from manifest.
 - If neither exists: **start the Entity & Screen Inventory flow** (Phase 0b below) rather than failing.
@@ -52,7 +51,6 @@ For each item, note the source doc it was found in.
 ### Step 3 — Present and collaborate
 Present the full proposed inventory to the user in conversation. Then use `AskUserQuestion`:
 - Prompt: "我在你的 GDD 和 art bible 中识别出 **[N] 个视觉实体 和 [N] 个 UI 屏幕**。review 这个列表 —— 还缺什么，哪些不需要？"
-- Header: "Inventory 确认"
 - Options:
   - `[A] 看起来不错 —— 保存这份 inventory`
   - `[B] 添加我描述的条目`
@@ -138,7 +136,6 @@ Read all source material **before** asking the user anything.
 - **character** or **entity**: Read `design/narrative/characters/[target-name].md` or search `design/narrative/` and `design/assets/entity-inventory.md` for a matching entry. Extract visual description, role, and any specified distinguishing features.
   - **If no source doc exists**: do not fail. Instead, use `AskUserQuestion`:
     - Prompt: "未找到 **[name]** 的档案。简单描述一下 —— 一两句话就够。"
-    - Header: "实体描述"
     - Options: `[A] 现在描述` / `[B] 跳过此实体` / `[C] 暂停`
     - If [A]: the user's description becomes the source. Brief answers produce concise specs; detailed answers produce detailed specs. Accept whatever level of detail the user provides and work from it.
 
@@ -175,7 +172,6 @@ Group assets into categories:
 
 Present the full identified list to the user. Use `AskUserQuestion`:
 - Prompt: "我在 **[target]** 的 [N] 个类别下识别出 [N] 项资源。在 spec 之前 review："
-- Header: "资源清单"
 - Show the grouped list in conversation text first
 - Options: `[A] 推进 —— 为全部生成 spec` / `[B] 移除一些资源` / `[C] 添加我遗漏的资源` / `[D] 调整类别`
 
@@ -236,7 +232,6 @@ Combine the agent outputs into a draft spec per asset. Present all specs in conv
 
 After presenting all specs, use `AskUserQuestion`:
 - Prompt: "**[target]** 的资源 spec —— 共 [N] 项。review 完毕？"
-- Header: "Spec 确认"
 - Options: `[A] 全部批准 —— 写入文件` / `[B] 修改某项资源` / `[C] 换方向重新生成`
 
 If [B]: ask which asset and what to change. Revise inline and re-present. Do NOT re-spawn agents for minor text revisions — only re-spawn if the visual direction itself needs to change.
@@ -293,7 +288,6 @@ Ask: "May I update `design/assets/asset-manifest.md`?"
 
 Use `AskUserQuestion`:
 - Prompt: "**[target]** 的资源 spec 已完成。下一步？"
-- Header: "下一步"
 - Options:
   - `[A] 为另一个系统生成 spec —— /asset-spec system:[next-system]`
   - `[B] 为关卡生成 spec —— /asset-spec level:[level-name]`

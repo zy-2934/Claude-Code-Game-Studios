@@ -189,7 +189,6 @@ Use `AskUserQuestion` to batch-verify. Keep to at most 3 calls.
 **Batch 1 — Core stability (always run):**
 ```
 question: "核心稳定性——勾选任何失败项（全部通过则不勾选）："
-header: "核心稳定性"
 multiSelect: true
 options:
   - "游戏无法启动，或在到达主菜单前崩溃"
@@ -203,7 +202,6 @@ For any selected item, ask the user to briefly describe what failed before gener
 **Batch 2 — Sprint changes and regression (always run):**
 ```
 question: "Sprint 变更与回归——勾选任何失败项（全部通过则不勾选）："
-header: "Sprint 回归"
 multiSelect: true
 options:
   - "[Primary mechanic this sprint] — 失败"
@@ -217,7 +215,6 @@ For any selected item, ask the user to briefly describe what broke before genera
 **Batch 3 — Data integrity and performance (run unless `quick` argument):**
 ```
 question: "数据完整性与性能——勾选任何失败或被跳过的项（全部通过则不勾选）："
-header: "数据与性能"
 multiSelect: true
 options:
   - "存档 / 读档——失败（观察到数据丢失或损坏）"
@@ -235,7 +232,6 @@ Record each response verbatim for the Phase 5 report.
 **PC platform** (`--platform pc` or `--platform all`):
 ```
 question: "PC 平台——勾选任何失败项（全部通过则不勾选）："
-header: "PC 平台"
 multiSelect: true
 options:
   - "键盘控制——失败（请在之后描述问题）"
@@ -249,7 +245,6 @@ For any selected item, ask the user to briefly describe what failed before gener
 **Console platform** (`--platform console` or `--platform all`):
 ```
 question: "主机平台——勾选任何失败项（全部通过则不勾选）："
-header: "主机平台"
 multiSelect: true
 options:
   - "手柄输入——失败（请在之后描述问题）"
@@ -263,7 +258,6 @@ For any selected item, ask the user to briefly describe what failed before gener
 **Mobile platform** (`--platform mobile` or `--platform all`):
 ```
 question: "移动平台——勾选任何失败项（全部通过则不勾选）："
-header: "移动平台"
 multiSelect: true
 options:
   - "触摸控制——失败（请在之后描述问题）"

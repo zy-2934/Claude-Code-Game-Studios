@@ -289,7 +289,6 @@ Silently append to `production/session-state/active.md` (create the file if it d
 Then close with an `AskUserQuestion` widget:
 
 - **Prompt**: "一致性检查完成 —— 发现 [N] 个冲突。下一步？"
-- **Header**: "处理冲突"
 - **Options**:
   - `[A] 立即修复最高优先级的冲突`
   - `[B] 保存完整报告并暂停`

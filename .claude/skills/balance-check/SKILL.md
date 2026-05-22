@@ -105,7 +105,6 @@ Run domain-specific checks:
 
 After presenting the report, use `AskUserQuestion`:
 - Prompt: "平衡性检查完成。下一步？"
-- Header: "下一步"
 - Options:
   - `[A] 立即修复最高优先级问题 —— 带我过一遍`
   - `[B] 把报告保存到 design/balance/balance-check-[system]-[date].md`

@@ -50,7 +50,6 @@ If there is no argument, ask the user to describe the change (plain text prompt)
 
 Present the inferred classification using `AskUserQuestion`:
 - Prompt: "我把它归类为 **[inferred type]** —— [brief reason]。是否准确？"
-- Header: "变更分类"
 - Options:
   - `[A] 是 —— [inferred type] 正确`
   - `[B] Tuning —— 仅调整数值或平衡值`
@@ -227,7 +226,6 @@ tracking threshold — quick spec is sufficient."]
 
 Present the draft to the user in full. Then use `AskUserQuestion`:
 - Prompt: "这是 Quick Design Spec 草稿。你想如何推进？"
-- Header: "草稿处理"
 - Options:
   - `[A] 批准 —— 按草稿写入`
   - `[B] 修订 —— 我来描述要改什么`

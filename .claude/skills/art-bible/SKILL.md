@@ -63,10 +63,8 @@ Present the session context and ask two questions before authoring anything:
 
 Use `AskUserQuestion` with two tabs:
 - Tab **"Scope"** — "今天需要撰写哪些章节？"
-  Header: "撰写范围"
   Options: `完整 bible —— 全部 9 个章节` / `视觉核心（仅 1–4 章）` / `仅资源标准（第 8 章）` / `续写 —— 补全缺失章节`
 - Tab **"References"** — "你是否有定义视觉方向的参考游戏、电影或艺术？"
-  Header: "参考资料"
   (Free text — let the user type specific titles. Do NOT preset options here.)
 
 If the game-concept.md has a Visual Identity Anchor section, note it:
@@ -92,7 +90,6 @@ If a visual anchor exists from game-concept.md: present it and ask:
 - Ask: "Draft a Visual Identity Statement for this game. Provide: (1) a one-line visual rule that could resolve any visual decision ambiguity, (2) 2–3 supporting visual principles, each with a one-sentence design test ('when X is ambiguous, this principle says choose Y'). Anchor all principles directly in the stated pillars — each principle must serve a specific pillar."
 
 Present the art-director's draft to the user. Use `AskUserQuestion`:
-- Header: "确认草稿"
 - Options: `[A] 锁定` / `[B] 修订一句话规则` / `[C] 修订某条支撑原则` / `[D] 我来描述自己的方向`
 
 Write the approved section to file immediately.

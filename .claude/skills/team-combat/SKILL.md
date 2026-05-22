@@ -77,7 +77,6 @@ Then spawn the **primary engine specialist** to validate the proposed architectu
 
 Use `AskUserQuestion`:
 - Prompt: "架构草图完成。批准后开始并行实现。"
-- Header: "架构批准"
 - Options:
   - `[A] 推进 —— 启动实现 agent（gameplay-programmer、ai-programmer、technical-artist、sound-designer）`
   - `[B] 先修订架构 —— 我会描述要改什么`

@@ -336,7 +336,6 @@ Pre-Freeze Checklist
 
 Use `AskUserQuestion`:
 - Prompt: "以上各项是否都已确认？调用 string freeze 将锁定源表。"
-- Header: "字符串冻结"
 - Options: `[A] 是——立即调用 string freeze` / `[B] 否——我还有字符串需要补充`
 
 If [A]: Write `production/localization/freeze-status.md`:

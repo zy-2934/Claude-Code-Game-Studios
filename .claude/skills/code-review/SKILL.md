@@ -173,7 +173,6 @@ This skill is read-only — no files are written.
 
 Use `AskUserQuestion`:
 - Prompt: "代码审查完成 —— 判定：[APPROVED / CHANGES REQUIRED / MAJOR REVISION]。你想如何推进？"
-- Header: "审查处理"
 - Options (adjust based on verdict):
   - If APPROVED:
     - `[A] 运行 /story-done 将 story 标记为完成`
