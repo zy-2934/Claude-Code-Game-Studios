@@ -7,8 +7,6 @@ allowed-tools: Read, Glob, Grep
 model: sonnet
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 ## Phase 1: Understand the Task
 
 Read the task description from the argument. If the description is too vague to estimate meaningfully, ask for clarification before proceeding.

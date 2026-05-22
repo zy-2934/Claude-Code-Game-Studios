@@ -8,8 +8,6 @@ model: sonnet
 agent: security-engineer
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 # Security Audit
 
 Security is not optional for any shipped game. Even single-player games have

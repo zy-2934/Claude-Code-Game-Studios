@@ -8,8 +8,6 @@ model: sonnet
 agent: economy-designer
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 ## Phase 1: Identify Balance Domain
 
 Determine the balance domain from `$ARGUMENTS[0]`:

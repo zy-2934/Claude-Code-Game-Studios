@@ -7,8 +7,6 @@ allowed-tools: Read, Glob, Grep, Write, Bash, AskUserQuestion, Task
 model: opus
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 # Review All GDDs
 
 This skill reads every system GDD simultaneously and performs two complementary

@@ -8,8 +8,6 @@ model: sonnet
 agent: lead-programmer
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 # Create Stories
 
 A story is a single implementable behaviour — small enough to complete in one

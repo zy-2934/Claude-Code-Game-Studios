@@ -7,8 +7,6 @@ allowed-tools: Read, Glob, Grep, Write, Bash
 model: sonnet
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 # Skill Improve
 
 Runs an improvement loop on a single skill:

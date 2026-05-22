@@ -8,8 +8,6 @@ model: sonnet
 # Read-only diagnostic skill — no specialist agent delegation needed
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 ## Phase 1: Read Standards
 
 Read the art bible or asset standards from the relevant design docs and the CLAUDE.md naming conventions.

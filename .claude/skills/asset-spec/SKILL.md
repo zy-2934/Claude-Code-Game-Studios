@@ -7,8 +7,6 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion
 model: sonnet
 ---
 
-**Language Policy**: Code, identifiers, file paths, and file contents stay in English. All user-facing replies, explanations, and commit/PR descriptions are in Chinese (中文). See [`.claude/docs/language-policy.md`](.claude/docs/language-policy.md).
-
 If no argument is provided, check whether `design/assets/entity-inventory.md` exists:
 - If it exists: read it, find the first entity or screen with status "Needed" but no spec file yet, and use `AskUserQuestion`:
   - Prompt: "下一个未生成 spec 的项是 **[name]**。为它生成 spec 吗？"
