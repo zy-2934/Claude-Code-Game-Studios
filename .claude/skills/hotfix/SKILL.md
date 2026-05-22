@@ -20,11 +20,12 @@ Read the bug description or ID. Assess severity using these criteria:
 - **S3 or lower**: Minor issue — normal bug fix workflow applies
 
 Confirm with `AskUserQuestion`:
-- Prompt: "I've assessed this as **[assessed severity]** — [brief rationale]. Confirm severity to proceed:"
+- Prompt: "我评估它为 **[assessed severity]** —— [brief rationale]。请确认严重等级以推进："
+- Header: "严重等级"
 - Options:
-  - `[A] S1 (Critical) — game unplayable, data loss, or security issue`
-  - `[B] S2 (Major) — significant feature broken, workaround exists`
-  - `[C] S3 or lower — redirect to normal bug fix workflow`
+  - `[A] S1 (Critical) —— 游戏无法运行、数据丢失或安全问题`
+  - `[B] S2 (Major) —— 重大功能损坏，但有解决方法`
+  - `[C] S3 或更低 —— 转入正常 bug 修复流程`
 
 If [C]: stop. Verdict: **REDIRECTED** — use the normal bug fix workflow for S3 and below.
 
@@ -77,11 +78,12 @@ Check whether this is a git repository:
 If this command fails or returns empty: note "Not a git repository — create the branch manually." and skip branch creation.
 
 If the check passes, use `AskUserQuestion` before creating the branch:
-- Prompt: "Ready to create hotfix branch 'hotfix/[short-name]' from [base-ref]?"
+- Prompt: "准备从 [base-ref] 创建 hotfix 分支 'hotfix/[short-name]'？"
+- Header: "创建分支"
 - Options:
-  - `[A] Yes — create branch`
-  - `[B] Use a different base ref — I'll specify it`
-  - `[C] Skip — I'll create the branch myself`
+  - `[A] 是 —— 创建分支`
+  - `[B] 使用其他 base ref —— 我来指定`
+  - `[C] 跳过 —— 我自己创建分支`
 
 Only run `git checkout -b hotfix/[short-name] [base-ref]` if user selects [A]. If [B]: ask the user for the base ref, then run the command with that ref. If [C]: skip branch creation and proceed to Phase 4.
 
@@ -175,8 +177,9 @@ If STILL PRESENT: the hotfix failed — immediately re-open, assess rollback, an
 Schedule a post-incident review within 48 hours using `/retrospective hotfix`.
 
 Use `AskUserQuestion`:
-- Prompt: "Hotfix complete. What's the next step?"
+- Prompt: "Hotfix 完成。下一步？"
+- Header: "下一步"
 - Options:
-  - `[A] Run /smoke-check to verify the fix`
-  - `[B] Run /patch-notes to document this hotfix`
-  - `[C] Stop here`
+  - `[A] 运行 /smoke-check 验证修复`
+  - `[B] 运行 /patch-notes 为此 hotfix 撰写说明`
+  - `[C] 暂停`

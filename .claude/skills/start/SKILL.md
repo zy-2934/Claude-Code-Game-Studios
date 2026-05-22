@@ -37,12 +37,13 @@ Store these findings internally to validate the user's self-assessment and tailo
 
 This is the first thing the user sees. Use `AskUserQuestion` with these exact options so the user can click rather than type:
 
-- **Prompt**: "Welcome to Claude Code Game Studios! Before I suggest anything, I'd like to understand where you're starting from. Where are you at with your game idea right now?"
+- **Prompt**: "欢迎使用 Claude Code Game Studios！在给出任何建议之前，我想先了解你当前的起点。你现在对自己的游戏想法处于什么阶段？"
+- **Header**: "起点"
 - **Options**:
-  - `A) No idea yet` — I don't have a game concept at all. I want to explore and figure out what to make.
-  - `B) Vague idea` — I have a rough theme, feeling, or genre in mind (e.g., "something with space" or "a cozy farming game") but nothing concrete.
-  - `C) Clear concept` — I know the core idea — genre, basic mechanics, maybe a pitch sentence — but haven't formalized it into documents yet.
-  - `D) Existing work` — I already have design docs, prototypes, code, or significant planning done. I want to organize or continue the work.
+  - `A) 还没有想法` — 我完全没有游戏概念。想先探索一下，看看能做什么。
+  - `B) 模糊想法` — 我脑海里有一个大致的主题、感觉或类型（比如"跟太空有关的东西"或"一款温馨的农场游戏"），但还没有具体内容。
+  - `C) 清晰概念` — 我知道核心想法——类型、基础机制，也许还有一句简介——但还没有整理成文档。
+  - `D) 已有工作` — 我已经有设计文档、原型、代码或大量前期规划。我想整理或继续推进这些工作。
 
 Wait for the user's selection. Do not proceed until they respond.
 
@@ -114,10 +115,11 @@ The user needs creative exploration before anything else.
 
 1. Ask them to describe their concept in one sentence — genre and core mechanic. Use plain text, not AskUserQuestion (it's an open response).
 2. Acknowledge the concept, then use `AskUserQuestion` to offer two paths:
-   - **Prompt**: "How would you like to proceed?"
+   - **Prompt**: "你想如何推进？"
+   - **Header**: "推进方式"
    - **Options**:
-     - `Formalize it first` — Run `/brainstorm [concept]` to structure it into a proper game concept document
-     - `Jump straight in` — Go to `/setup-engine` now and write the GDD manually afterward
+     - `先正式整理` — 运行 `/brainstorm [concept]` 把它结构化为正式的游戏概念文档
+     - `直接开始` — 现在就去 `/setup-engine`，之后再手动编写 GDD
 3. Show the recommended path:
    **Concept phase:**
    - `/brainstorm` or `/setup-engine` — (their pick from step 2)
@@ -193,18 +195,19 @@ Check if `production/review-mode.txt` already exists.
 
 **If it does not exist**: Use `AskUserQuestion`:
 
-- **Prompt**: "One setup choice: how much design review would you want as you work through the workflow?"
+- **Prompt**: "一项设置选择：在你走完整个工作流时，希望接受多少设计审核？"
+- **Header**: "审核强度"
 - **Options**:
-  - `Full` — Director specialists review at each key workflow step. Best for teams, learning the workflow, or when you want thorough feedback on every decision.
-  - `Lean (recommended)` — Directors only at phase gate transitions (/gate-check). Skips per-skill reviews. Balanced approach for solo devs and small teams.
-  - `Solo` — No director reviews at all. Maximum speed. Best for game jams, prototypes, or if the reviews feel like overhead.
+  - `完整审核` — Director 专家在每个关键工作流步骤都进行审核。适合团队、学习工作流，或希望对每个决策都获得详尽反馈的场景。
+  - `精简审核（推荐）` — Director 仅在阶段闸口转换（/gate-check）时介入，跳过单技能审核。适合个人开发者和小团队的平衡方案。
+  - `独立模式` — 不进行 Director 审核，最大速度。适合 game jam、原型，或者觉得审核是负担的场景。
 
 Write the choice to `production/review-mode.txt` immediately after the user
 selects — no separate "May I write?" needed, as the write is a direct
 consequence of the selection:
-- `Full` → write `full`
-- `Lean (recommended)` → write `lean`
-- `Solo` → write `solo`
+- `完整审核` → write `full`
+- `精简审核（推荐）` → write `lean`
+- `独立模式` → write `solo`
 
 Create the `production/` directory if it does not exist.
 
@@ -214,10 +217,11 @@ Create the `production/` directory if it does not exist.
 
 After presenting the recommended path, use `AskUserQuestion` to ask the user which step they'd like to take first. Never auto-run the next skill.
 
-- **Prompt**: "Would you like to start with [recommended first step]?"
+- **Prompt**: "你想从 [recommended first step] 开始吗？"
+- **Header**: "下一步"
 - **Options**:
-  - `Yes, let's start with [recommended first step]`
-  - `I'd like to do something else first`
+  - `好，从 [recommended first step] 开始`
+  - `我想先做别的事`
 
 ---
 

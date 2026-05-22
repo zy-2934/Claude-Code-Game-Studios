@@ -172,15 +172,16 @@ This skill is read-only — no files are written.
 ## Phase 9: Next Steps
 
 Use `AskUserQuestion`:
-- Prompt: "Code review complete — verdict: [APPROVED / CHANGES REQUIRED / MAJOR REVISION]. How would you like to proceed?"
+- Prompt: "代码审查完成 —— 判定：[APPROVED / CHANGES REQUIRED / MAJOR REVISION]。你想如何推进？"
+- Header: "审查处理"
 - Options (adjust based on verdict):
   - If APPROVED:
-    - `[A] Run /story-done to mark the story complete`
-    - `[B] Stop here`
+    - `[A] 运行 /story-done 将 story 标记为完成`
+    - `[B] 暂停`
   - If CHANGES REQUIRED or MAJOR REVISION:
-    - `[A] Fix the issues and re-run /code-review`
-    - `[B] Run /story-done anyway with noted exceptions`
-    - `[C] Stop here`
+    - `[A] 修复问题并重新运行 /code-review`
+    - `[B] 带例外说明仍然运行 /story-done`
+    - `[C] 暂停`
 
 If an ARCHITECTURAL VIOLATION is found:
 - If the violation contradicts an **existing ADR**: fix the implementation to comply with `docs/architecture/[adr-file].md`. If the design has legitimately changed, run `/architecture-decision` to formally *revise* the existing ADR — do not create a competing one.

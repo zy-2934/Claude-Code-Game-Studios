@@ -41,11 +41,12 @@ at the bottom of this skill.
 
 Otherwise, use `AskUserQuestion` to confirm intent before proceeding:
 
-- **Prompt**: "How would you like to use this prototype session?"
+- **Prompt**: "你想如何使用本次 prototype 会话？"
+- **Header**: "prototype 用途"
 - **Options**:
-  - `Prototype this concept` — build a throwaway build to validate the core idea is fun before writing GDDs (1–3 days)
-  - `Skip — concept already proven` — I have enough evidence this works; log it and proceed directly to design
-  - `Mid-production spike` — I'm already in Production and want to test a specific mechanic or technical question quickly (~4 hours, no phase gate implications)
+  - `为这个概念做 prototype` — 在写 GDD 之前快速搭一个一次性构建验证核心想法是否好玩（1–3 天）
+  - `跳过 — 概念已被证明` — 我已有足够证据说明它可行，直接记录并进入设计
+  - `Production 中期 spike` — 我已经在 Production 阶段，想快速测试某个机制或技术问题（约 4 小时，不影响阶段闸口）
 
 **If "Skip — concept already proven":**
 Ask (plain text, not a widget): "What evidence do you have that the concept works?"
@@ -230,11 +231,12 @@ the player feels something? If it takes more than 3-4 exchanges, the opening is 
 Assess which path best fits the hypothesis, then use `AskUserQuestion` with your
 recommendation pre-stated:
 
-- **Prompt**: "Which prototype path would you like to use? (Based on your concept, I'd recommend [path] — [one sentence reason].)"
+- **Prompt**: "你想使用哪条 prototype 路径？（基于你的概念，我推荐 [path] — [one sentence reason]。）"
+- **Header**: "prototype 路径"
 - **Options**:
-  - `HTML — browser prototype` — puzzle, card, turn-based, strategy, idle. Opens by double-clicking, no install. 85–90% reliable. **Not suitable for action games** — browser latency lies about feel.
-  - `Engine — native prototype` — action, platformer, physics, or anything where feel IS the hypothesis. 50–60% one-shot; 2–4 iteration rounds are normal. Requires engine installed.
-  - `Paper — rules document + play log` — strategy, economy, logic, board-game-style mechanics. 100% reliable. Cannot validate feel.
+  - `HTML — 浏览器 prototype` — 益智、卡牌、回合制、策略、idle 类。双击打开，无需安装。85–90% 可靠。**不适合动作类游戏** — 浏览器延迟会扭曲对手感的判断。
+  - `Engine — 原生 prototype` — 动作、平台、物理，或任何"手感就是假设"的游戏。50–60% 一次成功；2–4 轮迭代是常态。需要安装引擎。
+  - `Paper — 规则文档 + 试玩日志` — 策略、经济、逻辑、桌游风格机制。100% 可靠。无法验证手感。
 
 ---
 

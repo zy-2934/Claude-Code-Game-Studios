@@ -39,11 +39,12 @@ and known failure points. This skill maintains that list.
 - `/regression-suite report` — read-only status report (no writes); suitable
   for sprint reviews
 - No argument — if a sprint is clearly active (sprint plan exists with in-progress stories), run `update`. If ambiguous or no active sprint is detected, use `AskUserQuestion`:
-  - Prompt: "No subcommand specified. Which mode do you want to run?"
+  - Prompt: "未指定子命令。要运行哪种模式？"
+  - Header: "运行模式"
   - Options:
-    - `[A] update — scan new bug fixes this sprint and add missing regression tests`
-    - `[B] audit — full audit of all GDD critical paths vs. existing test coverage`
-    - `[C] report — read-only status report (no writes)`
+    - `[A] update —— 扫描本 sprint 新修复的 bug 并补齐缺失的回归测试`
+    - `[B] audit —— 对所有 GDD 关键路径与现有测试覆盖做完整审计`
+    - `[C] report —— 只读的状态报告（不写入）`
 
 ---
 

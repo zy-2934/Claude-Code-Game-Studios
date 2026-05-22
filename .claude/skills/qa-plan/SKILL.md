@@ -41,9 +41,10 @@ Determine scope from the argument:
   epic index file (`EPIC.md`) in that system's directory.
 - **`story: [path]`** — validate that the path exists and load that single file.
 - **No argument** — use `AskUserQuestion`:
-  - "What is the scope for this QA plan?"
-  - Options: "Current sprint", "Specific feature (enter system name)",
-    "Specific story (enter path)", "Full epic"
+  - "本次 QA 计划的范围？"
+  - Header: "计划范围"
+  - Options: "当前 sprint", "某个功能（输入系统名）",
+    "某个 story（输入路径）", "完整 epic"
 
 After resolving scope, report: "Building QA plan for [N] stories in [scope]."
 
@@ -236,11 +237,12 @@ Show the complete plan in conversation (or a summary if the plan is very long),
 then ask two questions together using `AskUserQuestion`:
 
 ```
-question: "Ready to write the QA plan. Choose output options:"
+question: "准备写入 QA 计划。选择输出项："
+header: "QA 输出"
 multiSelect: true
 options:
-  - "Write QA plan to production/qa/qa-plan-[sprint-slug]-[date].md"
-  - "Also back-fill test case specs into each story file's ## QA Test Cases section (Recommended — enables /dev-story and /code-review traceability)"
+  - "把 QA 计划写入 production/qa/qa-plan-[sprint-slug]-[date].md"
+  - "同时把测试用例规格回填到每个 story 文件的 ## QA Test Cases 章节（推荐 —— 让 /dev-story 与 /code-review 可追溯）"
 ```
 
 If "Write QA plan" is selected: write the plan file exactly as generated — do not truncate.

@@ -104,11 +104,12 @@ Run domain-specific checks:
 ## Phase 6: Fix & Verify Cycle
 
 After presenting the report, use `AskUserQuestion`:
-- Prompt: "Balance check complete. What would you like to do next?"
+- Prompt: "平衡性检查完成。下一步？"
+- Header: "下一步"
 - Options:
-  - `[A] Fix highest-priority issue now — walk me through it`
-  - `[B] Save report to design/balance/balance-check-[system]-[date].md`
-  - `[C] Stop here — I'll review the findings manually`
+  - `[A] 立即修复最高优先级问题 —— 带我过一遍`
+  - `[B] 把报告保存到 design/balance/balance-check-[system]-[date].md`
+  - `[C] 暂停 —— 我自己手动 review 结论`
 
 If [A]:
 - Ask which issue to address first (refer to the Recommendations table by priority row)

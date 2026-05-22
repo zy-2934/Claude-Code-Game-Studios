@@ -24,10 +24,11 @@ Before loading any data, glob for an existing retrospective file:
 - For milestone retrospectives: `production/retrospectives/retro-[milestone-name]-*.md`
 
 If a matching file is found, use `AskUserQuestion`:
-- Prompt: "An existing retrospective was found: [filename]. How do you want to proceed?"
+- Prompt: "发现已有 retrospective：[filename]。你想如何处理？"
+- Header: "现有 Retro"
 - Options:
-  - `[A] Update existing — load it and add/revise sections with new data`
-  - `[B] Start fresh — generate a new retrospective (archive the old one)`
+  - `[A] 更新已有 —— 加载并基于新数据补充/修订章节`
+  - `[B] 重新开始 —— 生成新的 retrospective（归档旧的）`
 
 If [A]: read the existing file and carry its content forward, revising sections with new data.
 If [B]: continue to Phase 2 with a blank slate. Before writing the new file, rename the existing one with a `-archived-[date]` suffix.
@@ -50,8 +51,9 @@ Read the sprint or milestone plan from the appropriate location:
 
 Then use `AskUserQuestion` to present two options:
 
-- **[A] Provide data manually** — ask the user to paste or describe the sprint
-  tasks, dates, and outcomes; use that as the source of truth for the retrospective.
+- Header: "数据来源"
+- **[A] 手动提供数据** —— 请用户粘贴或描述 sprint
+  任务、日期和结果，以此作为 retrospective 的数据来源。
 - **[B] Stop** — abort the skill. Verdict: **BLOCKED** — no sprint data available.
 
 If the user chooses [A], collect the data and continue to Phase 3 using what they provide.
@@ -204,10 +206,11 @@ If no, stop here. Verdict: **BLOCKED** — user declined write.
 ## Phase 6: Next Steps
 
 Use `AskUserQuestion`:
-- Prompt: "Retrospective complete. The action items and velocity data are ready. Would you like to start sprint planning now with this data pre-loaded?"
+- Prompt: "Retrospective 完成。行动项和速度数据已就绪。是否立即开启 sprint 计划，并预加载这些数据？"
+- Header: "Sprint 计划"
 - Options:
-  - `[A] Yes — open sprint planning with retro action items and velocity delta pre-populated`
-  - `[B] No — I'll reference the retrospective file manually when I'm ready`
+  - `[A] 是 —— 打开 sprint 计划，预填 retro 行动项与速度差`
+  - `[B] 否 —— 我准备好后会自己引用 retrospective 文件`
 
 If the user selects [A]: Proceed to invoke `/sprint-plan new`, passing the retrospective file path and a summary of the action items and velocity change so the sprint planner can reference them.
 

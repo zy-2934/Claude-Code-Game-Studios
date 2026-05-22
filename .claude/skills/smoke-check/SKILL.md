@@ -188,39 +188,42 @@ Use `AskUserQuestion` to batch-verify. Keep to at most 3 calls.
 
 **Batch 1 — Core stability (always run):**
 ```
-question: "Core stability — select any items that FAILED (leave all unselected if everything passed):"
+question: "核心稳定性——勾选任何失败项（全部通过则不勾选）："
+header: "核心稳定性"
 multiSelect: true
 options:
-  - "Game does not launch or crashes before reaching the main menu"
-  - "New game / session fails to start"
-  - "Main menu does not respond to inputs"
-  - "Crash or hang observed during basic navigation"
+  - "游戏无法启动，或在到达主菜单前崩溃"
+  - "新游戏 / 会话无法开始"
+  - "主菜单对输入无响应"
+  - "基础导航过程中观察到崩溃或卡死"
 ```
 
 For any selected item, ask the user to briefly describe what failed before generating the report.
 
 **Batch 2 — Sprint changes and regression (always run):**
 ```
-question: "Sprint changes and regression — select any items that FAILED (leave all unselected if everything passed):"
+question: "Sprint 变更与回归——勾选任何失败项（全部通过则不勾选）："
+header: "Sprint 回归"
 multiSelect: true
 options:
-  - "[Primary mechanic this sprint] — FAILED"
-  - "[Second notable change this sprint, if any] — FAILED"
-  - "Regression in a previous sprint's feature — FAILED"
-  - "Other unexpected breakage observed — FAILED"
+  - "[Primary mechanic this sprint] — 失败"
+  - "[Second notable change this sprint, if any] — 失败"
+  - "之前 sprint 的功能出现回归——失败"
+  - "观察到其他预期之外的破坏——失败"
 ```
 
 For any selected item, ask the user to briefly describe what broke before generating the report.
 
 **Batch 3 — Data integrity and performance (run unless `quick` argument):**
 ```
-question: "Data integrity and performance — select any items that FAILED or were skipped (leave all unselected if everything passed):"
+question: "数据完整性与性能——勾选任何失败或被跳过的项（全部通过则不勾选）："
+header: "数据与性能"
 multiSelect: true
 options:
-  - "Save / load — FAILED (data loss or corruption observed)"
-  - "Save / load — N/A (save system not yet implemented)"
-  - "Frame rate drops or hitches observed — FAILED"
-  - "Performance not checked this session"
+  - "存档 / 读档——失败（观察到数据丢失或损坏）"
+  - "存档 / 读档——N/A（存档系统尚未实现）"
+  - "观察到帧率下降或卡顿——失败"
+  - "本次未检查性能"
 ```
 
 For any FAILED item selected, ask the user to describe what broke before generating the report.
@@ -231,39 +234,42 @@ Record each response verbatim for the Phase 5 report.
 
 **PC platform** (`--platform pc` or `--platform all`):
 ```
-question: "PC Platform — select any items that FAILED (leave all unselected if everything passed):"
+question: "PC 平台——勾选任何失败项（全部通过则不勾选）："
+header: "PC 平台"
 multiSelect: true
 options:
-  - "Keyboard controls — FAILED (describe issue after)"
-  - "Mouse input or cursor visibility — FAILED (describe issue after)"
-  - "Windowed / fullscreen mode — FAILED (describe issue after)"
-  - "Resolution change — FAILED (describe issue after)"
+  - "键盘控制——失败（请在之后描述问题）"
+  - "鼠标输入或光标可见性——失败（请在之后描述问题）"
+  - "窗口 / 全屏模式——失败（请在之后描述问题）"
+  - "分辨率变更——失败（请在之后描述问题）"
 ```
 
 For any selected item, ask the user to briefly describe what failed before generating the report.
 
 **Console platform** (`--platform console` or `--platform all`):
 ```
-question: "Console Platform — select any items that FAILED (leave all unselected if everything passed):"
+question: "主机平台——勾选任何失败项（全部通过则不勾选）："
+header: "主机平台"
 multiSelect: true
 options:
-  - "Gamepad input — FAILED (describe issue after)"
-  - "UI outside TV safe zone / text clipped — FAILED (describe what is clipped after)"
-  - "Keyboard/mouse fallback shown to gamepad user — FAILED (describe after)"
-  - "Cold start (no prior save) — FAILED (describe issue after)"
+  - "手柄输入——失败（请在之后描述问题）"
+  - "UI 超出电视安全区 / 文本被裁切——失败（请在之后描述被裁切的内容）"
+  - "向手柄玩家显示了键鼠回退提示——失败（请在之后描述）"
+  - "冷启动（无任何存档）——失败（请在之后描述问题）"
 ```
 
 For any selected item, ask the user to briefly describe what failed before generating the report.
 
 **Mobile platform** (`--platform mobile` or `--platform all`):
 ```
-question: "Mobile Platform — select any items that FAILED (leave all unselected if everything passed):"
+question: "移动平台——勾选任何失败项（全部通过则不勾选）："
+header: "移动平台"
 multiSelect: true
 options:
-  - "Touch controls — FAILED (describe issue after)"
-  - "Orientation change (portrait ↔ landscape) — FAILED (describe what breaks after)"
-  - "Background / foreground transition (home button) — FAILED (describe issue after)"
-  - "Performance / thermal throttling on target device — FAILED (describe after)"
+  - "触摸控制——失败（请在之后描述问题）"
+  - "屏幕方向切换（竖屏 ↔ 横屏）——失败（请在之后描述出现的问题）"
+  - "后台 / 前台切换（Home 键）——失败（请在之后描述问题）"
+  - "目标设备上出现性能 / 温控降频——失败（请在之后描述）"
 ```
 
 For any selected item, ask the user to briefly describe what failed before generating the report.

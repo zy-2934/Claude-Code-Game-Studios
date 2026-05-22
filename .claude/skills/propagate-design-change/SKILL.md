@@ -166,7 +166,7 @@ The technical-director reviews whether:
 
 Apply the verdict:
 - **APPROVE** → proceed to Phase 7 resolution workflow
-- **CONCERNS** → surface the specific ADRs or recommendations flagged; use `AskUserQuestion` with options: `Revise the impact assessment` / `Accept with noted concerns` / `Discuss further`
+- **CONCERNS** → surface the specific ADRs or recommendations flagged; use `AskUserQuestion` with header `"处理 CONCERNS"` and options: `修改影响评估` / `带记录的担忧接受` / `进一步讨论`
 - **REJECT** → do not proceed to resolution; re-analyze the impact before continuing
 
 ---

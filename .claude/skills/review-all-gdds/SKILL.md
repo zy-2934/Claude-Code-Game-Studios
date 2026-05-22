@@ -555,12 +555,14 @@ FAIL: One or more blocking issues must be resolved before architecture begins.
 ## Phase 6: Write Report and Flag GDDs
 
 Use `AskUserQuestion` for write permission:
-- Prompt: "May I write this review to `design/gdd/gdd-cross-review-[date].md`?"
-- Options: `[A] Yes — write the report` / `[B] No — skip`
+- Prompt: "我可以把本次评审写入 `design/gdd/gdd-cross-review-[date].md` 吗？"
+- Header: "写入评审"
+- Options: `[A] 是 — 写入报告` / `[B] 否 — 跳过`
 
 If any GDDs are flagged for revision, use a second `AskUserQuestion`:
-- Prompt: "Should I update the systems index to mark these GDDs as needing revision? ([list of flagged GDDs])"
-- Options: `[A] Yes — update systems index` / `[B] No — leave as-is`
+- Prompt: "是否要更新系统索引，把这些 GDD 标记为需要修订？（[list of flagged GDDs]）"
+- Header: "更新索引"
+- Options: `[A] 是 — 更新系统索引` / `[B] 否 — 保持原样`
 - If yes: update each flagged GDD's Status field in systems-index.md to "Needs Revision".
   (Do NOT append parentheticals to the status value — other skills match "Needs Revision"
   as an exact string and parentheticals break that match.)

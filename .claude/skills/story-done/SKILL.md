@@ -39,7 +39,8 @@ read that file directly.
 2. If not found there, read the most recent file in `production/sprints/` and
    look for stories marked IN PROGRESS.
 3. If multiple in-progress stories are found, use `AskUserQuestion`:
-   - "Which story are we completing?"
+   - "我们正在完成的是哪个 story？"
+   - Header: "选择 Story"
    - Options: list the in-progress story file names.
 4. If no story can be found, ask the user to provide the path.
 
@@ -97,8 +98,9 @@ three methods:
 Batch up to 4 manual verification questions into a single `AskUserQuestion` call:
 
 ```
-question: "Does [criterion]?"
-options: "Yes — passes", "No — fails", "Not tested yet"
+question: "[criterion] 是否满足？"
+header: "AC 验证"
+options: "通过 — 满足", "失败 — 未满足", "尚未测试"
 ```
 
 ### Unverifiable (flag without blocking)
@@ -260,11 +262,12 @@ Skip this phase for Config/Data stories (no code tests required).
 **Review mode check** — apply before spawning LP-CODE-REVIEW:
 - `solo` → skip. Note: "LP-CODE-REVIEW skipped — Solo mode." Proceed to Phase 6 (completion report).
 - `lean` → use `AskUserQuestion` before proceeding:
-  - Prompt: "Code review is skipped in lean mode. Did you run `/code-review` on the implemented files?"
+  - Prompt: "lean 模式下默认跳过代码审查。你是否已对实现文件运行了 `/code-review`？"
+  - Header: "代码审查"
   - Options:
-    - `Yes — /code-review passed or was approved with suggestions`
-    - `No — skipping code review for this story`
-    - `No — I'll run /code-review before the sprint close-out`
+    - `是 — /code-review 通过或带建议批准`
+    - `否 — 本 story 跳过代码审查`
+    - `否 — 我会在 sprint 收尾前运行 /code-review`
   - Record the answer in the completion notes (Phase 7). All three options proceed to Phase 6.
 - `full` → spawn as normal.
 
@@ -273,7 +276,8 @@ Spawn `lead-programmer` via Task using gate **LP-CODE-REVIEW** (`.claude/docs/di
 Pass: implementation file paths, story file path, relevant GDD section, governing ADR.
 
 Present the verdict to the user. If CONCERNS, surface them via `AskUserQuestion`:
-- Options: `Revise flagged issues` / `Accept and proceed` / `Discuss further`
+- Header: "处理 CONCERNS"
+- Options: `修改标记问题` / `接受并推进` / `进一步讨论`
 If REJECT, do not proceed to Phase 6 verdict until the issues are resolved.
 
 If the story has no implementation files yet (verdict is being run before coding is done), skip this phase and note: "LP-CODE-REVIEW skipped — no implementation files found. Run after implementation is complete."
@@ -332,12 +336,13 @@ fixed. Offer to help fix the blocking items.
 ## Phase 7: Update Story Status
 
 Use `AskUserQuestion` before writing anything:
-- Prompt: "Verification complete. How do you want to proceed?"
+- Prompt: "验证完成。你想如何处理？"
+- Header: "完成处理"
 - Options:
-  - `Close the story — update file, mark Complete, log notes (Recommended)`
-  - `Close and log advisory deviations as tech debt in docs/tech-debt-register.md`
-  - `There are issues I want to fix first — don't close yet`
-  - `Accept deviations as-is and close anyway`
+  - `关闭 story — 更新文件、标记 Complete、记录笔记（推荐）`
+  - `关闭，并把建议性偏差作为 tech debt 记入 docs/tech-debt-register.md`
+  - `还有问题想先修复 — 暂不关闭`
+  - `接受偏差现状，仍然关闭`
 
 If "Close", "Close and log tech debt", or "Accept deviations": edit the story file.
 If "Close and log tech debt": after updating the story file, also append the advisory deviations to `docs/tech-debt-register.md` (create the file if it does not exist).

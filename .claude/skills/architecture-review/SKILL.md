@@ -374,10 +374,12 @@ are consistent with verified engine behaviour."
 Before asking, display the proposed change inline — show the current systems-index row for each flagged GDD and the proposed updated row side by side so the user can see exactly what will change.
 
 Then use `AskUserQuestion`:
-- "I found [N] GDD revision flag(s). May I update the systems index?"
-  - [A] Yes — apply all [N] updates to the systems index now
-  - [B] Show me the full diff first, then ask again
-  - [C] No — leave the systems index unchanged for now
+- "我发现了 [N] 个 GDD 修订标记。我可以更新系统索引吗？"
+- Header: "更新索引"
+- Options:
+  - [A] 是 —— 立即向系统索引应用全部 [N] 项更新
+  - [B] 先展示完整 diff，然后再问一次
+  - [C] 否 —— 暂时保持系统索引不变
 
 If [A]: apply the updates. Status field must be exactly `Needs Revision` — no parentheticals
 (other skills match that exact string and parentheticals break the match).
@@ -459,17 +461,21 @@ FAIL: Critical gaps (Foundation/Core layer requirements uncovered),
 ## Phase 8: Write and Update Traceability Index
 
 Use `AskUserQuestion` for the write approval:
-- "Review complete. What would you like to write?"
-  - [A] Write all three files (review report + traceability index + TR registry)
-  - [B] Write review report only — `docs/architecture/architecture-review-[date].md`
-  - [C] Don't write anything yet — I need to review the findings first
+- "评审完成。你想写入什么？"
+- Header: "写入选择"
+- Options:
+  - [A] 写入全部三个文件（评审报告 + traceability index + TR registry）
+  - [B] 仅写入评审报告 —— `docs/architecture/architecture-review-[date].md`
+  - [C] 暂不写入 —— 我需要先 review 结论
 
 ### RTM Output (rtm mode only)
 
 For `rtm` mode, use `AskUserQuestion`:
-- "May I write the full Requirements Traceability Matrix?"
-  - [A] Yes — write to `docs/architecture/requirements-traceability.md`
-  - [B] Not yet — show me the full RTM data first, then ask again
+- "我可以写入完整的 Requirements Traceability Matrix 吗？"
+- Header: "写入 RTM"
+- Options:
+  - [A] 是 —— 写入 `docs/architecture/requirements-traceability.md`
+  - [B] 暂不 —— 先展示完整 RTM 数据，然后再问一次
 
 RTM file format:
 

@@ -48,9 +48,10 @@ See `.claude/docs/director-gates.md` for the full check pattern and mode definit
 - **No argument**: ask the user which scope to validate.
 
 If no argument is given, use `AskUserQuestion`:
-- "What would you like to validate?"
-  - Options: "A specific story file", "All stories in the current sprint",
-    "All stories in production/epics/", "Stories for a specific epic"
+- "你想验证哪个范围？"
+- Header: "验证范围"
+- Options: "某个 story 文件", "当前 sprint 内的所有 story",
+    "production/epics/ 下的所有 story", "某个 epic 的全部 story"
 
 Report the scope before proceeding: "Validating [N] story files."
 

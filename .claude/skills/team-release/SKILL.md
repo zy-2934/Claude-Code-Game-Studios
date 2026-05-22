@@ -97,10 +97,10 @@ Delegate to **producer**:
 
 **If producer declares NO-GO:**
 - Surface the decision immediately: "PRODUCER: NO-GO — [rationale, e.g., S1 bug found in Phase 3]."
-- Use `AskUserQuestion` with options:
-  - Fix the blocker and re-run the affected phase
-  - Defer the release to a later date
-  - Override NO-GO with documented rationale (user must provide written justification)
+- Use `AskUserQuestion` with header `"NO-GO 处理"` and options:
+  - 修复阻塞项后重新运行受影响阶段
+  - 把发布推迟到稍后日期
+  - 用书面理由强制覆盖 NO-GO（用户必须提供书面依据）
 - **Skip Phase 6 entirely** — do not tag, deploy to staging, deploy to production, or spawn community-manager.
 - Produce a partial report summarizing Phases 1–5 and what was skipped (Phase 6) and why.
 - Verdict: **BLOCKED** — release not deployed.

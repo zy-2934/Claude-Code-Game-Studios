@@ -76,11 +76,12 @@ Then spawn the **primary engine specialist** to validate the proposed architectu
 - Output: engine architecture notes — incorporate into the architecture before Phase 3 begins
 
 Use `AskUserQuestion`:
-- Prompt: "Architecture sketch complete. Approve to proceed with parallel implementation."
+- Prompt: "架构草图完成。批准后开始并行实现。"
+- Header: "架构批准"
 - Options:
-  - `[A] Proceed — spawn implementation agents (gameplay-programmer, ai-programmer, technical-artist, sound-designer)`
-  - `[B] Revise the architecture first — I'll describe what needs to change`
-  - `[C] Stop here — I'll continue later`
+  - `[A] 推进 —— 启动实现 agent（gameplay-programmer、ai-programmer、technical-artist、sound-designer）`
+  - `[B] 先修订架构 —— 我会描述要改什么`
+  - `[C] 暂停 —— 我稍后继续`
 
 Only spawn implementation agents if user selects [A].
 

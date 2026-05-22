@@ -50,10 +50,11 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
   `/project-stage-detect`, then **confirm with the user before running**:
 
   Use `AskUserQuestion`:
-  - Prompt: "Detected stage: **[current stage]**. Running gate for [Current] → [Next] transition. Is this correct?"
+  - Prompt: "检测到的阶段：**[current stage]**。将运行 [Current] → [Next] 转换的闸口。是否正确？"
+  - Header: "确认闸口"
   - Options:
-    - `[A] Yes — run this gate`
-    - `[B] No — pick a different gate` (if selected, show a second widget listing all gate options: Concept → Systems Design, Systems Design → Technical Setup, Technical Setup → Pre-Production, Pre-Production → Production, Production → Polish, Polish → Release)
+    - `[A] 是 — 运行此闸口`
+    - `[B] 否 — 选择其他闸口`（如选中，展示第二个 widget 列出所有闸口：Concept → Systems Design、Systems Design → Technical Setup、Technical Setup → Pre-Production、Pre-Production → Production、Production → Polish、Polish → Release）
   
   Do not skip this confirmation step when no argument is provided.
 
@@ -452,21 +453,21 @@ After the verdict is presented and any stage.txt update is complete, close with 
 
 For **systems-design PASS**:
 ```
-Gate passed. What would you like to do next?
-[A] Run /create-architecture — produce your master architecture blueprint and ADR work plan (recommended next step)
-[B] Design more GDDs first — return here when all MVP systems are complete
-[C] Stop here for this session
+闸口通过。下一步做什么？
+[A] 运行 /create-architecture — 生成你的主架构蓝图和 ADR 工作计划（推荐）
+[B] 先继续设计更多 GDD — 等所有 MVP 系统完成后再回来
+[C] 本次会话到此为止
 ```
 
 > **Note for systems-design PASS**: `/create-architecture` is the required next step before writing any ADRs. It produces the master architecture document and a prioritized list of ADRs to write. Running `/architecture-decision` without this step means writing ADRs without a blueprint — skip it at your own risk.
 
 For **technical-setup PASS**:
 ```
-Gate passed. What would you like to do next?
-[A] Run /create-control-manifest — generate the layer rules manifest from your Accepted ADRs (do this first)
-[B] Run /vertical-slice — build the Vertical Slice (do this before writing epics — validate fun first)
-[C] Write more ADRs first — run /architecture-decision [next-system]
-[D] Stop here for this session
+闸口通过。下一步做什么？
+[A] 运行 /create-control-manifest — 从已 Accepted 的 ADR 生成分层规则清单（先做这个）
+[B] 运行 /vertical-slice — 构建 Vertical Slice（在写 epic 之前先做 — 先验证好玩）
+[C] 先写更多 ADR — 运行 /architecture-decision [next-system]
+[D] 本次会话到此为止
 ```
 
 > **Note for technical-setup PASS**: The Pre-Production sequence is deliberately ordered

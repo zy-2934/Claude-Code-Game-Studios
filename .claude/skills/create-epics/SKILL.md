@@ -119,11 +119,12 @@ If there are untraced requirements:
 > Run `/architecture-decision` first, or proceed with placeholders."
 
 Use `AskUserQuestion`:
-- Prompt: "Shall I create Epic: [name]?"
+- Prompt: "要创建 Epic：[name] 吗？"
+- Header: "创建 Epic"
 - Options:
-  - `[A] Yes, create it`
-  - `[B] Skip this epic`
-  - `[C] Pause — I need to write ADRs first`
+  - `[A] 是，创建它`
+  - `[B] 跳过这个 epic`
+  - `[C] 暂停 —— 我需要先写 ADR`
 
 ---
 
@@ -143,11 +144,12 @@ Present the producer's assessment.
 If UNREALISTIC: offer to revise epic boundaries (split overscoped or merge underscoped epics). Revise and re-run the gate before writing.
 
 If CONCERNS, use `AskUserQuestion`:
-- Prompt: "Producer raised concerns about the epic structure. How do you want to proceed?"
+- Prompt: "Producer 对 epic 结构提出了担忧。你想如何处理？"
+- Header: "处理担忧"
 - Options:
-  - `[A] Proceed as planned — I accept the producer's concerns`
-  - `[B] Revise epic boundaries — split or merge as recommended`
-  - `[C] Stop — I want to reconsider the scope`
+  - `[A] 按计划推进 —— 我接受 producer 的担忧`
+  - `[B] 修订 epic 边界 —— 按建议拆分或合并`
+  - `[C] 暂停 —— 我想重新考虑范围`
 
 If [A]: proceed to Step 5.
 If [B]: revise epic definitions from Step 4 and re-run the producer gate.

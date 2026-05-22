@@ -188,22 +188,23 @@ a **confirm/adjust** prompt using `AskUserQuestion` — not open-ended questions
 **Present assumptions with `AskUserQuestion`:**
 
 ```
-Here's what I'm assuming before drafting:
+起草前我做了如下假设：
 
-Problem: [one-sentence problem statement derived from context]
-Alternatives I'll consider:
+Problem：[one-sentence problem statement derived from context]
+将考虑的备选方案：
   A) [option derived from engine reference]
   B) [option derived from GDD requirements]
   C) [option from common patterns]
-GDD systems driving this: [list derived from context]
-Dependencies: [upstream ADRs if any, otherwise "None"]
+驱动此 ADR 的 GDD 系统：[list derived from context]
+依赖：[upstream ADRs if any, otherwise "None"]
 Status: Proposed
 
-[A] Proceed — draft with these assumptions
-[B] Change the alternatives list
-[C] Adjust the GDD linkage
-[D] Add a performance budget constraint
-[E] Something else needs changing first
+Header: "假设确认"
+[A] 推进 —— 按这些假设起草
+[B] 修改备选方案清单
+[C] 调整 GDD 关联
+[D] 添加性能预算约束
+[E] 其他需要先调整的项
 ```
 
 Do not generate the ADR until the user confirms assumptions or provides corrections.
@@ -377,15 +378,19 @@ If no inconsistencies: skip this block silently.
 5. **Write approval** — Use `AskUserQuestion`:
 
 If GDD sync issues were found:
-- "ADR draft is complete. How would you like to proceed?"
-  - [A] Write ADR + update GDD in the same pass
-  - [B] Write ADR only — I'll update the GDD manually
-  - [C] Not yet — I need to review further
+- "ADR 草稿已完成。你想如何推进？"
+- Header: "写入 ADR"
+- Options:
+  - [A] 同时写入 ADR 并更新 GDD
+  - [B] 只写入 ADR —— 我自己手动更新 GDD
+  - [C] 暂不 —— 我需要再 review
 
 If no GDD sync issues:
-- "ADR draft is complete. May I write it?"
-  - [A] Write ADR to `docs/architecture/adr-[NNNN]-[slug].md`
-  - [B] Not yet — I need to review further
+- "ADR 草稿已完成。我可以写入吗？"
+- Header: "写入 ADR"
+- Options:
+  - [A] 写入 `docs/architecture/adr-[NNNN]-[slug].md`
+  - [B] 暂不 —— 我需要再 review
 
 If yes to any write option, write the file, creating the directory if needed.
 For option [A] with GDD update: also update the GDD file(s) to use the new names.
@@ -418,8 +423,9 @@ Registry candidates from this ADR:
 **BLOCKING — do not write to `docs/registry/architecture.yaml` without explicit user approval.**
 
 Ask using `AskUserQuestion`:
-- "May I update `docs/registry/architecture.yaml` with these [N] new stances?"
-  - Options: "Yes — update the registry", "Not yet — I want to review the candidates", "Skip registry update"
+- "我可以用这 [N] 个新立场更新 `docs/registry/architecture.yaml` 吗？"
+- Header: "更新 Registry"
+- Options: "是 —— 更新 registry", "暂不 —— 我想先审查候选项", "跳过 registry 更新"
 
 Only proceed if the user selects yes. If yes: append new entries. Never modify existing entries — if a stance is
 changing, set the old entry to `status: superseded_by: ADR-[NNNN]` and add the new entry.
@@ -437,11 +443,12 @@ Before generating the widget:
 
 Widget format:
 ```
-ADR-[NNNN] written and registry updated. What would you like to do next?
-[1] Write [next-priority-adr-name] — [brief description from prerequisites list]
-[2] Write [another-priority-adr] — [brief description]  (include ALL remaining ones)
-[N] Start writing GDDs — run `/design-system [first-undesigned-system]` (only show if all prerequisite ADRs are written)
-[N+1] Stop here for this session
+ADR-[NNNN] 已写入，registry 已更新。下一步做什么？
+Header: "下一步"
+[1] 编写 [next-priority-adr-name] —— [brief description from prerequisites list]
+[2] 编写 [another-priority-adr] —— [brief description]（包含所有剩余项）
+[N] 开始写 GDD —— 运行 `/design-system [first-undesigned-system]`（仅在所有前置 ADR 已完成时显示）
+[N+1] 本次会话到此为止
 ```
 
 If there are no remaining priority ADRs and no undesigned GDD systems, offer only "Stop here" and suggest running `/architecture-review` in a fresh session.

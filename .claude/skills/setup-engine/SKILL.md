@@ -38,16 +38,18 @@ If no engine is specified, run an interactive engine selection process:
 ### If the user wants to pick without a concept, ask in this order:
 
 **Question 1 — Prior experience** (ask this first, always, via `AskUserQuestion`):
-- Prompt: "Have you worked in any of these engines before?"
-- Options: `Godot` / `Unity` / `Unreal Engine 5` / `Multiple — I'll explain` / `None of them`
+- Prompt: "你之前用过下面哪些引擎？"
+- Header: "引擎经验"
+- Options: `Godot` / `Unity` / `Unreal Engine 5` / `多个 —— 我来解释` / `都没用过`
 - If they pick a specific engine → recommend that engine. Prior experience outweighs all other factors. Confirm with them and skip the matrix.
 - If "None" or "Multiple" → continue to the questions below.
 
 **Questions 2-6 — Decision matrix inputs** (only if no prior engine experience):
 
 **Question 2 — Target platform** (ask this second, always, via `AskUserQuestion` — platform eliminates or heavily weights engines before any other factor):
-- Prompt: "What platforms are you targeting for this game?"
-- Options: `PC (Steam / Epic)` / `Mobile (iOS / Android)` / `Console` / `Web / Browser` / `Multiple platforms`
+- Prompt: "本游戏面向哪些平台？"
+- Header: "目标平台"
+- Options: `PC (Steam / Epic)` / `移动端 (iOS / Android)` / `主机` / `Web / 浏览器` / `多平台`
 - Platform rules that feed directly into the recommendation:
   - Mobile → Unity strongly preferred; Unreal is a poor fit; Godot is viable for simple mobile
   - Console → Unity or Unreal; Godot console support requires third-party publishers or significant extra work
@@ -234,8 +236,9 @@ Example filled section:
 
 ### Remaining Sections
 - **Performance Budgets**: Use `AskUserQuestion`:
-  - Prompt: "Should I set default performance budgets now, or leave them for later?"
-  - Options: `[A] Set defaults now (60fps, 16.6ms frame budget, engine-appropriate draw call limit)` / `[B] Leave as [TO BE CONFIGURED] — I'll set these when I know my target hardware`
+  - Prompt: "现在设定默认的性能预算，还是稍后再定？"
+  - Header: "性能预算"
+  - Options: `[A] 现在使用默认值（60fps、16.6ms 帧预算、引擎相应的 draw call 上限）` / `[B] 保留 [TO BE CONFIGURED] —— 我会在确定目标硬件后再设置`
   - If [A]: populate with the suggested defaults. If [B]: leave as placeholder.
 - **Testing**: Suggest engine-appropriate framework (GUT for Godot, NUnit for Unity, etc.) — ask before adding.
 - **Forbidden Patterns**: Leave as placeholder — do NOT pre-populate.

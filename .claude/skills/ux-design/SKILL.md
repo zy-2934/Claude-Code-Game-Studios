@@ -24,8 +24,9 @@ Three authoring modes exist based on the argument:
 | No argument | Ask the user | (see below) |
 
 **If no argument is provided**, do not fail — ask instead. Use `AskUserQuestion`:
-- "What are we designing today?"
-  - Options: "A specific screen or flow (I'll name it)", "The game HUD", "The interaction pattern library", "I'm not sure — help me figure it out"
+- "今天我们在设计什么？"
+- Header: "设计对象"
+- Options: "某个具体屏幕或流程（我来命名）", "游戏 HUD", "交互模式库", "我不确定 — 帮我理清"
 
 If the user selects "I'll name it" or types a screen name, normalize it to kebab-case
 for the filename (e.g., "Main Menu" becomes `main-menu`).
@@ -107,8 +108,9 @@ Interaction Map and inform accessibility requirements:
 - **Target Platforms** — for safe zone and aspect ratio decisions
 
 If the section is unconfigured (`[TO BE CONFIGURED]`), ask once:
-> "Input methods aren't configured yet. What does this game target?"
-> Options: "Keyboard/Mouse only", "Gamepad only", "Both (PC + Console)", "Touch (mobile)", "All of the above"
+> "输入方式尚未配置。本游戏面向哪些输入？"
+> Header: "输入方式"
+> Options: "仅键盘/鼠标", "仅手柄", "键鼠 + 手柄（PC + 主机）", "触摸（移动端）", "以上全部"
 >
 > (Run `/setup-engine` to save this permanently so you won't be asked again.)
 
@@ -423,11 +425,13 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
 5. **Draft**: Write the section content in conversation for review. Flag provisional
    assumptions explicitly.
 6. **Approval**: Use `AskUserQuestion`:
-   - "Does this capture the [section name] correctly?"
-   - Options: "Yes — write it to the file", "Small changes needed (describe below)", "Major rethink needed"
+   - "这是否准确表达了 [section name]？"
+   - Header: "章节审核"
+   - Options: "是 — 写入文件", "需要小改（在下方描述）", "需要重新思考"
    Do not proceed to step 7 until the user selects "Yes".
-7. **Write**: Use `AskUserQuestion`: "May I write the [section name] section to `[filepath]`?"
-   - Options: "Yes, write it", "Wait — one more change"
+7. **Write**: Use `AskUserQuestion`: "我可以把 [section name] 章节写入 `[filepath]` 吗？"
+   - Header: "写入确认"
+   - Options: "是，写入", "等一下 — 还有一处改动"
    Once confirmed, use `Edit` to replace the `[To be designed]` placeholder with approved content.
 
 After writing each section, update `production/session-state/active.md`.
@@ -512,8 +516,9 @@ This is the largest and most interactive section. Work through it in sub-section
 - Offer 2-3 zone arrangements with rationale for each. Reference platform and
   input context gathered from game concept.
 - Use `AskUserQuestion` to capture the choice:
-  - "Which zone arrangement fits best?"
-  - Options: [the 2-3 named arrangements you just presented] + "None — build a custom arrangement"
+  - "哪种 zone 布局最合适？"
+  - Header: "布局选择"
+  - Options: [the 2-3 named arrangements you just presented] + "都不合适 — 自定义布局"
 
 **Sub-section 3 — Component Inventory**:
 - For each zone, list the UI components it contains. For each component, note:
@@ -525,8 +530,9 @@ This is the largest and most interactive section. Work through it in sub-section
 
 **Sub-section 4 — ASCII Wireframe**:
 - Offer to generate an ASCII wireframe based on the zone layout and component list.
-- Use `AskUserQuestion`: "Want an ASCII wireframe as part of this spec?"
-  - Options: "Yes, include one", "No, I'll attach a separate file"
+- Use `AskUserQuestion`: "是否需要在 spec 中包含 ASCII wireframe？"
+  - Header: "wireframe"
+  - Options: "是，包含一个", "否，我会另附文件"
 - If yes, produce the wireframe in conversation first. Ask for feedback before
   writing it to file.
 
@@ -685,8 +691,9 @@ Write at least 5 specific, testable criteria that a QA tester can verify without
 - 1 criterion specific to this screen's core purpose
 
 Use `AskUserQuestion` to confirm:
-- "Do these acceptance criteria cover what would make this screen 'done' for your QA process?"
-- Options: "Yes — these are solid", "Add one more criterion", "Remove or rephrase one"
+- "这些验收标准是否覆盖了 QA 流程中"完成"的判定？"
+- Header: "验收标准"
+- Options: "是 — 已足够", "再加一条标准", "删除或改写其中一条"
 
 ---
 
@@ -827,8 +834,9 @@ For each pattern (existing or new), document:
 ```
 
 Work through patterns in groups. Use `AskUserQuestion`:
-- "How do you want to work through these patterns?"
-- Options: "Draft the first batch from existing specs (faster)", "Define them one by one (more control)", "Start with the most-used pattern first"
+- "你想如何处理这些模式？"
+- Header: "处理方式"
+- Options: "从现有 spec 起草第一批（更快）", "逐个定义（更可控）", "从最常用的模式开始"
 
 ---
 
@@ -855,8 +863,9 @@ this screen have a corresponding element in this spec? Present any gaps.
 referenced by name? If a new pattern was invented during this spec session, flag
 it for addition to the pattern library:
 Use `AskUserQuestion`:
-- "This spec uses [pattern name], which isn't in the pattern library yet. What should we do?"
-- Options: "Add it to the pattern library now", "Flag it as a gap and continue", "Skip — this pattern is one-off"
+- "本 spec 使用了 [pattern name]，但它尚未进入模式库。我们该如何处理？"
+- Header: "新模式处理"
+- Options: "现在加入模式库", "标记为缺口并继续", "跳过 — 此模式仅一次性使用"
 
 **3. Navigation consistency**: Do the entry/exit points in this spec match the
 navigation map in any related specs? Flag mismatches.
@@ -899,12 +908,13 @@ Before presenting options, state clearly:
 > to have a review verdict."
 
 Then use `AskUserQuestion`:
-- "Run `/ux-review [filename]` now, or do something else first?"
-  - Options:
-    - "Run `/ux-review` now — validate this spec"
-    - "Design another screen first, then review all specs together"
-    - "Update the interaction pattern library with new patterns from this spec"
-    - "Stop here for this session"
+- "现在运行 `/ux-review [filename]`，还是先做别的事？"
+- Header: "下一步"
+- Options:
+    - "立即运行 `/ux-review` — 验证本 spec"
+    - "先设计另一个屏幕，之后一起 review 所有 spec"
+    - "用本 spec 中的新模式更新交互模式库"
+    - "本次会话到此为止"
 
 If the user picks "Design another screen first", add a note: "Reminder: run
 `/ux-review` on all completed specs before running `/gate-check pre-production`."
