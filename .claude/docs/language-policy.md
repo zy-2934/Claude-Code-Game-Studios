@@ -10,8 +10,11 @@ The following remain in English unconditionally:
 
 - All code: identifiers, function/class/variable names, comments inside source
 - File paths, directory names, filenames
-- File contents when writing or editing source/config/test/doc files in the
-  repository (the artifact itself is English; the conversation about it is Chinese)
+- Source code, config, and test file contents in the repository (the artifact
+  itself is English; the conversation about it is Chinese). Markdown documents
+  (GDDs, agent/skill files, architecture docs) are mixed-content — English
+  prose with Chinese embedded where the Chinese text is what the user sees
+  at runtime.
 - Technical terminology with no settled Chinese equivalent
 - Conventional Commits prefixes: `feat:`, `fix:`, `chore:`, `docs:`, `test:`,
   `refactor:`, `perf:`, `build:`, `ci:`, `style:`, `revert:`
