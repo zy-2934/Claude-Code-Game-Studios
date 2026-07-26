@@ -4,7 +4,7 @@ description: "Concept prototype — validate the core idea is worth designing be
 argument-hint: "[concept-description] [--path html|engine|paper] [--review full|lean|solo] [--spike]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion
-model: sonnet
+model: opus
 agent: prototyper
 isolation: worktree
 ---

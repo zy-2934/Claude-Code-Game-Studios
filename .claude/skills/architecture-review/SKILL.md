@@ -5,7 +5,7 @@ argument-hint: "[focus: full | coverage | consistency | engine | single-gdd path
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
 agent: technical-director
-model: opus
+model: fable
 ---
 
 # Architecture Review

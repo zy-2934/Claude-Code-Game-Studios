@@ -4,7 +4,7 @@ description: "Lightweight design spec for small changes — tuning adjustments, 
 argument-hint: "[brief description of the change]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
-model: sonnet
+model: opus
 ---
 
 # Quick Design

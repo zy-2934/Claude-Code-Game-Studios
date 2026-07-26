@@ -4,7 +4,7 @@ description: "Scan all GDDs against the entity registry to detect cross-document
 argument-hint: "[full | since-last-review | entity:<name> | item:<name>]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
-model: sonnet
+model: opus
 ---
 
 # Consistency Check

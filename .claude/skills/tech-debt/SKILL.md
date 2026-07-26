@@ -4,7 +4,7 @@ description: "Track, categorize, and prioritize technical debt across the codeba
 argument-hint: "[scan|add|prioritize|report]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, AskUserQuestion
-model: sonnet
+model: opus
 ---
 
 ## Phase 1: Parse Subcommand

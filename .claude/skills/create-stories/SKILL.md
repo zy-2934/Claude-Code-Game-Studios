@@ -4,7 +4,7 @@ description: "Break a single epic into implementable story files. Reads the epic
 argument-hint: "[epic-slug | epic-path] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
-model: sonnet
+model: opus
 agent: lead-programmer
 ---
 

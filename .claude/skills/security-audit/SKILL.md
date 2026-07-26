@@ -4,7 +4,7 @@ description: "Audit the game for security vulnerabilities: save tampering, cheat
 argument-hint: "[full | network | save | input | quick]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write, Task
-model: sonnet
+model: opus
 agent: security-engineer
 ---
 

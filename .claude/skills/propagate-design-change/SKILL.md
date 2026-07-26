@@ -4,7 +4,7 @@ description: "When a GDD is revised, scans all ADRs and the traceability index t
 argument-hint: "[path/to/changed-gdd.md]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Bash, Task
-model: sonnet
+model: opus
 agent: technical-director
 ---
 
