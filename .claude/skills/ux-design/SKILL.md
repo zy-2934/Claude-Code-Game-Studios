@@ -78,9 +78,20 @@ find the entry and exit points this spec must match.
 ### 2e: Interaction Pattern Library
 
 If `design/ux/interaction-patterns.md` exists, read the pattern catalog index
-(the list of pattern names and their one-line descriptions). Do not read full
-pattern details — just the catalog. This tells you which patterns already exist
-so you can reference them rather than reinvent them.
+(the list of pattern names and their one-line descriptions) and the
+Game-Specific UI Patterns section. Do not read full pattern details — just those.
+This tells you which patterns already exist so you can reference them rather than
+reinvent them.
+
+**Do not read `.claude/docs/templates/references/standard-control-patterns.md` here.**
+That catalog specifies the generic controls (buttons, toggles, sliders, lists,
+modals) once, identically for every project — about 10k tokens. Load it only when
+you are specifying a screen that uses one of those controls *and* you need its exact
+state table or accessibility contract, and then read only that pattern with `Read`
+using `offset`/`limit`.
+
+The project's own `interaction-patterns.md` **overrides** the standard catalog. When
+they disagree, the project file wins — the catalog is a default, not a rule.
 
 ### 2f: Art Bible
 
@@ -403,7 +414,28 @@ After writing the skeleton, update `production/session-state/active.md` with:
 
 ---
 
-## 4. Section-by-Section Authoring
+## 4. Authoring the Spec
+
+**Batch-draft is the default** — see "Batch-Draft Mode" in
+`docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`. This skill is 38 sections; interviewing
+through all of them is roughly 100 turns for one screen, and most sections are
+determined by the GDD, the accessibility tier, and the input/platform config already
+loaded in Phase 2.
+
+Draft every section in one pass, tagging each ✅ derived / ❓ assumed / ⛔ blocked.
+Ask about the ⛔ items first, then present the whole spec once with the ❓ and ⛔
+items as a numbered list up front. Take one round of feedback, then one approval.
+
+Use the section-by-section cycle below instead when:
+- review mode is `full`
+- the user asks for it
+- this is the project's first UX spec (no pattern library to derive from yet)
+- more than about a third of sections come out ⛔ blocked
+
+Either way, Phase 6b's isolated review subagent still runs — it matters more in
+batch-draft mode, not less.
+
+### Section-by-Section Cycle
 
 Walk through each section in order. For **each section**, follow this cycle:
 

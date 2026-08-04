@@ -16,6 +16,26 @@
 > hybrid (e.g., a pause menu that overlays the game world), treat it as a screen spec
 > and note the overlay relationship in Navigation Position.
 
+> ### Which sections to fill — by project scale
+>
+> This template is 15 sections. Not every project needs all of them; fill the core
+> first and add the rest when something forces the question. Scale comes from
+> `production/scale.txt`.
+>
+> | Scale | Fill these | Leave as placeholders |
+> |---|---|---|
+> | `jam` | Do not write a UX spec at all — build the screen | — |
+> | `indie` | **1, 5, 6, 7, 14** (Purpose, Layout, States, Interaction Map, Acceptance Criteria) | 2, 3, 4, 8, 9, 10, 11, 12, 13 |
+> | `studio` | All 15 | — |
+>
+> Section 12 (Screen-Level Accessibility) is additionally required at any scale when
+> the committed tier in `design/accessibility-requirements.md` is Comprehensive or
+> Exemplary — that commitment is what makes it load-bearing, not the project size.
+>
+> A placeholder left deliberately empty should say so — `[not specified: single
+> platform, no adaptation needed]` beats an empty heading, which reads as an
+> oversight to the next person.
+
 ---
 
 ## 1. Purpose & Player Need

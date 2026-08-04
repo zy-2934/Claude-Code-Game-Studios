@@ -70,9 +70,31 @@ If the game-concept.md has a Visual Identity Anchor section, note it:
 
 ---
 
+## Phase 1b: Choose the Authoring Mode
+
+**Batch-draft is the default** — see "Batch-Draft Mode" in
+`docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`.
+
+This document has a real asymmetry, so apply it selectively:
+
+- **Sections 1–4 (Visual Identity Foundation): author section by section.** These are
+  genuine creative decisions with no prior artifact to derive from, and every later
+  section is derived from them. Batch-drafting a visual identity means guessing at the
+  one thing the user most needs to choose. The only input is the Visual Identity
+  Anchor from `/brainstorm`, which offers directions rather than settling them.
+- **Sections 5–9: batch-draft.** Once 1–4 are locked, these largely follow — colour
+  application, asset standards, and pipeline notes are derivable from the identity
+  statement plus the platform and performance budgets in
+  `.claude/docs/technical-preferences.md`. Draft them in one pass with ✅/❓/⛔ tags,
+  present once, take one round of feedback.
+
+Use section-by-section throughout when review mode is `full`, or when the user asks.
+
+---
+
 ## Phase 2: Visual Identity Foundation (Sections 1–4)
 
-These four sections define the core visual language. **All other sections flow from them.** Author and write each to file before moving to the next.
+These four sections define the core visual language. **All other sections flow from them.** Author and write each to file before moving to the next. Author these section by section regardless of mode — see Phase 1b.
 
 ### Section 1: Visual Identity Statement
 

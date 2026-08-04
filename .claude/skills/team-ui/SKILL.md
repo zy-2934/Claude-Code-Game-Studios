@@ -38,7 +38,9 @@ Store the resolved mode for use in all subsequent phases.
 **Templates used by this pipeline:**
 - `ux-spec.md` — Standard screen/flow UX specification
 - `hud-design.md` — HUD-specific UX specification
-- `interaction-pattern-library.md` — Reusable interaction patterns
+- `interaction-pattern-library.md` — Game-specific interaction patterns and deviations
+  from the standard catalog (`templates/references/standard-control-patterns.md`,
+  read on demand — do not load it wholesale)
 - `accessibility-requirements.md` — Committed accessibility tier and requirements
 
 ## How to Delegate

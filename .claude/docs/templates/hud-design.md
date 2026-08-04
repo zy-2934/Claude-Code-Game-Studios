@@ -16,6 +16,25 @@
 > `ux-spec.md` instead. The test: if it appears while the player is directly
 > controlling their character, it belongs here.
 
+> ### Which sections to fill — by project scale
+>
+> This template is 13 sections. Fill the core first; add the rest when a real
+> constraint forces the question. Scale comes from `production/scale.txt`.
+>
+> | Scale | Fill these | Leave as placeholders |
+> |---|---|---|
+> | `jam` | Do not write a HUD doc — build the HUD | — |
+> | `indie` | **1, 2, 3, 4, 5** (Philosophy, Information Architecture, Layout Zones, Element Specs, States by Context) | 6, 7, 8, 9, 10, 11, 12, 13 |
+> | `studio` | All 13 | — |
+>
+> Two exceptions that apply at any scale:
+> - **Section 7 (Visual Budget)** — fill it if the HUD has more than about six
+>   simultaneous elements. Screen clutter is the most common HUD failure and the
+>   budget is what prevents it.
+> - **Section 9 (Platform Adaptation)** — fill it if shipping to more than one input
+>   method or aspect ratio. Retrofitting a HUD for a second platform costs far more
+>   than specifying it once.
+
 ---
 
 ## 1. HUD Philosophy

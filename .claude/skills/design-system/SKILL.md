@@ -298,7 +298,58 @@ File content:
 
 ---
 
-## 4. Section-by-Section Design
+## 4. Authoring the Sections
+
+### 4.0: Choose the authoring mode
+
+**Batch-draft is the default.** See "Batch-Draft Mode" in
+`docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for the full contract.
+
+Use **section-by-section** (4a below) when any of these hold:
+- review mode is `full` (per-section CD-GDD-ALIGN gates need the section cycle)
+- the user asks to go section by section — always honour this
+- this is the project's first GDD (no prior art to derive from)
+- drafting reveals that more than about a third of the sections are ⛔ blocked
+
+Otherwise use **batch-draft** (4b below).
+
+State which mode you are using in one line before starting, and that the user can
+switch at any point by saying so.
+
+---
+
+### 4b: Batch-Draft
+
+1. Create the file with the section skeleton — ask once, as today.
+
+2. Draft **every** section in one pass from what you already have: the concept doc,
+   the pillars, the systems index, the dependency GDDs, and the entity registry.
+   Tag each section:
+   - ✅ **derived** — follows from the sources above; name which one
+   - ❓ **assumed** — a judgement call you made; state the assumption in one line
+   - ⛔ **blocked** — genuinely cannot be inferred (a core rule the user has never
+     expressed, a number with no basis). Do not invent these.
+
+3. Ask about the ⛔ items **before** presenting the draft as complete. These are the
+   questions that actually carry information; there are usually two or three.
+
+4. Present the full draft once, leading with a numbered list of every ❓ and ⛔ item
+   so the user can respond to them by number without hunting through prose.
+
+5. Take one round of feedback in any form, revise, then use `AskUserQuestion`:
+   - `[A] Approve — write the whole GDD` / `[B] More changes` / `[C] Switch to
+     section-by-section from here`
+
+6. Write the file. Continue to Phase 5 (Post-Design Validation) unchanged — the
+   isolated review subagent in 5c is what catches what batch-drafting missed, and
+   it matters more in this mode, not less.
+
+**Never present an ❓ assumed item as ✅ derived.** Laundering a guess into an
+approved decision is the one way batch-draft ends up worse than the interview.
+
+---
+
+### 4a: Section-by-Section
 
 Walk through each section in order. For **each section**, follow this cycle:
 
@@ -325,13 +376,17 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
    provisional assumptions about undesigned dependencies.
 
 6. **Approval**: Immediately after the draft — in the SAME response — use
-   `AskUserQuestion`. **NEVER use plain text. NEVER skip this step.**
+   `AskUserQuestion`. **In section-by-section mode, never use plain text and never
+   skip this step.**
    - Prompt: "Approve the [Section Name] section?"
    - Options: `[A] Approve — write it to file` / `[B] Make changes — describe what to fix` / `[C] Start over`
 
    **The draft and the approval widget MUST appear together in one response.
    If the draft appears without the widget, the user is left at a blank prompt
    with no path forward — this is a protocol violation.**
+
+   This applies to mode 4a only. In batch-draft mode (4b) the equivalent gate is the
+   single whole-document approval — the file is still never written unapproved.
 
 7. **Write**: Use the Edit tool to replace the placeholder with the approved content.
    **CRITICAL**: Always include the section heading in the `old_string` to ensure

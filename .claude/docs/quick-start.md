@@ -184,7 +184,9 @@ Templates are in `.claude/docs/templates/`:
 - `ux-spec.md` -- for per-screen UX specifications (layout zones, states, events)
 - `hud-design.md` -- for whole-game HUD philosophy, zones, and element specs
 - `accessibility-requirements.md` -- for project-wide accessibility tier and feature matrix
-- `interaction-pattern-library.md` -- for standard UI controls and game-specific patterns
+- `interaction-pattern-library.md` -- for your game-specific patterns and deviations
+  (the generic control catalog lives in
+  `templates/references/standard-control-patterns.md` — read it on demand, per pattern)
 - `player-journey.md` -- for 6-phase emotional arc and retention hooks by time scale
 - `difficulty-curve.md` -- for difficulty axes, onboarding ramp, and cross-system interactions
 - `test-evidence.md` -- template for recording manual test evidence (screenshots, walkthrough notes)

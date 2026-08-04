@@ -127,6 +127,32 @@ Use `AskUserQuestion`:
 
 ---
 
+## Phase 0b: Choose the Authoring Mode
+
+**Batch-draft is the default** — see "Batch-Draft Mode" in
+`docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`.
+
+Phases 1–4 (layer mapping, module ownership, data flow, API boundaries) are almost
+entirely *derived*: the systems index already fixes the systems and their
+dependencies, and the GDDs already fix what each one must do. Interviewing the user
+per phase asks them to re-state what those files say. Draft all four in one pass,
+tagging each ✅ derived / ❓ assumed / ⛔ blocked, and present once.
+
+Two things to keep explicit rather than batching:
+
+- **Engine-risk decisions.** Anything touching a HIGH RISK domain from
+  `docs/engine-reference/[engine]/VERSION.md` must be surfaced individually, not
+  folded into a bulk draft. A wrong post-cutoff API assumption is expensive precisely
+  because it looks derived.
+- **Genuine architectural forks** — ECS vs. node composition, event bus vs. direct
+  calls, save format. These are ⛔ items by definition: the systems index does not
+  determine them. Ask before drafting against one.
+
+Use phase-by-phase authoring when review mode is `full`, when the user asks, or when
+more than about a third of the content comes out ⛔ blocked.
+
+---
+
 ## Phase 1: System Layer Mapping
 
 Map every system from `systems-index.md` into an architecture layer. The standard

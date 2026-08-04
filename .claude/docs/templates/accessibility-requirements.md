@@ -25,6 +25,26 @@
 > **When to update**: After each `/gate-check` pass, after any accessibility
 > audit, and whenever a new game system is added to `systems-index.md`.
 
+> ### Which sections to fill — by project scale
+>
+> This template is 12 sections. The tier definition plus the four axes are the
+> load-bearing part; the rest is process scaffolding that matters when a team or a
+> platform certification is involved. Scale comes from `production/scale.txt`.
+>
+> | Scale | Fill these | Leave as placeholders |
+> |---|---|---|
+> | `jam` | Not required. If you fill anything, fill the Tier Definition and stop. | — |
+> | `indie` | **Tier Definition + Visual + Motor + Cognitive + Auditory** | Platform API Integration, Per-Feature Matrix, Test Plan, Known Limitations, Audit History, External Resources |
+> | `studio` | All 12 | — |
+>
+> Regardless of scale, **commit to a tier**. Even "Basic" is a decision every UX spec
+> is then validated against; leaving it undefined is what breaks the downstream checks
+> in `/ux-design` and `/ux-review`.
+>
+> **Console certification overrides all of the above.** Shipping to Xbox, PlayStation
+> or Switch makes Platform API Integration and the Test Plan mandatory at any scale —
+> those are submission requirements, not internal process.
+
 ---
 
 ## Accessibility Tier Definition

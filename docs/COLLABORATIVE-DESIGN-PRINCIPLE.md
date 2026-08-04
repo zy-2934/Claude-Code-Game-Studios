@@ -506,6 +506,59 @@ cycles per section can accumulate 30-50k tokens of conversation. Incremental
 writing keeps the live context at ~3-5k tokens (only the current section's
 discussion), because completed sections are persisted to disk.
 
+### Batch-Draft Mode (the default for long documents)
+
+Incremental writing solves *context overflow*. It does not solve *turn count* — and
+on a 14-section GDD the two get conflated. Interviewing the user section by section
+costs roughly 3 turns per section (question → options → approval) plus a write
+approval each, which is about 42 turns for one document. Most of those turns ask
+about material that is already determined by the concept doc, the pillars, and the
+GDDs written before it.
+
+**Batch-draft mode** keeps every artifact and every approval that carries real
+information, and removes the ones that do not:
+
+```
+1. Agent creates the file with the skeleton (1 approval, unchanged)
+
+2. Agent drafts EVERY section from existing context in one pass, marking each:
+     ✅ derived   — followed from the GDD / pillars / prior decisions
+     ❓ assumed   — a judgement call the agent made; states the assumption
+     ⛔ blocked   — genuinely cannot be inferred; needs the user
+
+3. Agent presents the complete draft ONCE, with the ❓ and ⛔ items listed
+   up front as a short numbered list — not buried in the prose
+
+4. User responds once, in any form: "3 and 7 are wrong, rest is fine"
+
+5. Agent revises, writes the whole file, updates session state
+```
+
+Typical cost for a 14-section GDD: **about 5 turns instead of about 42**, with the
+same file at the end.
+
+**When to use which:**
+
+| Situation | Mode |
+|---|---|
+| Default for `/design-system`, `/ux-design`, `/art-bible`, `/create-architecture` | **Batch-draft** |
+| Review mode is `full` | Section-by-section (per-section director gates need it) |
+| The user asks to go section by section | Section-by-section — always honour this |
+| More than about a third of sections come out ⛔ blocked | Stop; switch to section-by-section. Too little context exists to draft against, and batch-drafting would be guessing. |
+| The document is the project's first GDD | Section-by-section — there is no prior art to derive from |
+
+**Rules that do not relax in batch-draft mode:**
+
+- The file is still written only after explicit approval. Batch-draft changes *when*
+  you ask, never *whether*.
+- ❓ assumed items must be surfaced individually and visibly. Silently guessing and
+  presenting it as derived is the one failure mode that makes this worse than the
+  interview — it launders a guess into an approved decision.
+- ⛔ blocked items must be asked about before the draft is presented as complete.
+  Never fill them with plausible filler.
+- Long documents still write incrementally to disk as sections are approved, so a
+  compaction mid-review loses nothing.
+
 ### Multi-File Writes
 
 When a change affects multiple files:
