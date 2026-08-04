@@ -253,28 +253,36 @@ Skip this phase for Config/Data stories (no code tests required).
 
 ---
 
-## Phase 5: Lead Programmer Code Review Gate
+## Phase 5: Code Review
 
-**Review mode check** — apply before spawning LP-CODE-REVIEW:
-- `solo` → skip. Note: "LP-CODE-REVIEW skipped — Solo mode." Proceed to Phase 6 (completion report).
-- `lean` → use `AskUserQuestion` before proceeding:
-  - Prompt: "Code review is skipped in lean mode. Did you run `/code-review` on the implemented files?"
-  - Options:
-    - `Yes — /code-review passed or was approved with suggestions`
-    - `No — skipping code review for this story`
-    - `No — I'll run /code-review before the sprint close-out`
-  - Record the answer in the completion notes (Phase 7). All three options proceed to Phase 6.
-- `full` → spawn as normal.
+**This phase *is* the story's code review — do not also run `/code-review` on the
+same files.** Both spawn `lead-programmer` against the same diff (`/code-review`
+declares `agent: lead-programmer` in its frontmatter; this gate spawns the same
+agent for LP-CODE-REVIEW), so running both reviewed every story twice and asked the
+user to confirm it twice. `/code-review` remains available standalone for code that
+is not tied to a story, or for a mid-implementation check before `/story-done`.
+
+**Review mode check:**
+- `solo` → skip. Note: "Code review skipped — Solo mode." Proceed to Phase 6.
+- `lean` → spawn `lead-programmer` for LP-CODE-REVIEW only, no specialist fan-out.
+  (Previously lean mode merely *asked* whether a review had happened and recorded the
+  answer — that produced a prompt and a log line but no review. It now performs one.)
+- `full` → spawn LP-CODE-REVIEW **and** the engine/domain specialists, in parallel,
+  using the routing table in `.claude/skills/code-review/SKILL.md`. Issue all Task
+  calls before awaiting any result.
 
 Spawn `lead-programmer` via Task using gate **LP-CODE-REVIEW** (`.claude/docs/director-gates.md`).
 
 Pass: implementation file paths, story file path, relevant GDD section, governing ADR.
 
-Present the verdict to the user. If CONCERNS, surface them via `AskUserQuestion`:
+Apply the strictest verdict when multiple reviewers run. Present it to the user.
+If CONCERNS, surface via `AskUserQuestion`:
 - Options: `Revise flagged issues` / `Accept and proceed` / `Discuss further`
-If REJECT, do not proceed to Phase 6 verdict until the issues are resolved.
+If REJECT, do not proceed to the Phase 6 verdict until the issues are resolved.
 
-If the story has no implementation files yet (verdict is being run before coding is done), skip this phase and note: "LP-CODE-REVIEW skipped — no implementation files found. Run after implementation is complete."
+If the story has no implementation files yet (this is being run before coding is
+done), skip this phase and note: "Code review skipped — no implementation files
+found. Run after implementation is complete."
 
 ---
 
@@ -419,16 +427,17 @@ If no more Must Have stories remain in this sprint (all are Complete or Blocked)
 ```
 ### Sprint Close-Out Sequence
 
-All Must Have stories are complete. QA sign-off is required before advancing.
-Run these in order:
+All Must Have stories are complete. Run these in order:
 
-1. `/smoke-check sprint` — verify the critical path still works end-to-end
-2. `/team-qa sprint` — full QA cycle: test case execution, bug triage, sign-off report
-3. `/retrospective` — capture what went well, what didn't, and action items for the next sprint
-4. `/gate-check` — advance to the next phase once QA approves (only if advancing a phase)
-5. `/sprint-plan new` — plan the next sprint, incorporating velocity data and retrospective action items
+1. `/team-qa sprint` — full QA cycle. Its Phase 2 runs the smoke check itself if no
+   current report exists, so `/smoke-check` is not a separate step.
+2. `/retrospective` — what went well, what didn't, actions for the next sprint
+3. `/sprint-plan new` — plan the next sprint, incorporating velocity and retro actions
 
-Do not run `/gate-check` until `/team-qa` returns APPROVED or APPROVED WITH CONDITIONS.
+Plus, **only when actually crossing a phase boundary**: `/gate-check [next-phase]`,
+after `/team-qa` returns APPROVED or APPROVED WITH CONDITIONS. Most sprint
+close-outs do not cross one. Check `production/scale.txt` — at `indie` scale only
+two gates exist in the whole project, so do not offer this every sprint.
 ```
 
 If there are Should Have stories still unstarted, surface them alongside the close-out sequence so the user can choose: close the sprint now, or pull in more work first.

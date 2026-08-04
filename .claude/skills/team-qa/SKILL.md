@@ -67,13 +67,28 @@ Prompt the qa-lead to:
 - Identify which stories require automated test evidence vs. manual QA
 - Flag any stories with missing acceptance criteria or missing test evidence that would block QA
 - Estimate manual QA effort (number of test sessions needed)
-- **Before assessing smoke status, check for an existing smoke check report**: Glob `production/qa/smoke-*.md` and read the most recently modified file (if found). If a report exists, use its verdict and findings directly — do not re-interview the user. If no report exists, note: "No prior smoke check report found — run `/smoke-check sprint` before proceeding." and set smoke check status to UNKNOWN (treat as PASS WITH WARNINGS for the purpose of continuing). Produce a smoke check verdict: **PASS** / **PASS WITH WARNINGS [list]** / **FAIL [list of failures]** / **UNKNOWN (no report found)**
+- **Smoke check** — Glob `production/qa/smoke-*.md` and read the most recently
+  modified report.
+  - **A report exists and covers this sprint's stories**: use its verdict and
+    findings directly. Do not re-run it and do not re-interview the user.
+  - **No report, or the report predates the newest completed story**: **run the
+    smoke check here** by following `.claude/skills/smoke-check/SKILL.md` with
+    argument `sprint`, and write its report to `production/qa/` as that skill
+    specifies. Do not stop and tell the user to go run `/smoke-check` and come back —
+    it is a prerequisite of this skill, everything it needs is already loaded, and
+    bouncing the user out costs an extra invocation for no added information.
+  - Either way, produce a verdict: **PASS** / **PASS WITH WARNINGS [list]** /
+    **FAIL [list of failures]**. There is no longer an UNKNOWN state — if no report
+    existed, one has just been produced.
+
+  `/smoke-check` remains available standalone for a mid-sprint critical-path check
+  without running a full QA cycle.
 - Produce a strategy summary table and smoke check result:
 
   | Story | Type | Automated Required | Manual Required | Blocker? |
   |-------|------|--------------------|-----------------|----------|
 
-  **Smoke Check**: [PASS / PASS WITH WARNINGS / FAIL / UNKNOWN] — [source: `production/qa/smoke-[date].md` or "no report found"] — [details if not PASS]
+  **Smoke Check**: [PASS / PASS WITH WARNINGS / FAIL] — [source: `production/qa/smoke-[date].md`, and whether it was pre-existing or run just now] — [details if not PASS]
 
 If the smoke check result is **FAIL**, the qa-lead must list the failures prominently. QA cannot proceed past the strategy phase with a failed smoke check.
 
@@ -90,7 +105,6 @@ options:
 ```
 
 If smoke check **FAIL**: do not proceed to Phase 3. Surface the failures from the smoke check report and stop. The user must fix them, re-run `/smoke-check sprint`, and then re-run `/team-qa`.
-If smoke check **UNKNOWN**: surface a warning — "No smoke check report found. Recommend running `/smoke-check sprint` before QA. Proceeding with caution."
 If smoke check **PASS WITH WARNINGS**: note the warnings for the sign-off report and continue.
 If blockers are present: list them explicitly. The user may choose to skip blocked stories or cancel the cycle.
 
@@ -113,7 +127,7 @@ Write only after receiving approval.
 
 ### Phase 4: Test Case Writing (qa-tester)
 
-> **Smoke check** is performed as part of Phase 2 (QA Strategy). If the smoke check returned FAIL in Phase 2, the cycle was stopped there. This phase only runs when the Phase 2 smoke check was PASS, PASS WITH WARNINGS, or UNKNOWN.
+> **Smoke check** is performed as part of Phase 2 (QA Strategy). If the smoke check returned FAIL in Phase 2, the cycle was stopped there. This phase only runs when the Phase 2 smoke check was PASS or PASS WITH WARNINGS.
 
 For each story requiring manual QA (Visual/Feel, UI, Integration without automated tests):
 

@@ -888,24 +888,41 @@ Update `production/session-state/active.md` with:
 - Sections: All written
 - Next: [suggestion]
 
-### 6b: Suggest Next Step
+### 6b: Independent Spec Review
 
-Before presenting options, state clearly:
+Run the review here as an **isolated subagent** rather than making the user issue a
+separate `/ux-review` call. The Pre-Production gate requires every key-screen spec to
+carry a review verdict, and folding the review in removes one invocation per screen.
 
-> "This spec should be validated with `/ux-review` before it enters the
-> implementation pipeline. The Pre-Production gate requires all key screen specs
-> to have a review verdict."
+**The reviewer must not have seen this authoring session.** A `Task` subagent has its
+own context window and does not inherit this conversation, which is what makes the
+critique independent — but only if you pass **paths, not content**.
 
-Then use `AskUserQuestion`:
-- "Run `/ux-review [filename]` now, or do something else first?"
-  - Options:
-    - "Run `/ux-review` now — validate this spec"
-    - "Design another screen first, then review all specs together"
-    - "Update the interaction pattern library with new patterns from this spec"
-    - "Stop here for this session"
+Spawn one `ux-designer` subagent via `Task` whose prompt contains **only**:
 
-If the user picks "Design another screen first", add a note: "Reminder: run
-`/ux-review` on all completed specs before running `/gate-check pre-production`."
+- the spec path: `design/ux/[filename].md`
+- the accessibility tier file: `design/accessibility-requirements.md`
+- the pattern library: `design/ux/interaction-patterns.md`
+- the input/platform config: `.claude/docs/technical-preferences.md`
+- the instruction to **read all of them from disk itself**
+- the procedure: "follow `.claude/skills/ux-review/SKILL.md`"
+- adversarial framing, verbatim:
+  > "You are reviewing a spec you did not write. Find what is missing or ambiguous,
+  > not what is good. Assume a UI programmer must build this without asking questions,
+  > and that a player using the committed accessibility tier must be able to complete
+  > every flow. Return APPROVED / NEEDS REVISION [list] / MAJOR REVISION NEEDED [list]."
+
+**Never put in the subagent prompt:** the spec text, the layout decisions and why they
+were made, rejected alternatives, or the user's stated preferences. If it matters, it
+belongs in the spec — and if it is not in the spec, that omission is the finding.
+
+Report the verdict verbatim, record it in the spec's status header, then use
+`AskUserQuestion`:
+- "Apply the revisions now"
+- "Accept the findings and design the next screen"
+- "Re-review in a fresh window at full depth" — `/ux-review` standalone is unchanged
+  and remains available for a second opinion or a batch pass over all specs
+- "Stop here for this session"
 
 ### 6c: Cross-Link Related Specs
 

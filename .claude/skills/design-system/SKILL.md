@@ -728,7 +728,7 @@ and update `referenced_by` for the existing entries?"
 If yes: append new entries and update `referenced_by` arrays. Never modify
 existing `value` / attribute fields without surfacing it as a conflict first.
 
-### 5c: Offer Design Review
+### 5c: Independent Design Review
 
 Present a completion summary:
 
@@ -737,25 +737,68 @@ Present a completion summary:
 > - Provisional assumptions: [list any assumptions about undesigned dependencies]
 > - Cross-system conflicts found: [list or "none"]
 
-> **To validate this GDD, open a fresh Claude Code session and run:**
-> `/design-review design/gdd/[system-name].md`
->
-> **Never run `/design-review` in the same session as `/design-system`.** The reviewing
-> agent must be independent of the authoring context. Running it here would inherit
-> the full design history, making independent critique impossible.
+Then run the review as an **isolated subagent**, so the user does not have to make a
+separate `/design-review` call in a fresh window.
 
-**NEVER offer to run `/design-review` inline.** Always direct the user to a fresh window.
+#### Why a subagent is a valid substitute for a fresh window
+
+The reviewer must not have seen the authoring conversation — an agent that just wrote
+a document will anchor on its own reasoning and rubber-stamp it. A `Task` subagent
+gets its **own context window and does not inherit this conversation**, so the
+isolation is structural rather than dependent on the user remembering to `/clear`.
+It is also strictly better than the fresh-window route in one respect: this session
+keeps its context, so you can act on the findings immediately instead of reloading
+the pillars, the dependency map, and every trade-off already made.
+
+The isolation only holds if you pass **paths, not content**. Violating any of the
+rules below reintroduces exactly the anchoring the fresh-window rule existed to prevent.
+
+#### Spawn rules — all mandatory
+
+Spawn one `game-designer` subagent via `Task` with a prompt that contains **only**:
+
+- the GDD path: `design/gdd/[system-name].md`
+- the pillars path: `design/gdd/game-concept.md` (or `design/gdd/game-pillars.md`)
+- the standard: `.claude/docs/templates/game-design-document.md`
+- the instruction to **read all three from disk itself**
+- the review procedure: "follow `.claude/skills/design-review/SKILL.md` Phases 1–4 at
+  `--depth lean`"
+- adversarial framing, verbatim:
+  > "You are reviewing a document you did not write. Your job is to find what is wrong
+  > with it, not to confirm it. Assume a competent programmer must implement this
+  > without asking questions. Report every place they would have to guess. Return a
+  > verdict: APPROVED / NEEDS REVISION [list] / MAJOR REVISION NEEDED [list]."
+
+**Never put in the subagent prompt:** the draft text, a summary of what was decided,
+the rationale for any choice, which options were rejected, the user's stated
+preferences, or anything framed as "we chose X because Y". If the reviewer needs it,
+it belongs in the GDD — and if it is not in the GDD, that omission is itself a finding.
+
+#### Handling the verdict
+
+Report the verdict verbatim, then use `AskUserQuestion`:
+- `[A] Apply the suggested revisions now`
+- `[B] Accept the findings and move on` (records them in the GDD Status header)
+- `[C] Re-review in a fresh window` — for a second opinion at full depth; direct the
+  user to run `/design-review design/gdd/[system-name].md` in a new session. The
+  standalone skill is unchanged and remains available at any time.
+
+Record the outcome in the GDD Status header:
+`> **Design Review**: APPROVED [date] / NEEDS REVISION (accepted) [date] / REVISED [date]`
+
+If the user prefers the hard-isolation route for every system, they can skip this
+step entirely — say so and go to 5d with Status "Designed (pending review)".
 
 ### 5d: Update Systems Index
 
 After the GDD is complete (and optionally reviewed):
 
 - Read the systems index
-- Update the target system's row:
-  - If design-review was run and verdict is APPROVED: Status → "Approved"
-  - If design-review was run and verdict is NEEDS REVISION: Status → "In Review"
-  - If design-review was skipped: Status → "Designed" (pending review)
-  - If the user chose "I'll review it myself first": Status → "Designed"
+- Update the target system's row using the 5c verdict:
+  - APPROVED → Status "Approved"
+  - NEEDS REVISION or MAJOR REVISION NEEDED, findings applied → Status "Approved"
+  - NEEDS REVISION or MAJOR REVISION NEEDED, findings accepted but not applied → Status "In Review"
+  - Review skipped (user opted for a fresh-window review, or skipped entirely) → Status "Designed" (pending review)
   - Design Doc: link to `design/gdd/[system-name].md`
 - Update the Progress Tracker counts
 
@@ -775,11 +818,13 @@ Update `production/session-state/active.md` with:
 Use `AskUserQuestion`:
 - "What's next?"
   - Options:
-    - "Run `/consistency-check` — verify this GDD's values don't conflict with existing GDDs (recommended before designing the next system)"
     - "Design next system ([next-in-order])" — if undesigned systems remain
-    - "Fix review findings" — if design-review flagged issues
+    - "Fix review findings" — if 5c flagged issues the user chose to accept rather than apply
+    - "Run `/review-all-gdds`" — once all MVP-tier systems are designed. This is the
+      required cross-GDD pass; it subsumes `/consistency-check`, so there is no need
+      to run a per-system consistency check between systems.
     - "Stop here for this session"
-    - "Run `/gate-check`" — if enough MVP systems are designed
+    - "Run `/gate-check technical-setup`" — after `/review-all-gdds` passes
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: create-epics
-description: "Translate approved GDDs + architecture into epics — one epic per architectural module. Defines scope, governing ADRs, engine risk, and untraced requirements. Does NOT break into stories — run /create-stories [epic-slug] after each epic is created."
+description: "Translate approved GDDs + architecture into epics — one epic per architectural module. Defines scope, governing ADRs, engine risk, and untraced requirements, then offers to break each epic into story files in the same run (reusing the GDDs and ADRs already loaded) so /create-stories does not need a separate invocation per epic."
 argument-hint: "[system-name | layer: foundation|core|feature|presentation | all] [--review full|lean|solo]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Task, AskUserQuestion
@@ -220,14 +220,40 @@ Engine: [name + version]
 
 ---
 
-## 6. Gate-Check Reminder
+## 6. Continue Into Story Breakdown
 
-After writing all epics for the requested scope:
+Epics on their own are not actionable — a developer cannot pick up an epic. Rather
+than ending here and making the user run `/create-stories [epic-slug]` once per epic
+(three epics meant three more invocations, each re-reading the same GDD, ADRs and
+control manifest this skill already has loaded), offer to continue straight through.
+
+Present the epic summary table, then use `AskUserQuestion`:
+
+- Prompt: "[N] epic(s) written. Break them into stories now? Everything needed is
+  already loaded — running `/create-stories` separately would re-read the same GDDs,
+  ADRs and control manifest."
+- Options:
+  - `[A] Yes — break down all [N] epics now` (recommended)
+  - `[B] Yes, but only [first epic]` — for a look at the output shape before committing
+  - `[C] No — I'll run /create-stories per epic later`
+
+For [A] or [B]: follow `.claude/skills/create-stories/SKILL.md` for each selected
+epic, in dependency order. Its per-story approval protocol applies unchanged — this
+is the same work in one invocation, not a lighter version of it. Reuse what is
+already in context (GDD requirements, ADR statuses, control manifest version) rather
+than re-reading.
+
+If context runs short partway through, stop cleanly at an epic boundary, write what
+is approved, and tell the user which epics remain and to run
+`/create-stories [epic-slug]` for each. Never leave an epic half-broken-down.
+
+For [C]: end with the reminder that `/create-stories [epic-slug]` must run per epic
+before developers can pick up work.
+
+### Gate-Check Reminder
 
 - **Foundation + Core complete**: These are required for the Pre-Production →
   Production gate. Run `/gate-check production` to check readiness.
-- **Reminder**: Epics define scope. Stories define implementation steps. Run
-  `/create-stories [epic-slug]` for each epic before developers can pick up work.
 
 ---
 
@@ -237,9 +263,12 @@ After writing all epics for the requested scope:
 2. **Warn on gaps** — flag untraced requirements before proceeding
 3. **Ask before writing** — per-epic approval before writing any file
 4. **No invention** — all content comes from GDDs, ADRs, and architecture docs
-5. **Never create stories** — this skill stops at the epic level
+5. **Ask before breaking into stories** — never roll into story creation unprompted;
+   step 6 must be answered explicitly
 
 After all requested epics are processed:
 
-- **Verdict: COMPLETE** — [N] epic(s) written. Run `/create-stories [epic-slug]` per epic.
+- **Verdict: COMPLETE** — [N] epic(s) written, [M] story file(s) written.
+- **Verdict: PARTIAL** — epics written, story breakdown declined or stopped early.
+  Name the epics still needing `/create-stories [epic-slug]`.
 - **Verdict: BLOCKED** — user declined all epics, or no eligible systems found.

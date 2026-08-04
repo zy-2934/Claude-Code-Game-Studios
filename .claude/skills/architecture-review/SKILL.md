@@ -601,29 +601,66 @@ Engine: [name + version]
 
 ---
 
+## Phase 8b: Generate the Control Manifest
+
+This skill has just read every ADR, resolved their statuses, and built the
+traceability matrix — which is precisely the input `/create-control-manifest`
+needs. Generating the manifest here saves the user a separate invocation that
+would re-read the same files from scratch.
+
+**Only run this if there is at least one `Accepted` ADR.** If all ADRs are still
+`Proposed`, skip and note: "Control manifest not generated — no Accepted ADRs yet.
+Re-run `/architecture-review` once Foundation ADRs are accepted."
+
+Follow `.claude/skills/create-control-manifest/SKILL.md` steps 2 through 5:
+extract Required / Forbidden / Guardrail rules per ADR, add the global rules, present
+the preview for approval, then write `docs/architecture/control-manifest.md` with a
+fresh `Manifest Version:` date stamp.
+
+Two things carry over from this review — use them rather than re-deriving:
+- ADR statuses are already resolved; include rules only from `Accepted` ADRs.
+- Conflicts found in Phase 4 must not become contradictory manifest rules. If two
+  Accepted ADRs disagree on a rule, surface it and stop rather than emitting both.
+
+If the manifest already exists, diff against it and show what changed before writing.
+Stories embed the manifest version, so a bumped version makes existing stories stale —
+say how many stories reference the old version (`Grep` `production/epics/`) so the
+user can weigh that before approving.
+
+`/create-control-manifest` remains available standalone for regenerating the manifest
+without a full architecture review.
+
+---
+
 ## Phase 9: Handoff
 
 After completing the review and writing approved files, present:
 
 1. **Immediate actions**: List the top 3 ADRs to create (highest-impact gaps first,
    Foundation layer before Feature layer)
-2. **Pre-gate checklist**: Check whether these exist via Glob and mark each ✅ or ❌:
+2. **Pre-gate checklist** for the Technical Setup → Pre-Production gate. Check via
+   Glob and mark each ✅ or ❌:
    - `tests/unit/` and `tests/integration/` directories — if ❌: run `/test-setup`
    - `.github/workflows/tests.yml` — if ❌: run `/test-setup`
-   - `design/accessibility-requirements.md` — if ❌: run `/ux-design`
-   - `design/ux/interaction-patterns.md` — if ❌: run `/ux-design`
+   - at least one example test file — if ❌: run `/test-setup`
+   - `docs/architecture/control-manifest.md` — written by Phase 8b above
    Present ❌ items as required steps before gate-check. Do not offer `/gate-check`
    as an option if any item is ❌ — offer the missing skill to run instead.
+
+   > UX files are **not** pre-gate items for this transition.
+   > `design/accessibility-requirements.md` and `design/ux/interaction-patterns.md`
+   > are written by `/ux-design` during Pre-Production and are checked at the
+   > *next* gate. Requiring them here gated Technical Setup on files that no
+   > Technical Setup step produces.
 3. **Rerun trigger**: "Re-run `/architecture-review` after each new ADR is written
-   to verify coverage improves"
+   to verify coverage improves — it regenerates the control manifest too"
 
 Then close with `AskUserQuestion` tailored to the pre-gate checklist state:
 - If ADR gaps remain or any pre-gate item is ❌:
   - "Architecture review complete. What would you like to do next?"
     - [A] Write a missing ADR — open a fresh session and run `/architecture-decision [system]`
     - [B] Run `/test-setup` — required before gate-check (only show if test infrastructure is ❌)
-    - [C] Run `/ux-design` — required before gate-check (only show if UX/accessibility files are ❌)
-    - [D] Stop here for this session
+    - [C] Stop here for this session
 - If all pre-gate checklist items are ✅ and no blocking ADR gaps remain:
   - "Architecture review complete. All pre-gate items confirmed. What would you like to do next?"
     - [A] Run `/gate-check pre-production`

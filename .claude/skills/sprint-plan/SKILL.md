@@ -198,6 +198,42 @@ stories that haven't changed, add new stories, remove dropped ones.
 
 ---
 
+## Phase 3b: Batch Story Readiness
+
+Validate **every story admitted to this sprint in one pass**, rather than making the
+user run `/story-readiness` per story before picking each one up. A sprint of 8
+stories previously cost 8 separate invocations; this is one.
+
+**Review mode check:**
+- `solo` → skip the agent spawn. Still run the mechanical checks below yourself and
+  report anything missing — they are file reads, not judgement calls.
+- `lean` / `full` → spawn one `qa-lead` via Task using gate **QL-STORY-READY**
+  (`.claude/docs/director-gates.md`), passing the **whole story list at once**.
+
+Pass, for each story: file path, story type (Logic / Integration / Visual-Feel / UI /
+Config-Data), acceptance criteria verbatim, and the GDD requirement TR-ID it covers.
+Ask for a per-story verdict: ADEQUATE / GAPS [list] / INADEQUATE [list].
+
+Mechanical checks to run regardless of mode, per story:
+- embeds a GDD requirement TR-ID that exists in `docs/architecture/tr-registry.yaml`
+- names a governing ADR, and that ADR's status is `Accepted` (not `Proposed`)
+- control manifest version in the story header matches the current
+  `docs/architecture/control-manifest.md` version
+- has acceptance criteria and a test evidence path appropriate to its story type
+- has no unresolved open design questions
+
+Present a compact table — one row per story, verdict plus the specific gap. Then:
+
+- **INADEQUATE stories** must not enter the sprint as Must Have. Use
+  `AskUserQuestion`: `Fix them now` / `Move to Should Have` / `Defer to next sprint`.
+- **GAPS stories** may proceed; record the gap in the sprint plan's Risks section.
+
+Stories added or revised *after* this pass should be checked individually with
+`/story-readiness [path]` — that skill is unchanged and remains the tool for
+mid-sprint additions.
+
+---
+
 ## Phase 4: Producer Feasibility Gate
 
 **Review mode check** — apply before spawning PR-SPRINT:
