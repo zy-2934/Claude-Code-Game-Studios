@@ -1171,6 +1171,52 @@ Ask Claude to create a post-mortem using the template at
 
 These topics apply across all phases.
 
+### Project Scale
+
+Scale decides **which steps exist**. It is the single biggest lever on how long the
+workflow is. Set once during `/start`, saved to `production/scale.txt`.
+
+| Scale | What it is | Required steps before your first line of code |
+|---|---|---|
+| `jam` | Jam or spike, under about a week | **3** — `/brainstorm`, `/setup-engine`, `/prototype` |
+| `indie` | **Default.** Solo dev or small team shipping a real game | **~12** |
+| `studio` | Team with handoffs between people who weren't in the room | **~13 unique** (~26 invocations on a 6-system game) |
+
+What each scale drops:
+
+| | jam | indie | studio |
+|---|---|---|---|
+| System GDDs (`/design-system`) | none — `/quick-design` as needed | MVP-tier systems | all systems |
+| Architecture | none | `architecture.md` + review | + 3 Foundation ADRs |
+| UX specs | none | core HUD | main menu + HUD + pause |
+| Epics and stories | none | yes | yes |
+| Art bible | optional | optional until asset production | all 9 sections |
+| Phase gates | 0 | 2 | 6 |
+
+**Scale is a floor, not a ceiling.** Every skill remains available at every scale —
+marking a step optional at `jam` means "not required", never "not allowed". Run
+`/design-system` during a jam if a mechanic genuinely warrants it.
+
+**Choose by who has to read the output, not by ambition.** A design document exists
+so someone who was not in the room can act on it. A solo dev re-reading their own
+notes needs far less than a team briefing an outsourcer. Picking `indie` for a game
+you hope becomes big is correct — move to `studio` the day a second person joins.
+
+Change it any time by editing `production/scale.txt`. Raising the scale mid-project
+does not invalidate anything; `/help` simply starts listing the additional steps as
+required, and `/gate-check` starts expecting the additional gates.
+
+### Scale vs. review mode
+
+These two settings are **independent and compose**:
+
+- **Scale** (`production/scale.txt`) → *which steps exist*
+- **Review mode** (`production/review-mode.txt`) → *who reviews them*
+
+`studio` scale with `solo` review means every artifact gets written but no director
+agent reviews any of it. `jam` scale with `full` review means very few artifacts, each
+one heavily scrutinised. Both are valid. Set them independently.
+
 ### Director Review Modes
 
 Director gates are specialist agents that review your work at key workflow steps.

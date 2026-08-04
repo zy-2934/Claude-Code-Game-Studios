@@ -50,27 +50,27 @@ skills in production/polish, etc.).
 
 ---
 
-## Step 2: Determine Current Phase
+## Step 2: Determine Current Phase and Project Scale
 
-Check in this order:
+**Phase** — follow the ladder in `.claude/docs/stage-detection.md` exactly. Read that
+file and apply it; do not use a local variant. It is the single source of truth shared
+with `/project-stage-detect`, `/gate-check`, `/adopt`, and `statusline.sh`, and it
+contains the display-name → catalog-key mapping this skill needs for Step 4.
 
-1. **Read `production/stage.txt`** — if it exists and has content, this is the
-   authoritative phase name. Map it to a catalog phase key:
-   - "Concept" → `concept`
-   - "Systems Design" → `systems-design`
-   - "Technical Setup" → `technical-setup`
-   - "Pre-Production" → `pre-production`
-   - "Production" → `production`
-   - "Polish" → `polish`
-   - "Release" → `release`
+**Scale** — read `production/scale.txt` (one word: `jam`, `indie`, or `studio`).
+If the file is missing or empty, use `indie` and mention once in the output that the
+default is in effect and can be changed by writing that file.
 
-2. **If stage.txt is missing**, infer phase from artifacts (most-advanced match wins):
-   - `src/` has 10+ source files → `production`
-   - `production/stories/*.md` exists → `pre-production`
-   - `docs/architecture/adr-*.md` exists → `technical-setup`
-   - `design/gdd/systems-index.md` exists → `systems-design`
-   - `design/gdd/game-concept.md` exists → `concept`
-   - Nothing → `concept` (fresh project)
+Scale decides which steps count as REQUIRED. In the catalog, a step's `required:`
+field is either a boolean or a list of scale names:
+
+- `required: true` → required at every scale
+- `required: false` → never required
+- `required: [indie, studio]` → required at those scales, OPTIONAL at `jam`
+
+Resolve by membership, not truthiness — a list is truthy even when the current scale
+is not in it. A step that is optional at the current scale still appears under
+"Also available", never under "Next up".
 
 ---
 

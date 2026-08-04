@@ -9,7 +9,8 @@ model: opus
 
 # Guided Onboarding
 
-This skill writes one file: `production/review-mode.txt` (review mode config set in Phase 3b).
+This skill writes three files: `production/stage.txt` (Phase 3a),
+`production/scale.txt` (Phase 3a-bis) and `production/review-mode.txt` (Phase 3b).
 
 This skill is the entry point for new users. It does NOT assume you have a game idea, an engine preference, or any prior experience. It asks first, then routes you to the right workflow.
 
@@ -183,6 +184,45 @@ Say: "I've set `production/stage.txt` to `[stage]` — this anchors your status 
 
 ---
 
+## Phase 3a-bis: Set Project Scale
+
+Check if `production/scale.txt` already exists.
+
+**If it exists**: read it, show it — "Project scale is `[current]`." — and move on.
+Do not ask again.
+
+**If it does not exist**: use `AskUserQuestion`. This is the single highest-leverage
+setup choice — it decides how many steps stand between here and writing code.
+
+- **Prompt**: "How big is this project? This sets how much planning the workflow asks
+  for before you start building."
+- **Options**:
+  - `Indie (recommended)` — Solo dev or small team shipping a real game. GDDs for
+    MVP systems, one architecture doc, a UX spec for the core HUD. About 13 steps
+    before the first line of code.
+  - `Jam` — Game jam or spike, under about a week. Validate by building, not by
+    documenting: brainstorm, pick an engine, prototype, then write code. No GDDs,
+    no ADRs, no epics. About 3 steps.
+  - `Studio` — Team with specialists, where people hand work to others who were not
+    in the room. Every artifact and all six gates. About 26 steps.
+
+Write the choice to `production/scale.txt` immediately (`jam` / `indie` / `studio`) —
+no separate "May I write?" needed, the write is a direct consequence of the selection.
+
+Then say, once:
+
+> "Scale sets which *steps* are required. Review mode (next question) sets who
+> *reviews* them. They are independent — you can pick `studio` scale with `solo`
+> review, or `jam` with `full`. Change either at any time by editing
+> `production/scale.txt` or `production/review-mode.txt`; nothing is locked in."
+
+**Judge by who has to read the output, not by ambition.** A design document exists so
+that someone who was not present can act on it. A solo dev re-reading their own notes
+needs far less than a team briefing an outsourcer. Picking `indie` for a game you hope
+becomes big is correct — you can move to `studio` the day a second person joins.
+
+---
+
 ## Phase 3b: Set Review Mode
 
 Check if `production/review-mode.txt` already exists.
@@ -231,7 +271,7 @@ Verdict: **COMPLETE** — user oriented and handed off to next step.
 
 - **User picks D but project is empty**: Gently redirect — "It looks like the project is a fresh template with no artifacts yet. Would Path A or B be a better fit?"
 - **User picks A but project has code**: Mention what you found — "I noticed there's already code in `src/`. Did you mean to pick D (existing work)?"
-- **User is returning (engine configured, concept exists)**: Skip onboarding entirely — "It looks like you're already set up! Your engine is [X] and you have a game concept at `design/gdd/game-concept.md`. Review mode: `[read from production/review-mode.txt, or 'lean (default)' if missing]`. Want to pick up where you left off? Try `/sprint-plan` or just tell me what you'd like to work on."
+- **User is returning (engine configured, concept exists)**: Skip onboarding entirely — "It looks like you're already set up! Your engine is [X] and you have a game concept at `design/gdd/game-concept.md`. Scale: `[read from production/scale.txt, or 'indie (default)' if missing]`, review mode: `[read from production/review-mode.txt, or 'lean (default)' if missing]`. Want to pick up where you left off? Try `/help` for the next step, or just tell me what you'd like to work on."
 - **User doesn't fit any option**: Let them describe their situation in their own words and adapt.
 
 ---

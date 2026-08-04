@@ -7,12 +7,59 @@
 #   min_count: minimum matching files required (default: 1)
 #   note: human-readable fallback when completion can't be auto-detected
 #
-# required: true → blocks progression to next phase (shown as REQUIRED)
-# required: false → optional enhancement (shown as OPTIONAL)
 # repeatable: true → runs multiple times (one per system, story, etc.)
 #
+# ---------------------------------------------------------------------------
+# required: — which project scales must complete this step
+#
+#   required: true              required at every scale
+#   required: false             never required (optional enhancement)
+#   required: [indie, studio]   required at those scales, optional at jam
+#
+# A list is truthy, so a reader that only tests truthiness still sees the
+# studio behaviour. To resolve correctly, read production/scale.txt and check
+# membership.
+#
+# ---------------------------------------------------------------------------
+# Project scale — production/scale.txt, one word. Default: indie.
+#
+# This is ORTHOGONAL to production/review-mode.txt. Review mode controls WHO
+# REVIEWS (which director gates spawn). Scale controls WHICH STEPS EXIST.
+# They compose: scale=indie + review-mode=solo is a valid, very fast setup.
+#
+#   jam     Game jam / spike, under about a week. Validate by building, not by
+#           documenting. No GDDs, no ADRs, no epics — use /quick-design for
+#           anything needing a written rule. ~3 steps to first line of code.
+#   indie   DEFAULT. Solo dev or small team shipping a real game. MVP-tier
+#           GDDs, one architecture doc, one UX spec for the core HUD.
+#           ~13 steps to first line of code.
+#   studio  Team with specialists and handoffs between people who do not share
+#           context. Every artifact, every gate. ~26 steps to first line of code.
+#
+# Choose by "who has to read this", not by ambition. A document exists so
+# someone who was not in the room can act on it. Solo devs re-reading their own
+# notes need far less than a team briefing an outsourcer.
+#
+# Scale is a floor, not a ceiling — any step can be run at any scale. Marking a
+# step optional at jam means "not required", never "unavailable".
+#
+# ---------------------------------------------------------------------------
 # Phase gates (/gate-check): verdicts are ADVISORY — they guide the decision
 # but never hard-block advancement. The user always decides whether to proceed.
+# Gates run by default per scale:
+#   jam     none
+#   indie   pre-production → production only
+#   indie   ...plus polish → release if the game is being published
+#   studio  all six
+
+scales:
+  default: indie
+  values: [jam, indie, studio]
+  config_file: production/scale.txt
+  gates_by_scale:
+    jam: []
+    indie: [production, release]
+    studio: [systems-design, technical-setup, pre-production, production, polish, release]
 
 phases:
 
@@ -53,15 +100,24 @@ phases:
       - id: art-bible
         name: "Art Bible"
         command: /art-bible
-        required: true
+        required: false
         artifact:
           glob: "design/art/art-bible.md"
-        description: "Author the visual identity specification (9 sections). Uses the Visual Identity Anchor produced by /brainstorm. Run after game concept is formed, before systems design."
+        description: "Author the visual identity specification (9 sections). Uses the Visual Identity Anchor produced by /brainstorm. Optional here — the Concept gate does not check it. Sections 1-4 are required by the Technical Setup gate and all 9 by the Pre-Production gate, so author it any time before then. Games using purchased or placeholder art can defer it until asset production actually starts."
+
+      - id: prototype-concept
+        name: "Concept Prototype"
+        command: /prototype
+        required: [jam]
+        artifact:
+          glob: "prototypes/*/REPORT.md"
+          min_count: 1
+        description: "Build a throwaway prototype to validate the core mechanic is fun before writing GDDs. Produces a PROCEED/PIVOT/KILL verdict. Recommended for first-time mechanics or high-risk design decisions; solo devs with proven concepts may skip."
 
       - id: map-systems
         name: "Systems Map"
         command: /map-systems
-        required: true
+        required: [indie, studio]
         artifact:
           glob: "design/gdd/systems-index.md"
         description: "Decompose concept into systems with dependency ordering and priority tiers"
@@ -74,33 +130,42 @@ phases:
       - id: design-system
         name: "System GDDs"
         command: /design-system
-        required: true
+        required: [indie, studio]
         repeatable: true
         artifact:
           note: "Check design/gdd/systems-index.md — each MVP system needs Status: Approved"
         description: "Author per-system GDDs (guided, section-by-section). Run once per system."
 
+      - id: quick-design
+        name: "Quick Design Specs (jam scale)"
+        command: /quick-design
+        required: false
+        repeatable: true
+        artifact:
+          glob: "design/quick-specs/*.md"
+        description: "The jam-scale design path. Instead of a full GDD per system, write a short spec only for rules you would otherwise forget or get wrong — formulas, state machines, anything with a number in it. Skip it for mechanics that are obvious from the code. At indie and studio scale this stays what it is today: the lightweight path for changes too small to warrant /design-system."
+
       - id: design-review
         name: "Per-System Design Review"
         command: /design-review
-        required: true
+        required: false
         repeatable: true
-        description: "Validate each GDD (8 required sections, no MAJOR REVISION verdict). Run per system."
+        description: "Validate a single GDD (8 required sections, no MAJOR REVISION verdict). No longer a separate required step: /design-system Phase 5c now runs this review automatically via an isolated subagent that re-reads the file from disk with no authoring context. Run this standalone when you want a second opinion at full depth, or to re-review after edits."
 
       - id: review-all-gdds
         name: "Cross-GDD Review"
         command: /review-all-gdds
-        required: true
+        required: [indie, studio]
         artifact:
           glob: "design/gdd/gdd-cross-review-*.md"
-        description: "Holistic consistency check + design theory review across all GDDs simultaneously"
+        description: "Holistic consistency check + design theory review across all GDDs simultaneously. Subsumes /consistency-check — do not run both."
 
       - id: consistency-check
         name: "Consistency Check"
         command: /consistency-check
         required: false
         repeatable: true
-        description: "Scan all GDDs for contradictions, undefined references, and mechanic conflicts. Run after /review-all-gdds, and again any time a GDD is added or revised mid-project."
+        description: "Registry-anchored, grep-first scan for contradictions across GDDs. /review-all-gdds already covers this ground; use /consistency-check on its own only for a fast targeted re-check after a single GDD changes mid-project, when a full cross-review would be overkill."
 
   technical-setup:
     label: "Technical Setup"
@@ -110,7 +175,7 @@ phases:
       - id: create-architecture
         name: "Architecture Document"
         command: /create-architecture
-        required: true
+        required: [indie, studio]
         artifact:
           glob: "docs/architecture/architecture.md"
         description: "Author the master architecture document covering all systems"
@@ -118,7 +183,7 @@ phases:
       - id: architecture-decision
         name: "Architecture Decisions (ADRs)"
         command: /architecture-decision
-        required: true
+        required: [studio]
         repeatable: true
         artifact:
           glob: "docs/architecture/adr-*.md"
@@ -126,27 +191,29 @@ phases:
         description: "Document key technical decisions as ADRs. Minimum 3 Foundation-layer ADRs required."
 
       - id: architecture-review
-        name: "Architecture Review"
+        name: "Architecture Review + Control Manifest"
         command: /architecture-review
-        required: true
+        required: [indie, studio]
         artifact:
           glob: "docs/architecture/architecture-review-*.md"
-        description: "Validate completeness, dependency ordering, engine compatibility"
+        description: "Validate completeness, dependency ordering, engine compatibility — then generate docs/architecture/control-manifest.md in Phase 8b from the ADRs it just read. Re-run after each new ADR; it refreshes the manifest too."
 
       - id: control-manifest
         name: "Control Manifest"
         command: /create-control-manifest
-        required: true
+        required: false
         artifact:
           glob: "docs/architecture/control-manifest.md"
-        description: "Flat programmer rules sheet generated from all Accepted ADRs"
+        description: "Flat programmer rules sheet generated from all Accepted ADRs. Not a separate required step — /architecture-review Phase 8b produces it from the same ADR read. Use standalone to regenerate the manifest without a full review."
 
-      - id: accessibility-doc
-        name: "Accessibility Requirements"
-        required: true
+      - id: test-setup
+        name: "Test Framework Setup"
+        command: /test-setup
+        required: [indie, studio]
         artifact:
-          glob: "design/accessibility-requirements.md"
-        description: "Commit accessibility tier (Basic/Standard/Comprehensive/Exemplary) and feature matrix. UX specs (Phase 4) reference this tier."
+          glob: "tests/**/*"
+          note: "Check tests/unit/ and tests/integration/ exist plus .github/workflows/tests.yml"
+        description: "Scaffold the test framework and CI pipeline. Required here, not in Pre-Production: the Technical Setup gate checks for tests/unit/, tests/integration/, .github/workflows/tests.yml and an example test. Leads to /test-helpers for fixtures, /qa-plan per epic, /smoke-check per sprint."
 
   pre-production:
     label: "Pre-Production"
@@ -170,10 +237,18 @@ phases:
           glob: "design/assets/asset-manifest.md"
         description: "Generate per-asset visual specifications and AI generation prompts. Run once per entity, system, level, or character. If no source doc exists, /asset-spec interviews you inline — no narrative document required."
 
+      - id: accessibility-doc
+        name: "Accessibility Requirements"
+        command: /ux-design
+        required: [indie, studio]
+        artifact:
+          glob: "design/accessibility-requirements.md"
+        description: "Commit accessibility tier (Basic/Standard/Comprehensive/Exemplary) and feature matrix. Written by /ux-design, which initializes this file and design/ux/interaction-patterns.md on first run. Author it before the key-screen specs — every UX spec is validated against this tier."
+
       - id: ux-design
         name: "UX Specs (key screens)"
         command: /ux-design
-        required: true
+        required: [indie, studio]
         repeatable: true
         artifact:
           glob: "design/ux/*.md"
@@ -183,50 +258,33 @@ phases:
       - id: ux-review
         name: "UX Review"
         command: /ux-review
-        required: true
-        description: "Validate all key screen UX specs for GDD alignment and accessibility tier compliance. Run before creating epics."
-
-      - id: prototype
-        name: "Prototype"
-        command: /prototype
         required: false
-        artifact:
-          glob: "prototypes/*/README.md"
-          min_count: 1
-        description: "Build a throwaway prototype to validate the core mechanic is fun before committing to full production. Recommended for first-time mechanics or high-risk design decisions. Solo devs with proven concepts may skip."
+        description: "Validate key screen UX specs for GDD alignment and accessibility tier compliance. No longer a separate required step: /ux-design Phase 6b now reviews each spec via an isolated subagent as it is written. Run this standalone for a batch pass over all specs, or a second opinion at full depth."
 
       - id: create-epics
-        name: "Create Epics"
+        name: "Create Epics + Stories"
         command: /create-epics
-        required: true
+        required: [indie, studio]
         repeatable: true
         artifact:
           glob: "production/epics/*/EPIC.md"
           min_count: 1
-        description: "Translate GDDs + ADRs into epics — one per architectural module. Run per layer: /create-epics layer: foundation, then /create-epics layer: core"
+        description: "Translate GDDs + ADRs into epics — one per architectural module — then continue into story breakdown in the same run (step 6 asks first). Run per layer: /create-epics layer: foundation, then /create-epics layer: core"
 
       - id: create-stories
         name: "Create Stories"
         command: /create-stories
-        required: true
+        required: false
         repeatable: true
         artifact:
-          glob: "production/epics/**/*.md"
+          glob: "production/epics/**/story-*.md"
           min_count: 2
-        description: "Break each epic into implementable story files. Run per epic: /create-stories [epic-slug]"
-
-      - id: test-setup
-        name: "Test Framework Setup"
-        command: /test-setup
-        required: false
-        artifact:
-          note: "Check tests/ directory for engine-specific test framework scaffold"
-        description: "Scaffold the test framework and CI pipeline once before the first sprint. Leads to /test-helpers for fixture generation, /qa-plan per epic, and /smoke-check per sprint."
+        description: "Break a single epic into implementable story files. Not a separate required step — /create-epics step 6 offers to do this for every epic it just wrote, reusing the GDDs, ADRs and control manifest already loaded. Run standalone for one epic, or to re-break an epic after its GDD changed."
 
       - id: sprint-plan
         name: "First Sprint Plan"
         command: /sprint-plan
-        required: true
+        required: [indie, studio]
         artifact:
           glob: "production/sprints/sprint-*.md"
           min_count: 1
@@ -249,17 +307,17 @@ phases:
       - id: sprint-plan
         name: "Sprint Plan"
         command: /sprint-plan
-        required: true
+        required: [indie, studio]
         repeatable: true
         artifact:
           glob: "production/sprints/sprint-*.md"
-        description: "Plan the current sprint with prioritized, ready stories"
+        description: "Plan the current sprint with prioritized, ready stories. Includes the batch story-readiness pass (Phase 3b) — no need to run /story-readiness per story. Not required at jam scale: a jam that needs a sprint plan is not a jam."
 
       - id: story-readiness
         name: "Story Readiness Check"
         command: /story-readiness
         required: false
-        description: "Validate a story is implementation-ready before a developer picks it up"
+        description: "Validate a story is implementation-ready. Not a per-story step: /sprint-plan validates every story it admits to the sprint in one batch pass (it already spawns qa-lead for QL-STORY-READY). Use standalone when a story is added mid-sprint or revised after planning."
 
       - id: implement
         name: "Implement Stories"
@@ -275,7 +333,7 @@ phases:
         command: /code-review
         required: false
         repeatable: true
-        description: "Architectural code review after each story implementation. Run after /dev-story, before /story-done."
+        description: "Architectural code review. Not a separate step in the story loop — /story-done Phase 5 performs the review (both spawn lead-programmer against the same diff, so running both reviewed every story twice). Use standalone for code not tied to a story, or for a mid-implementation check before /story-done."
 
       - id: story-done
         name: "Story Done Review"
@@ -353,7 +411,7 @@ phases:
       - id: playtest-polish
         name: "Playtest Sessions (×3)"
         command: /playtest-report
-        required: true
+        required: [indie, studio]
         artifact:
           glob: "production/playtests/*.md"
           min_count: 3
@@ -362,7 +420,7 @@ phases:
       - id: team-polish
         name: "Polish Team Pass"
         command: /team-polish
-        required: true
+        required: [studio]
         description: "Coordinated polish pass across performance, audio, visual, and UX"
 
   release:
@@ -370,26 +428,26 @@ phases:
     description: "Launch preparation, certification, and ship"
     next_phase: null
     steps:
-      - id: release-checklist
-        name: "Release Checklist"
-        command: /release-checklist
-        required: true
-        description: "Pre-release validation across all departments: code, content, store, legal"
-
-      - id: patch-notes
-        name: "Patch Notes"
-        command: /patch-notes
-        required: false
-        description: "Generate player-facing patch notes from git history and sprint data"
-
-      - id: changelog
-        name: "Changelog"
-        command: /changelog
-        required: false
-        description: "Auto-generate internal changelog from commits, sprints, and design docs"
-
       - id: launch-checklist
         name: "Launch Checklist"
         command: /launch-checklist
-        required: true
-        description: "Final launch readiness — last gate before shipping to players"
+        required: [indie, studio]
+        description: "Full launch readiness across every department: code, content, store, marketing, community, infrastructure, legal, plus the Go/No-Go sign-off block. Last gate before shipping. Supersedes /release-checklist — do not run both."
+
+      - id: release-checklist
+        name: "Release Checklist"
+        command: /release-checklist
+        required: false
+        description: "Build verification, certification and store metadata only. A strict subset of /launch-checklist (same 6-phase structure, fewer sections, no Go/No-Go block). Use for an interim release candidate or a patch build where the full launch sweep is overkill; for an actual launch run /launch-checklist instead."
+
+      - id: changelog
+        name: "Changelog + Patch Notes"
+        command: /changelog
+        required: false
+        description: "Generate the internal changelog from commits, sprints and design docs — its final phase also emits the player-facing version, which is what /patch-notes produces. Run this alone unless you need patch notes without a changelog."
+
+      - id: patch-notes
+        name: "Patch Notes (standalone)"
+        command: /patch-notes
+        required: false
+        description: "Player-facing notes only, from git history and sprint data. /changelog already emits a player-facing section, so running both duplicates the work — use this when you want the player notes without generating an internal changelog."

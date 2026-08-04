@@ -363,6 +363,39 @@ are resolved. The new run will reflect the current state of the project.
 
 ---
 
+## Phase 6a-bis: Set Project Scale
+
+Check whether `production/scale.txt` exists. If it does, read it and note the value —
+"Project scale is `[current]`." — and skip the prompt.
+
+If it does not exist, **propose a scale rather than asking cold** — you have just
+audited the project and know more about it than the user can summarise. Base the
+proposal on what you found:
+
+| Evidence in the audit | Proposed scale |
+|---|---|
+| No GDDs, no ADRs, prototype-shaped source tree, single contributor in git log | `jam` |
+| Some GDDs or ADRs, one or two contributors, a real `src/` tree | `indie` |
+| Full GDD set, ADRs, epics, several contributors, CI configured | `studio` |
+
+Present it via `AskUserQuestion`:
+
+- **Prompt**: "Based on the audit — [one line of evidence, e.g. '4 GDDs, 2 ADRs, 1
+  contributor'] — I'd suggest `[proposed]` scale. Scale decides how many planning
+  steps the workflow asks for before implementation. Sound right?"
+- **Options**: the proposed scale first (marked recommended), then the other two,
+  each with its one-line description from `/start` Phase 3a-bis.
+
+Write the choice to `production/scale.txt` immediately after selection.
+
+**Scale changes the adoption plan's gap list.** After writing it, re-read the gaps
+you identified in Phase 3 and drop any whose producing step is optional at the chosen
+scale — check the step's `required:` list in `.claude/docs/workflow-catalog.yaml`.
+Reporting a missing art bible as a gap on a `jam` project is noise, not a finding.
+Say how many gaps this removed so the user can see the effect of the choice.
+
+---
+
 ## Phase 6b: Set Review Mode
 
 After writing the adoption plan (or if the user cancels writing), check whether

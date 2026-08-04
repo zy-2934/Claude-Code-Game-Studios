@@ -34,12 +34,36 @@ The project progresses through these stages:
 
 ## 1. Parse Arguments
 
-**Target phase:** `$ARGUMENTS[0]` (blank = auto-detect current stage, then validate next transition)
+**Target phase:** `$ARGUMENTS[0]` — the phase being **entered**, not the one being
+left. Blank = auto-detect current stage, then validate the next transition.
 
 Also resolve the review mode (once, store for all gate spawns this run):
 1. If `--review [full|lean|solo]` was passed → use that
 2. Else read `production/review-mode.txt` → use that value
 3. Else → default to `lean`
+
+**Also resolve the project scale.** Read `production/scale.txt` (`jam`, `indie`, or
+`studio`; default `indie` if absent). Scale determines which gates run by default —
+see `scales.gates_by_scale` in `.claude/docs/workflow-catalog.yaml`:
+
+| Scale | Gates run by default |
+|---|---|
+| `jam` | none |
+| `indie` | Pre-Production → Production, Polish → Release |
+| `studio` | all six |
+
+If the requested gate is **not** in the current scale's list, do not refuse it — say
+so and let the user decide:
+
+> "At `[scale]` scale this gate is not part of the default flow. Running it anyway
+> gives you the checklist, but a FAIL here is informational rather than a signal to
+> stop. Continue?" — `[A] Run it` / `[B] Skip to the next in-scale gate` / `[C] Cancel`
+
+Scale changes which gates are *expected*, never which are *available*. Also apply it
+when resolving required artifacts: a gate must not report a missing artifact as a
+blocker when the step producing it is optional at the current scale. Check the step's
+`required:` list in the catalog and downgrade such items to CONCERNS with the note
+"optional at `[scale]` scale".
 
 Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GATE, AD-PHASE-GATE) are skipped — gate-check becomes artifact-existence checks only. In `lean` mode, all four directors still run (phase gates are the purpose of lean mode).
 

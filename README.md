@@ -275,7 +275,10 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 - **Add rules** — create new path-scoped rules for your project's directory structure
 - **Tune hooks** — adjust validation strictness, add new checks
 - **Pick your engine** — use the Godot, Unity, or Unreal agent set (or none)
+- **Set project scale** — `jam` (~3 steps before you write code), `indie` (~12, the default), or `studio` (~13 unique steps and all six gates). Scale controls *which steps exist*: `jam` skips GDDs, ADRs, UX specs and epics entirely; `indie` keeps MVP-tier GDDs, one architecture doc and one UX spec. Set during `/start` or edit `production/scale.txt`. Every skill stays available at every scale — a step being optional never means unavailable.
 - **Set review intensity** — `full` (all director gates), `lean` (phase gates only), or `solo` (none). Set during `/start` or edit `production/review-mode.txt`. Override per-run with `--review solo` on any skill.
+
+  Scale and review mode are independent and compose: scale decides *which steps exist*, review mode decides *who reviews them*.
 
 ## Platform Support
 
