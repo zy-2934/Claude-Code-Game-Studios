@@ -147,8 +147,6 @@ Ask yourself: "What department would handle this in a real studio?"
 | `/test-helpers` | Generate engine-specific test helper libraries and factory functions |
 | `/test-flakiness` | Detect flaky tests from CI history, flag for quarantine or fix |
 | `/test-evidence-review` | Quality review of test files and manual evidence — ADEQUATE/INCOMPLETE/MISSING |
-| `/skill-test` | Validate skill files for compliance and correctness (static / spec / audit) |
-| `/skill-improve` | Improve a skill using a test-fix-retest loop — diagnose, propose fix, rewrite, verify |
 
 ### 4. Use Templates for New Documents
 
@@ -276,7 +274,7 @@ CLAUDE.md                          -- Master config (read this first, ~60 lines)
 .claude/
   settings.json                    -- Claude Code hooks and project settings
   agents/                          -- 49 agent definitions (YAML frontmatter)
-  skills/                          -- 73 slash command definitions (YAML frontmatter)
+  skills/                          -- 71 slash command definitions (YAML frontmatter)
   hooks/                           -- 12 hook scripts (.sh) wired by settings.json
   rules/                           -- 11 path-specific rule files
   docs/

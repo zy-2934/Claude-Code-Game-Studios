@@ -3,19 +3,17 @@
   <p align="center">
     Turn a single Claude Code session into a full game development studio.
     <br />
-    49 agents. 73 skills. One coordinated AI team.
+    49 agents. 71 skills. One coordinated AI team.
   </p>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href=".claude/agents"><img src="https://img.shields.io/badge/agents-49-blueviolet" alt="49 Agents"></a>
-  <a href=".claude/skills"><img src="https://img.shields.io/badge/skills-73-green" alt="73 Skills"></a>
-  <a href=".claude/hooks"><img src="https://img.shields.io/badge/hooks-12-orange" alt="12 Hooks"></a>
+  <a href=".claude/skills"><img src="https://img.shields.io/badge/skills-71-green" alt="71 Skills"></a>
+  <a href=".claude/hooks"><img src="https://img.shields.io/badge/hooks-11-orange" alt="11 Hooks"></a>
   <a href=".claude/rules"><img src="https://img.shields.io/badge/rules-11-red" alt="11 Rules"></a>
   <a href="https://docs.anthropic.com/en/docs/claude-code"><img src="https://img.shields.io/badge/built%20for-Claude%20Code-f5f5f5?logo=anthropic" alt="Built for Claude Code"></a>
-  <a href="https://www.buymeacoffee.com/donchitos3"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20this%20project-FFDD00?logo=buymeacoffee&logoColor=black" alt="Buy Me a Coffee"></a>
-  <a href="https://github.com/sponsors/Donchitos"><img src="https://img.shields.io/badge/GitHub%20Sponsors-Support%20this%20project-ea4aaa?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors"></a>
 </p>
 
 ---
@@ -42,8 +40,7 @@ The result: you still make every decision, but now you have a team that asks the
 - [Design Philosophy](#design-philosophy)
 - [Customization](#customization)
 - [Platform Support](#platform-support)
-- [Community](#community)
-- [Supporting This Project](#supporting-this-project)
+- [Upstream](#upstream)
 - [License](#license)
 
 ---
@@ -53,8 +50,8 @@ The result: you still make every decision, but now you have a team that asks the
 | Category | Count | Description |
 |----------|-------|-------------|
 | **Agents** | 49 | Specialized subagents across design, programming, art, audio, narrative, QA, and production |
-| **Skills** | 73 | Slash commands for every workflow phase (`/start`, `/design-system`, `/create-epics`, `/create-stories`, `/dev-story`, `/story-done`, etc.) |
-| **Hooks** | 12 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
+| **Skills** | 71 | Slash commands for every workflow phase (`/start`, `/design-system`, `/create-epics`, `/create-stories`, `/dev-story`, `/story-done`, etc.) |
+| **Hooks** | 11 | Automated validation on commits, pushes, asset changes, session lifecycle, agent audit trail, and gap detection |
 | **Rules** | 11 | Path-scoped coding standards enforced when editing gameplay, engine, AI, UI, network code, and more |
 | **Templates** | 40 | Document templates for GDDs, UX specs, ADRs, sprint plans, HUD design, accessibility, and more |
 
@@ -94,7 +91,7 @@ The template includes agent sets for all three major engines. Use the set that m
 
 ## Slash Commands
 
-Type `/` in Claude Code to access all 73 skills:
+Type `/` in Claude Code to access all 71 skills:
 
 **Onboarding & Navigation**
 `/start` `/help` `/project-stage-detect` `/setup-engine` `/adopt`
@@ -118,7 +115,7 @@ Type `/` in Claude Code to access all 73 skills:
 `/design-review` `/code-review` `/balance-check` `/content-audit` `/scope-check` `/perf-profile` `/tech-debt` `/gate-check` `/consistency-check` `/security-audit`
 
 **QA & Testing**
-`/qa-plan` `/smoke-check` `/soak-test` `/regression-suite` `/test-setup` `/test-helpers` `/test-evidence-review` `/test-flakiness` `/skill-test` `/skill-improve`
+`/qa-plan` `/smoke-check` `/soak-test` `/regression-suite` `/test-setup` `/test-helpers` `/test-evidence-review` `/test-flakiness`
 
 **Production**
 `/milestone-review` `/retrospective` `/bug-report` `/bug-triage` `/reverse-document` `/playtest-report`
@@ -146,7 +143,7 @@ All hooks fail gracefully if optional tools are missing — nothing breaks, you 
 
 1. **Clone or use as template**:
    ```bash
-   git clone https://github.com/Donchitos/Claude-Code-Game-Studios.git my-game
+   git clone https://github.com/zy-2934/Claude-Code-Game-Studios.git my-game
    cd my-game
    ```
 
@@ -165,7 +162,8 @@ All hooks fail gracefully if optional tools are missing — nothing breaks, you 
 
 ## Upgrading
 
-Already using an older version of this template? See [UPGRADING.md](UPGRADING.md)
+Already using an older version of this template? Compare against the upstream
+repository history — this fork no longer ships the template upgrade guide.
 for step-by-step migration instructions, a breakdown of what changed between
 versions, and which files are safe to overwrite vs. which need a manual merge.
 
@@ -176,7 +174,7 @@ CLAUDE.md                           # Master configuration
 .claude/
   settings.json                     # Hooks, permissions, safety rules
   agents/                           # 49 agent definitions (markdown + YAML frontmatter)
-  skills/                           # 73 slash commands (subdirectory per skill)
+  skills/                           # 71 slash commands (subdirectory per skill)
   hooks/                            # 12 hook scripts (bash, cross-platform)
   rules/                            # 11 path-scoped coding standards
   statusline.sh                     # Status line script (context%, model, stage, epic breadcrumb)
@@ -234,9 +232,8 @@ You stay in control. The agents provide structure and expertise, not autonomy.
 | `session-stop.sh` | Session close | Archives `active.md` to session log and records git activity |
 | `log-agent.sh` | Agent spawned | Audit trail start — logs subagent invocation |
 | `log-agent-stop.sh` | Agent stops | Audit trail stop — completes subagent record |
-| `validate-skill-change.sh` | PostToolUse (Write/Edit) | Advises running `/skill-test` after any `.claude/skills/` change |
 
-> **Note**: `validate-commit.sh`, `validate-assets.sh`, and `validate-skill-change.sh` fire on every Bash/Write tool call and exit immediately (exit 0) when the command or file path is not relevant. This is normal hook behavior — not a performance concern.
+> **Note**: `validate-commit.sh` and `validate-assets.sh` fire on every Bash/Write tool call and exit immediately (exit 0) when the command or file path is not relevant. This is normal hook behavior — not a performance concern.
 
 **Permission rules** in `settings.json` auto-allow safe operations (git status, test runs) and block dangerous ones (force push, `rm -rf`, reading `.env` files).
 
@@ -284,32 +281,14 @@ This is a **template**, not a locked framework. Everything is meant to be custom
 
 Primary development and testing on **Windows 10** with Git Bash. All hooks use POSIX-compatible patterns (`grep -E`, not `grep -P`) and include fallbacks for missing tools, so they should run on macOS and Linux. The `notify.sh` hook uses PowerShell for Windows toast notifications and is a no-op elsewhere — desktop notifications on macOS/Linux are not yet wired. Cross-platform testing is ongoing; please file issues for any platform-specific breakage.
 
-## Community
+## Upstream
 
-- **Discussions** — [GitHub Discussions](https://github.com/Donchitos/Claude-Code-Game-Studios/discussions) for questions, ideas, and showcasing what you've built
-- **Issues** — [Bug reports and feature requests](https://github.com/Donchitos/Claude-Code-Game-Studios/issues)
-
----
-
-## Supporting This Project
-
-Claude Code Game Studios is free and open source. If it saves you time or helps you ship your game, consider supporting continued development:
-
-<p>
-  <a href="https://www.buymeacoffee.com/donchitos3"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee"></a>
-  &nbsp;
-  <a href="https://github.com/sponsors/Donchitos"><img src="https://img.shields.io/badge/GitHub%20Sponsors-ea4aaa?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="GitHub Sponsors"></a>
-</p>
-
-- **[Buy Me a Coffee](https://www.buymeacoffee.com/donchitos3)** — one-time support
-- **[GitHub Sponsors](https://github.com/sponsors/Donchitos)** — recurring support through GitHub
-
-Sponsorships help fund time spent maintaining skills, adding new agents, keeping up with Claude Code and engine API changes, and responding to community issues.
+This is a fork of [Donchitos/Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios),
+trimmed for use as a project template: the skill-testing framework, session
+walkthroughs, and upstream repository meta-files have been removed, and the
+workflow has been shortened. File issues and feature requests against this fork,
+not upstream — the two have diverged.
 
 ---
 
-*Built for Claude Code. Maintained and extended — contributions welcome via [GitHub Discussions](https://github.com/Donchitos/Claude-Code-Game-Studios/discussions).*
-
-## License
-
-MIT License. See [LICENSE](LICENSE) for details.
+*Built for Claude Code. Original template by [Donchitos](https://github.com/Donchitos), MIT licensed.*

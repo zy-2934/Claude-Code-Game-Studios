@@ -3,7 +3,7 @@
 > **How to go from zero to a shipped game using the Agent Architecture.**
 >
 > This guide walks you through every phase of game development using the
-> 49-agent system, 73 slash commands, and 12 automated hooks. It assumes you
+> 49-agent system, 71 slash commands, and 11 automated hooks. It assumes you
 > have Claude Code installed and are working from the project root.
 >
 > The pipeline has 7 phases. Each phase has a formal gate (`/gate-check`)
@@ -1307,7 +1307,7 @@ Tier 3 (Specialists):  gameplay-programmer, engine-programmer,
 
 ### Automated Hooks (Safety Net)
 
-The system has 12 hooks that run automatically:
+The system has 11 hooks that run automatically:
 
 | Hook | Trigger | What It Does |
 |------|---------|-------------|
@@ -1319,7 +1319,6 @@ The system has 12 hooks that run automatically:
 | `validate-commit.sh` | Before commit | Checks for design doc references, valid JSON, no hardcoded values |
 | `validate-push.sh` | Before push | Warns on pushes to main/develop |
 | `validate-assets.sh` | Before commit | Checks asset naming and size |
-| `validate-skill-change.sh` | Skill file written | Advises running `/skill-test` after `.claude/skills/` changes |
 | `log-agent.sh` | Agent start | Logs agent invocations for audit trail |
 | `log-agent-stop.sh` | Agent stop | Completes agent audit trail (start + stop) |
 | `session-stop.sh` | Session end | Final session logging |
@@ -1524,7 +1523,6 @@ conflicts go to `producer`.
 | `/project-stage-detect` | Full project audit to determine current phase | Any |
 | `/setup-engine` | Configure engine, pin version, set preferences | 1 |
 | `/adopt` | Brownfield audit and migration plan | Any (existing projects) |
-| `/skill-improve` | Improve a skill via test-fix-retest loop | Any |
 
 #### Game Design (6)
 
@@ -1596,7 +1594,6 @@ conflicts go to `producer`.
 | `/test-helpers` | Generate engine-specific test helper libraries | 4-5 |
 | `/test-evidence-review` | Quality review of test files and manual evidence | 5 |
 | `/test-flakiness` | Detect non-deterministic tests from CI logs | 5-6 |
-| `/skill-test` | Validate skill files for structural and behavioral correctness | Any |
 
 #### Production Management (6)
 

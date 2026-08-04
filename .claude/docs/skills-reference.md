@@ -1,6 +1,6 @@
 # Available Skills (Slash Commands)
 
-73 slash commands organized by phase. Type `/` in Claude Code to access any of them.
+71 slash commands organized by phase. Type `/` in Claude Code to access any of them.
 
 ## Onboarding & Navigation
 
@@ -87,8 +87,6 @@
 | `/test-helpers` | Generate engine-specific test helper libraries for the test suite |
 | `/test-evidence-review` | Quality review of test files and manual evidence documents |
 | `/test-flakiness` | Detect non-deterministic (flaky) tests from CI run logs |
-| `/skill-test` | Validate skill files for structural compliance and behavioral correctness |
-| `/skill-improve` | Improve a skill using a test-fix-retest loop — diagnose, propose fix, rewrite, verify |
 
 ## Production
 
