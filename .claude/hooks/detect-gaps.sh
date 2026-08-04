@@ -9,6 +9,20 @@ set +e
 
 echo "=== Checking for Documentation Gaps ==="
 
+# --- Scan src/ exactly once ---
+# This hook runs at every SessionStart against a 10s timeout. On a real project
+# (1000+ files on NTFS via Git Bash) each `find` over src/ is the dominant cost,
+# so the source file list is computed once here and reused by checks 0, 1, and 5.
+SRC_LIST=""
+if [ -d "src" ]; then
+  SRC_LIST=$(find src -type f \( -name "*.gd" -o -name "*.cs" -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.hpp" -o -name "*.rs" -o -name "*.py" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null)
+fi
+if [ -n "$SRC_LIST" ]; then
+  SRC_FILES=$(printf '%s\n' "$SRC_LIST" | wc -l | tr -d ' ')
+else
+  SRC_FILES=0
+fi
+
 # --- Check 0: Fresh project detection (suggests /start) ---
 FRESH_PROJECT=true
 
@@ -26,11 +40,8 @@ if [ -f "design/gdd/game-concept.md" ]; then
 fi
 
 # Check if source code exists
-if [ -d "src" ]; then
-  SRC_CHECK=$(find src -type f \( -name "*.gd" -o -name "*.cs" -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.hpp" -o -name "*.rs" -o -name "*.py" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null | head -1)
-  if [ -n "$SRC_CHECK" ]; then
-    FRESH_PROJECT=false
-  fi
+if [ "$SRC_FILES" -gt 0 ]; then
+  FRESH_PROJECT=false
 fi
 
 if [ "$FRESH_PROJECT" = true ]; then
@@ -44,22 +55,12 @@ if [ "$FRESH_PROJECT" = true ]; then
 fi
 
 # --- Check 1: Substantial codebase but sparse design docs ---
-if [ -d "src" ]; then
-  # Count source files (cross-platform, handles Windows paths)
-  SRC_FILES=$(find src -type f \( -name "*.gd" -o -name "*.cs" -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.hpp" -o -name "*.rs" -o -name "*.py" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null | wc -l)
-else
-  SRC_FILES=0
-fi
-
+# SRC_FILES was computed once above.
 if [ -d "design/gdd" ]; then
-  DESIGN_FILES=$(find design/gdd -type f -name "*.md" 2>/dev/null | wc -l)
+  DESIGN_FILES=$(find design/gdd -type f -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 else
   DESIGN_FILES=0
 fi
-
-# Normalize whitespace from wc output
-SRC_FILES=$(echo "$SRC_FILES" | tr -d ' ')
-DESIGN_FILES=$(echo "$DESIGN_FILES" | tr -d ' ')
 
 if [ "$SRC_FILES" -gt 50 ] && [ "$DESIGN_FILES" -lt 5 ]; then
   echo "⚠️  GAP: Substantial codebase ($SRC_FILES source files) but sparse design docs ($DESIGN_FILES files)"

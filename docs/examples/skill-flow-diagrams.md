@@ -32,7 +32,7 @@ PHASE 2: SYSTEMS DESIGN
         │
         ▼
 PHASE 3: TECHNICAL SETUP
-  /create-architecture ────────────────────────────────────────► docs/architecture/master.md
+  /create-architecture ────────────────────────────────────────► docs/architecture/architecture.md
   /architecture-decision (×N) ─────────────────────────────────► docs/architecture/[adr-nnn].md
   /architecture-review ────────────────────────────────────────► review report + docs/architecture/tr-registry.yaml
   /create-control-manifest ────────────────────────────────────► docs/architecture/control-manifest.md

@@ -52,7 +52,9 @@ Verdict: **BLOCKED** — stop here without generating notes.
 
 **Template detection** — check whether a patch notes template exists:
 
-1. Glob for `docs/patch-notes-template.md` and `.claude/docs/templates/patch-notes-template.md`.
+1. Glob for `docs/patch-notes-template.md` (a project-local override), then fall back
+   to `.claude/docs/templates/release-notes.md` (the shipped template — note the
+   filename; there is no `patch-notes-template.md` in this repo).
 2. If found at either location, read it and use it as the output structure for Phase 4
    instead of the built-in style templates (Brief / Detailed / Full). Fill in the
    template's sections with the categorized data.

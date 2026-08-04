@@ -356,4 +356,6 @@ After the game concept is written, follow the pre-production pipeline in order:
 4. `/design-system [first-system]` — author per-system GDDs in dependency order
 5. `/create-architecture` — produce the master architecture blueprint
 6. `/architecture-review` — bootstrap TR registry and Requirements Traceability Matrix
-7. `/gate-check pre-production` — validate readiness before committing to production
+7. `/gate-check systems-design` — the Concept → Systems Design gate. Run it once
+   the concept doc and systems index exist, before GDD authoring begins. (The
+   argument names the phase you are *entering*.)

@@ -28,14 +28,22 @@ fi
 
 WARNINGS=""
 
-# Check design documents for required sections
+# Check design documents for required sections.
+# Anchored to markdown headings, not bare word occurrences — an unanchored
+# grep for words this common ("Overview", "Dependencies") matches prose and
+# never fails, which made this check unfalsifiable.
+# The section list is the 8 required GDD sections from
+# .claude/docs/templates/game-design-document.md — keep the two in sync.
+# "Detailed" is deliberately loose: the template and /design-system emit
+# "## Detailed Design" while older docs use "## Detailed Rules". This matches
+# the tolerance already documented in /adopt's GDD format audit table.
 DESIGN_FILES=$(echo "$STAGED" | grep -E '^design/gdd/')
 if [ -n "$DESIGN_FILES" ]; then
     while IFS= read -r file; do
         if [[ "$file" == *.md ]] && [ -f "$file" ]; then
             for section in "Overview" "Player Fantasy" "Detailed" "Formulas" "Edge Cases" "Dependencies" "Tuning Knobs" "Acceptance Criteria"; do
-                if ! grep -qi "$section" "$file"; then
-                    WARNINGS="$WARNINGS\nDESIGN: $file missing required section: $section"
+                if ! grep -qiE "^#{1,3}[[:space:]]+.*${section}" "$file"; then
+                    WARNINGS="$WARNINGS\nDESIGN: $file missing required section heading: $section"
                 fi
             done
         fi
@@ -74,7 +82,7 @@ CODE_FILES=$(echo "$STAGED" | grep -E '^src/gameplay/')
 if [ -n "$CODE_FILES" ]; then
     while IFS= read -r file; do
         if [ -f "$file" ]; then
-            if grep -nE '(damage|health|speed|rate|chance|cost|duration)[[:space:]]*[:=][[:space:]]*[0-9]+' "$file" 2>/dev/null; then
+            if grep -qE '(damage|health|speed|rate|chance|cost|duration)[[:space:]]*[:=][[:space:]]*[0-9]+' "$file" 2>/dev/null; then
                 WARNINGS="$WARNINGS\nCODE: $file may contain hardcoded gameplay values. Use data files."
             fi
         fi
@@ -86,7 +94,7 @@ SRC_FILES=$(echo "$STAGED" | grep -E '^src/')
 if [ -n "$SRC_FILES" ]; then
     while IFS= read -r file; do
         if [ -f "$file" ]; then
-            if grep -nE '(TODO|FIXME|HACK)[^(]' "$file" 2>/dev/null; then
+            if grep -qE '(TODO|FIXME|HACK)[^(]' "$file" 2>/dev/null; then
                 WARNINGS="$WARNINGS\nSTYLE: $file has TODO/FIXME without owner tag. Use TODO(name) format."
             fi
         fi

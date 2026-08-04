@@ -45,9 +45,15 @@ if [ "$BUG_COUNT" -gt 0 ]; then
 fi
 
 # Code health quick check
+# Single pass over src/ — this hook has a 10s timeout and two separate
+# recursive greps double the cost on large trees for no extra information.
 if [ -d "src" ]; then
-    TODO_COUNT=$(grep -r "TODO" src/ 2>/dev/null | wc -l)
-    FIXME_COUNT=$(grep -r "FIXME" src/ 2>/dev/null | wc -l)
+    # -h suppresses filenames so uniq counts markers, not path:marker pairs
+    MARKER_COUNTS=$(grep -rhoE "TODO|FIXME" src/ 2>/dev/null | sort | uniq -c)
+    TODO_COUNT=$(echo "$MARKER_COUNTS" | awk '$2=="TODO"{print $1}')
+    FIXME_COUNT=$(echo "$MARKER_COUNTS" | awk '$2=="FIXME"{print $1}')
+    TODO_COUNT=${TODO_COUNT:-0}
+    FIXME_COUNT=${FIXME_COUNT:-0}
     if [ "$TODO_COUNT" -gt 0 ] || [ "$FIXME_COUNT" -gt 0 ]; then
         echo ""
         echo "Code health: ${TODO_COUNT} TODOs, ${FIXME_COUNT} FIXMEs in src/"

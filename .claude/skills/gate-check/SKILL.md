@@ -111,14 +111,15 @@ Note: in `solo` mode, director spawns (CD-PHASE-GATE, TD-PHASE-GATE, PR-PHASE-GA
 - [ ] Master architecture document exists at `docs/architecture/architecture.md`
 - [ ] Architecture traceability index exists at `docs/architecture/requirements-traceability.md`
 - [ ] `/architecture-review` has been run (a review report file exists in `docs/architecture/`)
-- [ ] `design/accessibility-requirements.md` exists with accessibility tier committed
-- [ ] `design/ux/interaction-patterns.md` exists (pattern library initialized, even if minimal)
+> UX artifacts are **not** checked here. `design/accessibility-requirements.md`,
+> `design/ux/interaction-patterns.md` and the key-screen specs are all written by
+> `/ux-design`, a Pre-Production skill. Requiring them to *exit* Technical Setup
+> inverted the phase order and gated on files no Technical Setup step produces.
+> They are checked at the Pre-Production → Production gate instead.
 
 **Quality Checks:**
 - [ ] Architecture decisions cover core systems (rendering, input, state management)
 - [ ] Technical preferences have naming conventions and performance budgets set
-- [ ] Accessibility tier is defined and documented (even "Basic" is acceptable — undefined is not)
-- [ ] At least one screen's UX spec started (often the main menu or core HUD is designed during Technical Setup)
 - [ ] All ADRs have an **Engine Compatibility section** with engine version stamped
 - [ ] All ADRs have a **GDD Requirements Addressed section** with explicit GDD linkage
 - [ ] No ADR references APIs listed in `docs/engine-reference/[engine]/deprecated-apis.md`
@@ -162,6 +163,9 @@ A depends on B). If any cycle is detected (e.g. A→B→A, or A→B→C→A):
 - [ ] Vertical Slice has been playtested with at least 1 documented session — **recommended, not blocking**; if absent, surface as CONCERNS
 - [ ] Vertical Slice playtest report exists at `production/playtests/` or equivalent — **recommended, not blocking**; if absent, surface as CONCERNS
 - [ ] UX specs exist for key screens: main menu, core gameplay HUD (at `design/ux/`), pause menu
+- [ ] `design/accessibility-requirements.md` exists with accessibility tier committed
+      (even "Basic" is acceptable — undefined is not). Created by `/ux-design`.
+- [ ] `design/ux/interaction-patterns.md` exists (pattern library initialized, even if minimal)
 - [ ] HUD design document exists at `design/ux/hud.md` (if game has in-game HUD)
 - [ ] All key screen UX specs have passed `/ux-review` (verdict APPROVED or NEEDS REVISION accepted)
 

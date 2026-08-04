@@ -9,6 +9,13 @@
 # returns null on every invocation, so the fallback "unknown" is always used
 # and the audit trail captures nothing useful.
 
+# Opt-out: a team-* skill spawning 6 agents fires this hook 6 times (and
+# log-agent-stop.sh 6 more), each a separate process launch plus a file write.
+# Set CCGS_DISABLE_AGENT_LOG=1 to skip the audit trail entirely.
+if [ "${CCGS_DISABLE_AGENT_LOG:-0}" = "1" ]; then
+    exit 0
+fi
+
 INPUT=$(cat)
 
 # Parse agent name -- use jq if available, fall back to grep
@@ -22,7 +29,7 @@ fi
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 SESSION_LOG_DIR="production/session-logs"
 
-mkdir -p "$SESSION_LOG_DIR" 2>/dev/null
+[ -d "$SESSION_LOG_DIR" ] || mkdir -p "$SESSION_LOG_DIR" 2>/dev/null
 
 echo "$TIMESTAMP | Agent invoked: $AGENT_NAME" >> "$SESSION_LOG_DIR/agent-audit.log" 2>/dev/null
 

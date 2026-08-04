@@ -14,10 +14,14 @@
 
 - All design docs use Markdown
 - Each mechanic has a dedicated document in `design/gdd/`
-- Documents must include these 8 required sections:
+- Documents must include these 8 required sections. Heading text must match
+  `.claude/docs/templates/game-design-document.md`, which is the single source of
+  truth — that template also defines 6 further **optional** sections (Summary,
+  Visual/Audio Requirements, Game Feel, UI Requirements, Cross-References, Open
+  Questions) which are not gated:
   1. **Overview** -- one-paragraph summary
   2. **Player Fantasy** -- intended feeling and experience
-  3. **Detailed Rules** -- unambiguous mechanics
+  3. **Detailed Design** -- unambiguous mechanics (legacy docs may say "Detailed Rules")
   4. **Formulas** -- all math defined with variables
   5. **Edge Cases** -- unusual situations handled
   6. **Dependencies** -- other systems listed

@@ -14,22 +14,40 @@
 
 ## Model Tier Assignment
 
-Skills and agents are assigned to model tiers based on task complexity:
+This fork runs a **quality-first tier policy**: Opus is the default for skills and
+agents, with a higher tier reserved for the heaviest synthesis work. This is a
+deliberate divergence from upstream, which defaulted to Sonnet and used Haiku for
+read-only skills. Do not "restore" the upstream tiers — the trade is accepted:
+higher per-call latency and cost in exchange for better judgement everywhere.
 
-| Tier | Model | When to use |
-|------|-------|-------------|
-| **Haiku** | `claude-haiku-4-5-20251001` | Read-only status checks, formatting, simple lookups — no creative judgment needed |
-| **Sonnet** | `claude-sonnet-4-6` | Implementation, design authoring, analysis of individual systems — default for most work |
-| **Opus** | `claude-opus-4-6` | Multi-document synthesis, high-stakes phase gate verdicts, cross-system holistic review |
+| Tier | When it is used here |
+|------|----------------------|
+| **Fable** | The three highest-stakes synthesis skills and the three Tier-1 directors |
+| **Opus** | Default for everything else — authoring, implementation, review, orchestration |
+| **Sonnet** | A small set of read-only report/formatting skills where output is mechanical |
+| **Haiku** | Not used |
 
-Skills with `model: haiku`: `/help`, `/sprint-status`, `/story-readiness`, `/scope-check`,
-`/project-stage-detect`, `/changelog`, `/patch-notes`, `/onboard`
+### Current assignment
 
-Skills with `model: opus`: `/review-all-gdds`, `/architecture-review`, `/gate-check`
+**Skills (73 total):** 63 `opus`, 7 `sonnet`, 3 `fable`.
 
-All other skills default to Sonnet. When creating new skills, assign Haiku if the
-skill only reads and formats; assign Opus if it must synthesize 5+ documents with
-high-stakes output; otherwise leave unset (Sonnet).
+- `model: fable` — `/architecture-review`, `/gate-check`, `/review-all-gdds`
+- `model: sonnet` — `/changelog`, `/help`, `/onboard`, `/patch-notes`,
+  `/project-stage-detect`, `/scope-check`, `/sprint-status`
+- everything else — `model: opus`
+
+**Agents (49 total):** 44 `opus`, 3 `fable`, 2 `sonnet`.
+
+- `model: fable` — `creative-director`, `producer`, `technical-director`
+- `model: sonnet` — `community-manager`, `devops-engineer`
+- everything else — `model: opus`
+
+### When creating a new skill or agent
+
+Set `model: opus` unless it is a pure read-and-format report, in which case use
+`model: sonnet`. Reserve `fable` for cross-document synthesis with a binding
+verdict. Never leave `model:` unset — every file in this repo sets it explicitly,
+and an unset value silently inherits the session model instead.
 
 ## Subagents vs Agent Teams
 

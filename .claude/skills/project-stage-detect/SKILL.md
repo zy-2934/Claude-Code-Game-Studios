@@ -59,19 +59,18 @@ Analyze project structure and content:
 
 ### 2. Classify Project Stage
 
-Based on scanned artifacts, determine stage. Check `production/stage.txt` first —
-if it exists, use its value (explicit override from `/gate-check`). Otherwise,
-auto-detect using these heuristics (check from most-advanced backward):
+**Follow the ladder in `.claude/docs/stage-detection.md` exactly.** Read that file
+and apply it — do not use a local variant. It is the single source of truth shared
+with `/help`, `/gate-check`, `/adopt`, and `statusline.sh`.
 
-| Stage | Indicators |
-|-------|-----------|
-| **Concept** | No game concept doc, brainstorming phase |
-| **Systems Design** | Game concept exists, systems index missing or incomplete |
-| **Technical Setup** | Systems index exists, engine not configured |
-| **Pre-Production** | Engine configured, `src/` has <10 source files |
-| **Production** | `src/` has 10+ source files, active development |
-| **Polish** | Explicit only (set by `/gate-check` Production → Polish gate) |
-| **Release** | Explicit only (set by `/gate-check` Polish → Release gate) |
+In brief: `production/stage.txt` wins if present; otherwise infer most-advanced-first
+from source file count → story files under `production/epics/` → architecture docs →
+systems index → concept doc. `Polish` and `Release` are explicit-only and must never
+be inferred. Engine configuration is deliberately **not** a stage signal —
+`/setup-engine` runs in Concept, so keying on it misclassifies concept-stage projects.
+
+The artifact scan in step 1 above gives you everything the ladder needs; do not
+re-scan.
 
 ### 3. Collaborative Gap Identification
 

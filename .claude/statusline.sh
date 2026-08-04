@@ -37,50 +37,25 @@ if [ -f "$stage_file" ]; then
   stage=$(head -1 "$stage_file" | tr -d '\r\n')
 fi
 
-# Priority 2: Auto-detect from artifacts
+# Priority 2: Auto-detect from artifacts.
+# This ladder is the shell implementation of .claude/docs/stage-detection.md —
+# keep the two in sync. Engine configuration is deliberately NOT a signal:
+# /setup-engine runs in Concept, so keying on it misclassifies concept-stage
+# projects (the previous version reported them as Technical Setup).
 if [ -z "$stage" ]; then
-  concept_file="$cwd/design/gdd/game-concept.md"
-  systems_file="$cwd/design/gdd/systems-index.md"
-  tech_prefs="$cwd/.claude/docs/technical-preferences.md"
-
-  has_concept=false
-  has_systems=false
-  engine_configured=false
   src_count=0
-
-  [ -f "$concept_file" ] && has_concept=true
-  [ -f "$systems_file" ] && has_systems=true
-
-  # Check if engine is configured (not placeholder)
-  if [ -f "$tech_prefs" ]; then
-    engine_line=$(grep -m1 '^\*\*Engine\*\*:' "$tech_prefs" 2>/dev/null || true)
-    if [ -n "$engine_line" ] && ! echo "$engine_line" | grep -q "TO BE CONFIGURED"; then
-      engine_configured=true
-    fi
-  fi
-
-  # Count source files (language-agnostic)
   if [ -d "$cwd/src" ]; then
-    src_count=$(find "$cwd/src" -type f \( -name "*.gd" -o -name "*.cs" -o -name "*.cpp" -o -name "*.h" -o -name "*.py" -o -name "*.rs" -o -name "*.lua" -o -name "*.tscn" -o -name "*.tres" \) 2>/dev/null | wc -l | tr -d ' ')
+    src_count=$(find "$cwd/src" -type f \( -name "*.gd" -o -name "*.cs" -o -name "*.cpp" -o -name "*.c" -o -name "*.h" -o -name "*.hpp" -o -name "*.rs" -o -name "*.py" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null | wc -l | tr -d ' ')
   fi
 
-  # Check for ADRs (signals Pre-Production phase)
-  has_adrs=false
-  if ls "$cwd/docs/architecture/"adr-*.md 2>/dev/null | head -1 | grep -q .; then
-    has_adrs=true
-  fi
-
-  # Determine stage (check from most-advanced backward)
   if [ "$src_count" -ge 10 ] 2>/dev/null; then
     stage="Production"
-  elif [ "$has_adrs" = true ]; then
+  elif ls "$cwd/production/epics/"*/story-*.md >/dev/null 2>&1; then
     stage="Pre-Production"
-  elif [ "$engine_configured" = true ]; then
+  elif [ -f "$cwd/docs/architecture/architecture.md" ] || ls "$cwd/docs/architecture/"adr-*.md >/dev/null 2>&1; then
     stage="Technical Setup"
-  elif [ "$has_systems" = true ]; then
+  elif [ -f "$cwd/design/gdd/systems-index.md" ]; then
     stage="Systems Design"
-  elif [ "$has_concept" = true ]; then
-    stage="Concept"
   else
     stage="Concept"
   fi

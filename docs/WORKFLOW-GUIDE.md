@@ -263,8 +263,11 @@ production.
 ### Phase 1 Gate
 
 ```
-/gate-check concept
+/gate-check systems-design
 ```
+
+> The argument is the phase you are **entering**, not the one you are leaving.
+> `/gate-check systems-design` runs the Concept → Systems Design gate.
 
 **Requirements to pass:**
 
@@ -273,7 +276,8 @@ production.
 - `design/gdd/systems-index.md` exists with dependency ordering
 
 **Verdict:** PASS / CONCERNS / FAIL. CONCERNS is passable with acknowledged
-risks. FAIL blocks advancement.
+risks. FAIL reports blockers and strongly advises against advancing — but the
+verdict is advisory; you decide. See "Gate verdicts are advisory" below.
 
 ---
 
@@ -416,7 +420,7 @@ If your game has story, lore, or dialogue, this is when you build it:
 ### Phase 2 Gate
 
 ```
-/gate-check systems-design
+/gate-check technical-setup
 ```
 
 **Requirements to pass:**
@@ -527,19 +531,25 @@ This contains Required patterns, Forbidden patterns, and Guardrails organized
 by code layer. Stories created later embed the manifest version date so
 staleness can be detected.
 
-### Step 3.5: Accessibility Requirements
+### Step 3.5: Accessibility Requirements (moved to Phase 4)
 
-Create `design/accessibility-requirements.md` using the template. Commit to a
-tier (Basic / Standard / Comprehensive / Exemplary) and fill the 4-axis feature
-matrix (visual, motor, cognitive, auditory).
+`design/accessibility-requirements.md` commits to a tier (Basic / Standard /
+Comprehensive / Exemplary) and fills the 4-axis feature matrix (visual, motor,
+cognitive, auditory).
 
-This document is required in Phase 3 because UX specs (written in Phase 4)
-reference this tier — it is a design prerequisite, not a UX deliverable.
+**It is authored in Phase 4 by `/ux-design`**, which initializes it alongside
+`design/ux/interaction-patterns.md` on first run. Run `/ux-design` before the
+key-screen specs so every spec is validated against a committed tier.
+
+Earlier versions of this guide listed it as a Phase 3 prerequisite, but no
+Phase 3 step produced it — the Phase 3 gate checked for a file nothing wrote.
+The tier is still a design commitment rather than a screen deliverable; it is
+simply the first thing `/ux-design` asks about.
 
 ### Phase 3 Gate
 
 ```
-/gate-check technical-setup
+/gate-check pre-production
 ```
 
 **Requirements to pass:**
@@ -548,7 +558,8 @@ reference this tier — it is a design prerequisite, not a UX deliverable.
 - At least 3 ADRs exist and are Accepted
 - Architecture review report exists
 - `docs/architecture/control-manifest.md` exists
-- `design/accessibility-requirements.md` exists
+- `tests/unit/`, `tests/integration/` and `.github/workflows/tests.yml` exist
+  (run `/test-setup`)
 
 ---
 
@@ -598,9 +609,11 @@ Three modes: screen/flow, HUD, and interaction patterns. Output goes to
 `design/ux/`. Each spec includes: player need, layout zones, states,
 interaction map, data requirements, events fired, accessibility, localization.
 
-Reads your `accessibility-requirements.md` (written in Phase 3) and your
-input method config from `technical-preferences.md` to drive accessibility
-and input coverage checks — no need to re-specify them per screen.
+On first run it initializes `design/accessibility-requirements.md` and
+`design/ux/interaction-patterns.md`; every later run reads the committed tier
+from that file plus your input method config from `technical-preferences.md`
+to drive accessibility and input coverage checks — no need to re-specify them
+per screen.
 
 > **Tip:** `/design-system` emits a 📌 UX Flag for every system with UI
 > requirements. Use those flags as a checklist for which screens need specs.
@@ -704,22 +717,29 @@ Provides effort estimates with risk assessment.
 - Creates `production/sprints/sprint-01.md`
 - Populates `production/sprint-status.yaml` (machine-readable story tracking)
 
-### Step 4.7: Vertical Slice (Hard Gate)
+### Step 4.7: Vertical Slice (Strongly Recommended)
 
-Before advancing to Production, you must build and playtest a Vertical Slice:
+Before advancing to Production, build and playtest a Vertical Slice:
 
 - One complete end-to-end core loop, playable from start to finish
 - Representative quality (not placeholder everything)
-- Played unguided in at least 3 sessions
+- Played unguided in at least 1 documented session (3 is better)
 - Playtest report written (`/playtest-report`)
 
-This is a **hard gate** -- `/gate-check` will auto-FAIL if a human has not
-played the build unguided.
+**Skipping is allowed; shipping a broken one is not.** `/gate-check production`
+applies an asymmetric rule:
+
+- **Slice not built** → CONCERNS, never FAIL. Skipping is a valid solo-dev or
+  time-boxed call. The gate surfaces the risk (late-stage design pivots) and
+  you decide.
+- **Slice built but a validation item fails** (nobody played it unguided, the
+  core loop does not complete, a fun-blocker bug exists) → FAIL. A broken slice
+  is worse evidence than no slice.
 
 ### Phase 4 Gate
 
 ```
-/gate-check pre-production
+/gate-check production
 ```
 
 **Requirements to pass:**
@@ -900,7 +920,7 @@ recommendation.
 ### Phase 5 Gate
 
 ```
-/gate-check production
+/gate-check polish
 ```
 
 **Requirements to pass:**
@@ -1015,7 +1035,7 @@ requirements document.
 ### Phase 6 Gate
 
 ```
-/gate-check polish
+/gate-check release
 ```
 
 **Requirements to pass:**
@@ -1311,24 +1331,49 @@ These detect which sections are present vs. missing and fill only the gaps.
 
 ### Gate System
 
-Phase gates are formal checkpoints. Run `/gate-check` with the transition name:
+Phase gates are formal checkpoints. **The argument is the phase you are entering,
+not the one you are leaving** — `concept` is therefore not a valid value, since no
+gate leads into Concept:
 
 ```
-/gate-check concept              # Concept -> Systems Design
-/gate-check systems-design       # Systems Design -> Technical Setup
-/gate-check technical-setup      # Technical Setup -> Pre-Production
-/gate-check pre-production       # Pre-Production -> Production
-/gate-check production           # Production -> Polish
-/gate-check polish               # Polish -> Release
+/gate-check systems-design       # Concept -> Systems Design
+/gate-check technical-setup      # Systems Design -> Technical Setup
+/gate-check pre-production       # Technical Setup -> Pre-Production
+/gate-check production           # Pre-Production -> Production
+/gate-check polish               # Production -> Polish
+/gate-check release              # Polish -> Release
 ```
+
+Run `/gate-check` with no argument to have it detect your current stage and
+confirm the transition before running.
 
 **Verdicts:**
 - **PASS** -- all requirements met, advance to next phase
 - **CONCERNS** -- requirements met with acknowledged risks, passable
-- **FAIL** -- requirements not met, blocks advancement with specific remediation
+- **FAIL** -- requirements not met; the verdict is **advisory**, not a hard block.
+  It reports what is missing and why advancing is risky; the user always decides
+  whether to proceed. See "Gate verdicts are advisory" below.
 
 When a gate passes, `production/stage.txt` is updated (only then), which
 controls the status line and `/help` behavior.
+
+#### Gate verdicts are advisory
+
+A FAIL does not lock anything. `/gate-check` has no mechanism to prevent you from
+running the next phase's skills, and it is not supposed to — you own the project,
+the gate is a second opinion. What FAIL actually does:
+
+- lists the specific missing artifacts and failed quality checks
+- explains what each one protects against
+- declines to advance `production/stage.txt` on its own
+
+You can proceed anyway; ask it to advance the stage explicitly and it will, with
+the accepted risks recorded. This matches `.claude/docs/workflow-catalog.yaml`
+(lines 14-15) and `/gate-check` itself, which both state verdicts never hard-block.
+
+The one place this is asymmetric is the Vertical Slice — see Step 4.7. Not building
+one is CONCERNS; building a broken one is FAIL. The rule targets bad evidence, not
+missing evidence.
 
 ### Reverse Documentation
 
