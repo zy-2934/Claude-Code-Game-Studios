@@ -5,7 +5,36 @@
 - Gameplay values must be data-driven (external config), never hardcoded
 - All public methods must be unit-testable (dependency injection over singletons)
 - Commits must reference the relevant design document or task ID
-- **Commit messages**: Use Conventional Commits format — `feat:`, `fix:`, `chore:`, `docs:`, `test:`, `refactor:`. Reference the story or task ID in the body (e.g., `Story: EPIC-001-S02`).
+
+## Commit Messages
+
+Format: **`type(module): subject`** — the module scope is required, not optional.
+
+```
+feat(combat): add parry window to block mechanic
+fix(inventory): stack count desyncs after partial drop
+docs(architecture): record ADR-0012 rejection rationale
+```
+
+**Types**: `feat` `fix` `refactor` `perf` `docs` `test` `chore` `build`
+
+**Module** is the subsystem the change belongs to, in this order of preference:
+1. the source subsystem — `combat`, `inventory`, `ai`, `ui`, `save`, `netcode`
+2. the epic slug, when the change spans a whole epic — `foundation`, `core-loop`
+3. the tooling area, for non-game changes — `skills`, `agents`, `hooks`, `ci`,
+   `templates`, `workflow`
+
+Use one module. If a change genuinely spans several, it is usually two commits;
+if it truly is not, use the broadest owning module rather than a list.
+
+**Subject**: imperative mood, lower case, no trailing period, under ~70 chars.
+Say what changes, not what you did — `fix(save): guard against empty slot` beats
+`fixed a bug where saving crashed`.
+
+**Body** (when the subject is not self-explanatory): why the change was needed and
+what it affects. Reference the story or task ID here, e.g. `Story: EPIC-001-S02`.
+Note any deviation from the governing GDD or ADR — that is the single most useful
+thing a future reader can find in a commit.
 - **Verification-driven development**: Write tests first when adding gameplay systems.
   For UI changes, verify with screenshots. Compare expected output to actual output
   before marking work complete. Every implementation should have a way to prove it works.

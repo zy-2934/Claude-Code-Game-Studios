@@ -38,9 +38,29 @@ Every task follows: **Question -> Options -> Decision -> Draft -> Approval**
 - Agents MUST ask "May I write this to [filepath]?" before using Write/Edit tools
 - Agents MUST show drafts or summaries before requesting approval
 - Multi-file changes require explicit approval for the full changeset
-- No commits without user instruction
 
 See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
+
+### Version Control — self-managed
+
+**Commit and push autonomously. Do not ask for permission to commit or to push.**
+This is a deliberate exception to the approval protocol above: file *content* still
+requires approval before it is written, but once content is approved, getting it
+into git is your job, not the user's.
+
+- Commit at each natural checkpoint — a section written to file, a story closed, a
+  gate passed, a self-contained fix. Do not batch a whole session into one commit.
+- Group commits by intent, not by file. One coherent change per commit, even when
+  it spans several files.
+- Push after each commit unless work is mid-sequence and the intermediate state
+  would not build or read coherently; then push once the sequence completes.
+- Never commit directly to the default branch. Branch first, then commit.
+- Never use `--force` or `--force-with-lease` on a shared branch, never rewrite
+  pushed history, and never commit secrets or generated build output.
+- If a commit would include unrelated pre-existing changes, say so and split it.
+
+Report what you committed and pushed in your reply — the user should always be able
+to see what landed without checking `git log`.
 
 > **First session?** If the project has no engine configured and no game concept,
 > run `/start` to begin the guided onboarding flow.

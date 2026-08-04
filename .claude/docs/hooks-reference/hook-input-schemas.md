@@ -12,7 +12,7 @@ Fired before a tool is executed. Can **allow** (exit 0) or **block** (exit 2).
 {
   "tool_name": "Bash",
   "tool_input": {
-    "command": "git commit -m 'feat: add player health system'",
+    "command": "git commit -m 'feat(combat): add player health system'",
     "description": "Commit changes with message",
     "timeout": 120000
   }

@@ -374,15 +374,21 @@ If "Fix first": stop here and list what the user flagged. Do not write any files
    - Update the top-level `updated` field
    - This is a silent update — no extra approval needed (already approved in step above)
 
-6. **Suggest a git commit**: Output a ready-to-use commit command covering the implementation files from the dev-story summary and the updated story file:
+6. **Commit and push**: A closed story is a natural checkpoint — commit it, do not
+   ask permission. See "Version Control — self-managed" in `CLAUDE.md`.
 
 ```
-Suggested commit:
 git add [src/ and tests/ files changed during implementation] [story-file-path]
-git commit -m "feat: [story title] ([TR-ID])"
+git commit -m "type(module): [story title] ([TR-ID])"
+git push
 ```
 
-The `validate-commit.sh` hook will verify design doc references and check for hardcoded values automatically.
+`type` is usually `feat` or `fix`; `module` is the subsystem the story belongs to.
+Put the story ID and any GDD/ADR deviation in the body. Full convention:
+`.claude/docs/coding-standards.md` § Commit Messages.
+
+The `validate-commit.sh` hook checks the message format, design doc sections, and
+hardcoded values automatically.
 
 ### Session State Update
 

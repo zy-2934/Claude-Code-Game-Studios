@@ -20,13 +20,36 @@ if ! echo "$COMMAND" | grep -qE '^git[[:space:]]+commit'; then
     exit 0
 fi
 
+WARNINGS=""
+
+# --- Commit message format: type(module): subject ---
+# See .claude/docs/coding-standards.md § Commit Messages. Advisory, not blocking:
+# a rejected commit costs more than a slightly-off subject line.
+# Only checks -m/--message forms; interactive editor commits are skipped.
+MSG=$(echo "$COMMAND" | sed -nE "s/.*-m[[:space:]]+'([^']*)'.*/\1/p; s/.*-m[[:space:]]+\"([^\"]*)\".*/\1/p" | head -1)
+if [ -n "$MSG" ]; then
+    SUBJECT=$(echo "$MSG" | head -1)
+    # Allow merge/revert commits through untouched
+    if ! echo "$SUBJECT" | grep -qE '^(Merge|Revert)'; then
+        if ! echo "$SUBJECT" | grep -qE '^(feat|fix|refactor|perf|docs|test|chore|build)\([a-z0-9][a-z0-9._-]*\)!?: .+'; then
+            WARNINGS="$WARNINGS\nCOMMIT: subject does not match 'type(module): subject'"
+            WARNINGS="$WARNINGS\n        got:      $SUBJECT"
+            WARNINGS="$WARNINGS\n        expected: feat(combat): add parry window to block mechanic"
+            WARNINGS="$WARNINGS\n        types:    feat fix refactor perf docs test chore build"
+        elif [ "${#SUBJECT}" -gt 72 ]; then
+            WARNINGS="$WARNINGS\nCOMMIT: subject is ${#SUBJECT} chars — keep it under ~70"
+        fi
+    fi
+fi
+
 # Get staged files
 STAGED=$(git diff --cached --name-only 2>/dev/null)
 if [ -z "$STAGED" ]; then
+    if [ -n "$WARNINGS" ]; then
+        echo -e "=== Commit Validation Warnings ===$WARNINGS\n================================" >&2
+    fi
     exit 0
 fi
-
-WARNINGS=""
 
 # Check design documents for required sections.
 # Anchored to markdown headings, not bare word occurrences — an unanchored
